@@ -78,6 +78,8 @@ public:
 
     // Path of the database file, for diagnostics.
     QString path() const { return m_path; }
+    // Folds the write-ahead log into the database file, so that copying the file copies it all.
+    void checkpoint();
 
 private:
     bool exec(const QString &sql, const QVariantList &args = {}) const;

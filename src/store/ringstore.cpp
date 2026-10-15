@@ -148,6 +148,11 @@ void RingStore::forgetRing(const QString &address)
     db.commit();
 }
 
+void RingStore::checkpoint()
+{
+    exec(QStringLiteral("PRAGMA wal_checkpoint(TRUNCATE)"));
+}
+
 quint32 RingStore::cursor(const QString &address) const
 {
     QSqlQuery q(QSqlDatabase::database(m_connectionName));

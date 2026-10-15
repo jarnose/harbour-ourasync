@@ -77,6 +77,12 @@ Page {
                 text: qsTr("Oura cloud and data export")
                 onClicked: pageStack.push(Qt.resolvedUrl("CloudPage.qml"))
             }
+            Item { width: 1; height: Theme.paddingMedium }
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Export and backup")
+                onClicked: pageStack.push(Qt.resolvedUrl("ExportPage.qml"))
+            }
 
             SectionHeader {
                 visible: AppController.hasRing

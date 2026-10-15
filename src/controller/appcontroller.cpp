@@ -2,6 +2,7 @@
 
 #include "analysis/cloudmerge.h"
 #include "analysis/oura_night_score.h"
+#include "export/healthexport.h"
 #include "analysis/oura_sleep_score.h"
 #include "cloud/exportimport.h"
 #include "ring/events.h"
@@ -10,6 +11,9 @@
 #include <QCoreApplication>
 #include <QDate>
 #include <QDateTime>
+#include <QDir>
+#include <QFileInfo>
+#include <QStandardPaths>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QEventLoop>
@@ -297,6 +301,20 @@ AppController::AppController(QObject *parent)
             refreshSummary();
         }
     });
+
+    // A backup staged by the last run replaces the database before anything opens it.
+    {
+        const QString dir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+        const QString staged = dir + QStringLiteral("/ring.db.restore");
+        if (QFile::exists(staged)) {
+            const QString db = dir + QStringLiteral("/ring.db");
+            QFile::remove(db + QStringLiteral(".before-restore"));
+            QFile::rename(db, db + QStringLiteral(".before-restore"));
+            QFile::remove(db + QStringLiteral("-wal"));
+            QFile::remove(db + QStringLiteral("-shm"));
+            QFile::rename(staged, db);
+        }
+    }
 
     QString error;
     if (!m_store.open(&error)) {
@@ -942,6 +960,110 @@ int AppController::profileAge() const
     if (m_birthDate.isValid())
         return std::max(10, std::min(110, yearsBetween(m_birthDate, QDate::currentDate())));
     return m_age;
+}
+
+QString AppController::exportDir() const
+{
+    return QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + QStringLiteral("/OuraSync");
+}
+
+static bool writeFile(const QString &path, const QByteArray &data, QString *error)
+{
+    QFile f(path);
+    if (!f.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        *error = f.errorString();
+        return false;
+    }
+    if (f.write(data) != data.size()) {
+        *error = f.errorString();
+        return false;
+    }
+    return true;
+}
+
+QString AppController::exportFiles(const QString &kind)
+{
+    const QString dir = exportDir();
+    if (!QDir().mkpath(dir)) {
+        fail(tr("Could not create the folder %1.").arg(dir));
+        return QString();
+    }
+    const QString stamp = QDateTime::currentDateTime().toString(QStringLiteral("yyyyMMdd-HHmm"));
+    QString error;
+    QStringList written;
+
+    if (kind == QLatin1String("backup")) {
+        m_store.checkpoint();
+        const QString target = dir + QStringLiteral("/ourasync-backup-") + stamp + QStringLiteral(".db");
+        QFile::remove(target);
+        if (!QFile::copy(m_store.path(), target)) {
+            fail(tr("Could not copy the database to %1.").arg(target));
+            return QString();
+        }
+        return target;
+    }
+
+    if (!m_summary || (m_summary->nights.empty() && m_summary->days.empty())) {
+        fail(tr("There is nothing to export yet."));
+        return QString();
+    }
+    Oura::ExportOptions options;
+    options.utcOffset = [](int64_t t) { return localOffsetSeconds(t); };
+    options.generatedUnix = nowUnix();
+
+    if (kind == QLatin1String("fhir")) {
+        const QString target = dir + QStringLiteral("/ourasync-fhir-") + stamp + QStringLiteral(".json");
+        if (!writeFile(target, QByteArray::fromStdString(Oura::fhirBundle(*m_summary, options)), &error)) {
+            fail(tr("Could not write %1: %2").arg(target).arg(error));
+            return QString();
+        }
+        written << target;
+    } else if (kind == QLatin1String("csv")) {
+        const QString nights = dir + QStringLiteral("/ourasync-nights-") + stamp + QStringLiteral(".csv");
+        const QString days = dir + QStringLiteral("/ourasync-days-") + stamp + QStringLiteral(".csv");
+        if (!writeFile(nights, QByteArray::fromStdString(Oura::nightsCsv(*m_summary, options)), &error)
+            || !writeFile(days, QByteArray::fromStdString(Oura::daysCsv(*m_summary)), &error)) {
+            fail(tr("Could not write the files: %1").arg(error));
+            return QString();
+        }
+        written << nights << days;
+    } else {
+        return QString();
+    }
+    return written.join(QLatin1Char('\n'));
+}
+
+QVariantList AppController::backups() const
+{
+    QVariantList out;
+    const QFileInfoList files = QDir(exportDir()).entryInfoList(
+            QStringList() << QStringLiteral("ourasync-backup-*.db"), QDir::Files, QDir::Time);
+    for (const QFileInfo &f : files) {
+        QVariantMap m;
+        m.insert(QStringLiteral("name"), f.fileName());
+        m.insert(QStringLiteral("path"), f.absoluteFilePath());
+        m.insert(QStringLiteral("size"), f.size());
+        m.insert(QStringLiteral("modifiedMs"), static_cast<double>(f.lastModified().toMSecsSinceEpoch()));
+        out.append(m);
+    }
+    return out;
+}
+
+bool AppController::stageRestore(const QString &path)
+{
+    QFile source(path);
+    if (!source.open(QIODevice::ReadOnly) || source.read(16) != QByteArray("SQLite format 3\0", 16)) {
+        fail(tr("That is not a backup of this app's database."));
+        return false;
+    }
+    source.close();
+    const QString target = m_store.path() + QStringLiteral(".restore");
+    QFile::remove(target);
+    if (!QFile::copy(path, target)) {
+        fail(tr("Could not stage the backup."));
+        return false;
+    }
+    return true;
 }
 
 void AppController::setBirthDate(const QString &isoDate)

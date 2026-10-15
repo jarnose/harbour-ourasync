@@ -34,6 +34,7 @@ set(CORE_SOURCES
     src/analysis/oura_sleep_state.cpp
     src/analysis/oura_night_score.cpp
     src/analysis/cloudmerge.cpp
+    src/export/healthexport.cpp
     src/cloud/json.cpp
     src/cloud/csv.cpp
     src/cloud/zip.cpp

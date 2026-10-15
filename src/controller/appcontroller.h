@@ -129,6 +129,18 @@ public:
     // Removes everything imported from the cloud (the ring's own history stays).
     Q_INVOKABLE void cloudClear();
 
+    // ---- out of the app ----
+    // Where the files go (in Documents, which the app may write to).
+    Q_INVOKABLE QString exportDir() const;
+    // Writes "fhir" (a FHIR R4 Bundle), "csv" (nights and days) or "backup" (the whole database)
+    // and returns what was written, one path per line; empty with lastError set on failure.
+    Q_INVOKABLE QString exportFiles(const QString &kind);
+    // The backups found in the export folder, newest first: {name, path, size, modifiedMs}.
+    Q_INVOKABLE QVariantList backups() const;
+    // Stages a backup to replace the database at the next start. Returns false (with
+    // lastError) if the file is not a SQLite database.
+    Q_INVOKABLE bool stageRestore(const QString &path);
+
     Q_INVOKABLE void setProfile(int age, double weightKg);
     // The birth date replaces the age: pass an empty string to forget it.
     Q_INVOKABLE void setBirthDate(const QString &isoDate);
