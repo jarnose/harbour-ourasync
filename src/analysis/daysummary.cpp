@@ -190,6 +190,22 @@ int bouts(const std::vector<uint8_t> &seq, size_t from, size_t to, uint8_t code,
 
 // ---- the summary ------------------------------------------------------------
 
+HourStat hourStatOf(std::vector<double> &values)
+{
+    HourStat s;
+    if (values.empty())
+        return s;
+    // The 5th to 95th percentile, so one bad estimate is not "your peak heart
+    // rate".
+    std::sort(values.begin(), values.end());
+    const size_t n = values.size();
+    s.count = static_cast<int>(n);
+    s.min = values[static_cast<size_t>(0.05 * static_cast<double>(n - 1))];
+    s.max = values[static_cast<size_t>(std::ceil(0.95 * static_cast<double>(n - 1)))];
+    s.mean = mean(values);
+    return s;
+}
+
 Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions &options)
 {
     Summary out;
@@ -702,16 +718,7 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
                     day.metByHour[h] = acc.metSum / acc.metCount;
                 if (acc.values.empty())
                     continue;
-                // The 5th to 95th percentile, so one bad estimate is not "your
-                // peak heart rate".
-                std::sort(acc.values.begin(), acc.values.end());
-                const size_t n = acc.values.size();
-                HourStat s;
-                s.count = static_cast<int>(n);
-                s.min = acc.values[static_cast<size_t>(0.05 * static_cast<double>(n - 1))];
-                s.max = acc.values[static_cast<size_t>(std::ceil(0.95 * static_cast<double>(n - 1)))];
-                s.mean = mean(acc.values);
-                day.hr[h] = s;
+                day.hr[h] = hourStatOf(acc.values);
             }
             if (metMinutes[entry.first] > 0)
                 day.avgMet = metTotals[entry.first] / metMinutes[entry.first];

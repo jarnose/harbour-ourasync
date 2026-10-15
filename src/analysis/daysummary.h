@@ -7,6 +7,7 @@
 #include <functional>
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 // Turns the stored history events into the things a person wants to look at:
@@ -75,6 +76,12 @@ struct Night
     std::optional<double> tempDeviation;
 
     SleepScore score;
+
+    // From Oura's cloud, when an export or API import is present. The official
+    // score is Oura's own; `score` above is this app's estimate.
+    bool fromCloud = false;
+    std::optional<int> ouraScore;
+    std::vector<std::pair<std::string, int>> ouraContributors;
 };
 
 struct HourStat
@@ -95,6 +102,19 @@ struct Day
     int sedentaryMin = 0;              // MET < 1.5, awake-ish minutes the ring recorded
     int coveredMin = 0;                // minutes the ring has any MET for
     std::optional<double> avgMet;
+
+    // From Oura's cloud.
+    bool fromCloud = false;
+    std::optional<int> steps;
+    std::optional<int> totalKcal;
+    std::optional<int> ouraActivityScore;
+    std::vector<std::pair<std::string, int>> activityContributors;
+    std::optional<int> readinessScore;
+    std::vector<std::pair<std::string, int>> readinessContributors;
+    std::optional<double> temperatureDeviation;
+    std::optional<int> stressHighMin;      // minutes of high stress
+    std::optional<int> recoveryHighMin;    // minutes of high recovery
+    std::string stressSummary;             // restful / normal / stressful ...
 };
 
 struct Summary
@@ -109,6 +129,9 @@ struct Summary
 };
 
 Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions &options);
+
+// The 5th-95th percentile band and mean of one hour's samples (sorted in place).
+HourStat hourStatOf(std::vector<double> &values);
 
 // "YYYY-MM-DD" for a unix time at a fixed offset.
 std::string localDate(int64_t utc, int offsetSeconds);

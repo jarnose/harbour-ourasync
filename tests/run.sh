@@ -28,3 +28,6 @@ run protocol $CORE
 run session $CORE ../src/ring/session.cpp
 run daysummary $CORE $ANALYSIS
 run oura_sleep_score ../src/analysis/oura_sleep_score.cpp
+run cloudparse ../src/cloud/json.cpp ../src/cloud/csv.cpp ../src/cloud/zip.cpp -lz
+run cloudmerge $CORE $ANALYSIS ../src/analysis/cloudmerge.cpp ../src/cloud/json.cpp ../src/cloud/csv.cpp \
+    ../src/cloud/clouddoc.cpp
