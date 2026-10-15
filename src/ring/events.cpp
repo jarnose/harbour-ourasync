@@ -207,6 +207,25 @@ std::optional<int> decodeMotionSeconds(const Bytes &body)
     return body[0] & 0x1f;
 }
 
+std::optional<MotionPeriod> decodeMotionPeriod(const Bytes &body)
+{
+    // Header and at least one code byte; the longest record seen carries 27 bytes of codes.
+    if (body.size() < 2 || body.size() > 40)
+        return std::nullopt;
+    MotionPeriod m;
+    m.periodType = body[0] >> 6;
+    m.sequence = body[0] & 0x0f;
+    int last = (body[0] >> 4) & 0x03;
+    if (last == 0)
+        last = 4;
+    for (size_t i = 1; i < body.size(); ++i) {
+        const int codes = i + 1 == body.size() ? last : 4;
+        for (int j = 0; j < codes; ++j)
+            m.states.push_back(static_cast<uint8_t>((body[i] >> (6 - 2 * j)) & 3));
+    }
+    return m;
+}
+
 std::optional<uint32_t> decodeTimeSync(const Bytes &body)
 {
     if (body.size() < 4)

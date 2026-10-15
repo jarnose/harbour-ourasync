@@ -305,6 +305,24 @@ static void scoring()
     CHECK(causalBaseline({ 50, 52, 54 }).has_value());
 }
 
+static void motionPeriodDecoding()
+{
+    // Header: type 0, three codes in the last byte, counter 5; codes 0 1 2 3 | 2 1 0 (+ padding).
+    auto m = decodeMotionPeriod({ 0x35, 0x1b, 0x90 });
+    CHECK(m.has_value());
+    if (m) {
+        CHECK_EQ(m->periodType, 0);
+        CHECK_EQ(m->sequence, 5);
+        CHECK_EQ(m->states.size(), size_t(7));
+        const std::vector<uint8_t> expect = { 0, 1, 2, 3, 2, 1, 0 };
+        CHECK(m->states == expect);
+    }
+    // A count of 0 means the last byte is full.
+    auto full = decodeMotionPeriod({ 0x05, 0xe4 });
+    CHECK(full.has_value() && full->states.size() == size_t(4) && full->states[0] == 3);
+    CHECK(!decodeMotionPeriod({ 0x35 }));
+}
+
 static void motionDecoding()
 {
     CHECK_EQ(*decodeMotionSeconds({ 0x4a, 0, 0, 0, 0, 0 }), 10);   // orientation bits dropped
@@ -317,6 +335,7 @@ static void motionDecoding()
 int main()
 {
     motionDecoding();
+    motionPeriodDecoding();
     clockAndNight();
     unanchoredFallsBackToDownloadTime();
     counterResetStartsANewEpoch();

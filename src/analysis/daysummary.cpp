@@ -227,6 +227,7 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
     std::vector<TimedValue> probeTemp;    // 0x46, first probe
     std::vector<TimedValue> spo2;
     std::vector<TimedValue> motionSeconds; // motion_event: seconds of motion
+    std::vector<TimedValue> motionStates;  // motion_period: one state per 30 s epoch, at the epoch's end
     std::unordered_map<int64_t, double> metByMinute;
     std::optional<std::pair<int64_t, int>> battery; // unix, percent
 
@@ -344,6 +345,16 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
                 motionSeconds.push_back({ static_cast<int64_t>(t), static_cast<double>(*m) });
             break;
         }
+        case Tag::MotionPeriod: {
+            if (auto m = decodeMotionPeriod(e.body)) {
+                // The codes end at the event's time, 30 s each.
+                const size_t n = m->states.size();
+                for (size_t k = 0; k < n; ++k)
+                    motionStates.push_back({ static_cast<int64_t>(t) - static_cast<int64_t>((n - 1 - k) * kEpochSeconds),
+                                             static_cast<double>(m->states[k]) });
+            }
+            break;
+        }
         case Tag::ActivityInfo: {
             if (auto a = decodeActivityMet(e.body)) {
                 for (size_t k = 0; k < a->met.size(); ++k) {
@@ -377,6 +388,7 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
     sortByTime(sleepWindows);
     sortByTime(spo2);
     sortByTime(motionSeconds);
+    sortByTime(motionStates);
 
     if (battery) {
         out.ringBatteryPercent = battery->second;
@@ -470,15 +482,23 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
             OuraNightEpochs epochsIn;
             epochsIn.epochs = static_cast<int>(std::floor((w.end - w.start) / kEpochSeconds));
             epochsIn.stages.assign(stages.begin(), stages.begin() + std::min<size_t>(stages.size(), static_cast<size_t>(epochsIn.epochs)));
+            // The ring's own motion states (one per epoch) when it sent them, else the seconds
+            // of motion of the 0x47 events summed per epoch. Either way the engine sees a
+            // value per epoch, nonzero where there was movement.
+            const auto states = slice(motionStates, w.start, w.end);
             const auto motion = slice(motionSeconds, w.start, w.end);
-            if (!motion.empty() && epochsIn.epochs > 0) {
+            if ((!states.empty() || !motion.empty()) && epochsIn.epochs > 0) {
                 epochsIn.motion.assign(static_cast<size_t>(epochsIn.epochs), 0);
-                for (const TimedValue &m : motion) {
+                const bool fromStates = !states.empty();
+                for (const TimedValue &m : fromStates ? states : motion) {
                     const int64_t k = static_cast<int64_t>((static_cast<double>(m.utc) - w.start) / kEpochSeconds);
-                    if (k >= 0 && k < epochsIn.epochs) {
-                        const int v = epochsIn.motion[static_cast<size_t>(k)] + static_cast<int>(m.value);
-                        epochsIn.motion[static_cast<size_t>(k)] = static_cast<uint8_t>(std::min(v, 255));
-                    }
+                    if (k < 0 || k >= epochsIn.epochs)
+                        continue;
+                    // A state is 0 none, 1 restless, 2 tossing, 3 active: sizes, roughly, in seconds.
+                    static const int kStateSeconds[4] = { 0, 4, 12, 28 };
+                    const int add = fromStates ? kStateSeconds[static_cast<size_t>(m.value) & 3] : static_cast<int>(m.value);
+                    const int v = epochsIn.motion[static_cast<size_t>(k)] + add;
+                    epochsIn.motion[static_cast<size_t>(k)] = static_cast<uint8_t>(std::min(v, 255));
                 }
                 n.ouraMotionKnown = true;
             }

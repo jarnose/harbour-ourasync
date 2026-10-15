@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2
+
+- The ring's own motion states (`0x6b`, the source of Oura's restless periods) are decoded and
+  used for a night's restlessness; the `0x47` motion events remain the fallback.
+
 ## 1.0.1
 
 - Factory reset: its progress and result are shown on the Settings page, not only as a banner on

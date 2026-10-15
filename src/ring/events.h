@@ -32,6 +32,7 @@ constexpr uint8_t Hrv = 0x5d;
 constexpr uint8_t IbiAmplitude = 0x60;
 constexpr uint8_t DebugData = 0x61;
 constexpr uint8_t TempPeriod = 0x69;
+constexpr uint8_t MotionPeriod = 0x6b;
 constexpr uint8_t SleepPeriodInfo2 = 0x6a;
 constexpr uint8_t Spo2 = 0x6f;
 constexpr uint8_t SleepTemp = 0x75;
@@ -123,6 +124,21 @@ double spo2PercentFromR(double r);
 // motion in the window, the top three the orientation. Oura's sleep analysis
 // takes the seconds, per 30-second epoch.
 std::optional<int> decodeMotionSeconds(const Bytes &body);
+
+// motion_period (0x6b): the ring's own motion state per 30-second epoch, which is what Oura's
+// movement_30_sec and restless periods are made of. The first body byte is a header (bits 7-6
+// the period type, bits 5-4 how many codes the last byte carries, 0 meaning all four, bits 3-0
+// a rolling counter); the codes follow, two bits each, four to a byte, most significant first:
+// 0 no motion, 1 restless, 2 tossing and turning, 3 active. (Layout as re-derived from captures
+// by NOOP's notes and open_ring; the older reading with a 12-bit period dropped the first code
+// byte.) The time axis is not in the event: the codes are taken to end at its timestamp.
+struct MotionPeriod
+{
+    int periodType = 0;
+    int sequence = 0;
+    std::vector<uint8_t> states;
+};
+std::optional<MotionPeriod> decodeMotionPeriod(const Bytes &body);
 
 // time_sync (0x42) and rtc_beacon (0x85): the ring's own record of the wall
 // clock at a given ring time. These anchor the ring's rebooting decisecond

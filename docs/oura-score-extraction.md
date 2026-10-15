@@ -222,13 +222,18 @@ compares it with Oura's scores (`compare_pipeline.py`, `compare_sleep.py`). Find
   latency on 871/871, from `sleep_phase_30_sec` and `movement_30_sec` (level >= 2 = motion).
 * A day's score counts its other periods too: naps of >= 15 min asleep add to total, deep, REM.
 
-### Open: the ring's own motion source is probably `0x6b`, not `0x47`
+### The ring's own motion source is `0x6b`
 
-Oura's cloud `movement_30_sec` uses the levels 1-4 that the ringverse notes list for the
-ring's `motion_period` event (`0x6b`: 0 none, 1 restless, 2 tossing and turning, 3 active),
-and that string reproduces Oura's `restless_periods` exactly through the state machine. So the
-restless count the app sends the engine most likely comes from `0x6b` symbols (2 bits each,
-format in ringverse/protocol `parse.js`: `p_motion_period`), one per 30 s epoch, and not from
-the `0x47` seconds the pipeline uses now. The symbol-to-time alignment is unknown without a
-real Ring 4 capture, so `daysummary.cpp` still reads `0x47`; switch it once a capture shows
-where the symbols fall.
+Oura's cloud `movement_30_sec` uses the levels 1-4 of the ring's `motion_period` event
+(`0x6b`: 0 none, 1 restless, 2 tossing and turning, 3 active), and that string reproduces
+Oura's `restless_periods` exactly through the state machine. So the restless count the app sends
+the engine most likely comes from `0x6b` and not from the `0x47` seconds. `0x6b` is therefore
+decoded (`decodeMotionPeriod`; layout from NOOP's notes, which corrected the ringverse reading:
+a header byte with the period type, the number of codes in the last byte and a counter, then
+2-bit codes, four to a byte) and used for a night's motion whenever the ring sent it; `0x47`
+remains the fallback.
+
+Not verified on a real Ring 4: the time axis. The event carries no start, so its codes are taken
+to end at its timestamp, 30 s each. The restless count is little affected by a shift (it counts
+epochs with movement, not where they are), but a capture compared with the cloud's
+`movement_30_sec` of the same night would settle it.
