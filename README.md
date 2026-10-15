@@ -3,8 +3,14 @@
 A Sailfish OS app that reads an **Oura ring (Gen 3, 4, 5) directly over
 Bluetooth LE** and shows what it recorded: sleep stages and a sleep score, heart
 rate through the day, HRV, skin temperature, blood oxygen, breathing and
-activity. No Oura account, no subscription, no network permission: the history
-stays on the phone, and the ring's key in the Sailfish Secrets vault.
+activity. No Oura account and no subscription are needed to read the ring: the
+history stays on the phone, and the ring's key in the Sailfish Secrets vault.
+
+It can also bring in your **history from Oura's cloud**, which a ring (it keeps
+only a few weeks) cannot give: from the data export every Oura user can download
+(a file; no network, no membership), or from the Oura Cloud API (membership and an
+application of your own required). That also brings Oura's own scores. See
+[`docs/oura-cloud-import.md`](docs/oura-cloud-import.md).
 
 Native C++/QML (Silica). Unofficial: not made, endorsed or supported by Oura
 Health, and not a medical device.

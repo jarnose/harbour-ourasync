@@ -41,10 +41,13 @@ CoverBackground {
         Label {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
-            visible: overview.night !== undefined && overview.night.score !== null
+            visible: overview.night !== undefined
+                     && (overview.night.ouraScore !== null || overview.night.score !== null)
             font.pixelSize: Theme.fontSizeHuge
-            text: overview.night && overview.night.score !== null && overview.night.score !== undefined
-                  ? overview.night.score : ""
+            text: overview.night && overview.night.ouraScore !== null && overview.night.ouraScore !== undefined
+                  ? overview.night.ouraScore
+                  : (overview.night && overview.night.score !== null && overview.night.score !== undefined
+                     ? overview.night.score : "")
         }
         Label {
             width: parent.width

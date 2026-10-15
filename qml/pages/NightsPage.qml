@@ -63,7 +63,8 @@ Page {
                 }
                 font.pixelSize: Theme.fontSizeLarge
                 color: Theme.highlightColor
-                text: modelData.score !== null && modelData.score !== undefined ? modelData.score : ""
+                text: modelData.ouraScore !== null && modelData.ouraScore !== undefined ? modelData.ouraScore
+                      : (modelData.score !== null && modelData.score !== undefined ? modelData.score : "")
             }
         }
 

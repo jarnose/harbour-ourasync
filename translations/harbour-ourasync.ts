@@ -34,16 +34,16 @@ Not available: Oura&apos;s own Sleep, Readiness and Activity scores, and step co
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="54"/>
-        <source>The app has no network permission. The history is kept in a database on this phone and the ring&apos;s key in the Sailfish secrets vault.</source>
+        <source>Reading the ring needs no network. The history is kept in a database on this phone, and the ring&apos;s key and any Oura sign-in in the Sailfish secrets vault. The only time the app uses the network is when you tap Import in the Oura cloud page, and then it only fetches from Oura: nothing is uploaded anywhere.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="58"/>
+        <location filename="../qml/pages/AboutPage.qml" line="60"/>
         <source>Credits</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="66"/>
+        <location filename="../qml/pages/AboutPage.qml" line="68"/>
         <source>The ring&apos;s protocol was reverse engineered by the open_oura project, and the sleep-score method and several decoders come from open_health, both by Thomas Marchand (MIT licence). The dashboards follow the ideas of Cracked Oura. The protocol details were checked against version 7.27.0 of Oura&apos;s Android app.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -51,168 +51,497 @@ Not available: Oura&apos;s own Sleep, Readiness and Activity scores, and step co
 <context>
     <name>AppController</name>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="231"/>
+        <location filename="../src/controller/appcontroller.cpp" line="295"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1280"/>
+        <source>Imported</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="313"/>
         <source>Could not open the local database: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="277"/>
+        <location filename="../src/controller/appcontroller.cpp" line="370"/>
         <source>Another operation is still running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="294"/>
+        <location filename="../src/controller/appcontroller.cpp" line="387"/>
         <source>Done</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="433"/>
-        <location filename="../src/controller/appcontroller.cpp" line="460"/>
+        <location filename="../src/controller/appcontroller.cpp" line="526"/>
+        <location filename="../src/controller/appcontroller.cpp" line="552"/>
         <source>The secrets vault did not answer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="487"/>
+        <location filename="../src/controller/appcontroller.cpp" line="572"/>
+        <source>The stored key has the wrong length.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="603"/>
         <source>Connecting to the ring…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="496"/>
+        <location filename="../src/controller/appcontroller.cpp" line="612"/>
         <source>The ring&apos;s key is not in the secrets vault (%1). Set the ring up again, or enter its key.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="497"/>
+        <location filename="../src/controller/appcontroller.cpp" line="613"/>
         <source>not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="499"/>
-        <location filename="../src/controller/appcontroller.cpp" line="658"/>
-        <location filename="../src/controller/appcontroller.cpp" line="699"/>
+        <location filename="../src/controller/appcontroller.cpp" line="615"/>
+        <location filename="../src/controller/appcontroller.cpp" line="774"/>
+        <location filename="../src/controller/appcontroller.cpp" line="815"/>
         <source>Authenticating…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="505"/>
+        <location filename="../src/controller/appcontroller.cpp" line="621"/>
         <source>The ring has been factory reset and has no key. Set it up again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="507"/>
+        <location filename="../src/controller/appcontroller.cpp" line="623"/>
         <source>The ring rejected the stored key. Another app has probably set the ring up since; a factory reset and a new set-up are needed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="509"/>
+        <location filename="../src/controller/appcontroller.cpp" line="625"/>
         <source>Authentication failed: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="529"/>
+        <location filename="../src/controller/appcontroller.cpp" line="645"/>
         <source>Preparing the ring…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="532"/>
+        <location filename="../src/controller/appcontroller.cpp" line="648"/>
         <source>Could not prepare the ring: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="538"/>
+        <location filename="../src/controller/appcontroller.cpp" line="654"/>
         <source>Could not set the ring&apos;s clock: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="550"/>
+        <location filename="../src/controller/appcontroller.cpp" line="666"/>
         <source>Downloading history…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="558"/>
+        <location filename="../src/controller/appcontroller.cpp" line="674"/>
         <source>Downloading history: %1 events</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="564"/>
+        <location filename="../src/controller/appcontroller.cpp" line="680"/>
         <source>History download stopped: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="605"/>
+        <location filename="../src/controller/appcontroller.cpp" line="721"/>
         <source>No ring is set up yet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="608"/>
+        <location filename="../src/controller/appcontroller.cpp" line="724"/>
         <source>Syncing…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="615"/>
+        <location filename="../src/controller/appcontroller.cpp" line="731"/>
         <source>Bluetooth does not know this ring any more. Set it up again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="633"/>
-        <location filename="../src/controller/appcontroller.cpp" line="730"/>
+        <location filename="../src/controller/appcontroller.cpp" line="749"/>
+        <location filename="../src/controller/appcontroller.cpp" line="846"/>
         <source>Pairing…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="641"/>
-        <location filename="../src/controller/appcontroller.cpp" line="721"/>
+        <location filename="../src/controller/appcontroller.cpp" line="757"/>
+        <location filename="../src/controller/appcontroller.cpp" line="837"/>
         <source>Oura ring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="663"/>
+        <location filename="../src/controller/appcontroller.cpp" line="779"/>
         <source>Installing the ring&apos;s key…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="667"/>
+        <location filename="../src/controller/appcontroller.cpp" line="783"/>
         <source>Could not read the system&apos;s random source.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="676"/>
-        <location filename="../src/controller/appcontroller.cpp" line="725"/>
+        <location filename="../src/controller/appcontroller.cpp" line="792"/>
+        <location filename="../src/controller/appcontroller.cpp" line="841"/>
         <source>Could not store the key in the secrets vault: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="686"/>
+        <location filename="../src/controller/appcontroller.cpp" line="802"/>
         <source>The ring would not take a new key: %1
 
 A ring that is still set up with the Oura app must first be factory reset.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="715"/>
+        <location filename="../src/controller/appcontroller.cpp" line="831"/>
         <source>A key is 32 hexadecimal characters (16 bytes).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="718"/>
+        <location filename="../src/controller/appcontroller.cpp" line="834"/>
         <source>Storing the key…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1167"/>
+        <source>Could not store the Oura sign-in in the secrets vault: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1181"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1252"/>
+        <source>Another import is still running.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1186"/>
+        <source>Reading the export…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1237"/>
+        <source>Signing in to Oura…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1246"/>
+        <source>Connected to Oura</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1256"/>
+        <source>Not connected to Oura.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1261"/>
+        <source>Connecting to Oura…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1271"/>
+        <source>Saving…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1273"/>
+        <source>Could not save the import: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CloudPage</name>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="43"/>
+        <source>Oura cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="53"/>
+        <source>%1 nights, %2 days of activity and %3 readiness scores, from %4 to %5.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="56"/>
+        <source>Nothing imported yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="96"/>
+        <source>Data export (no account needed)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="104"/>
+        <source>Every Oura user can download their own data from membership.ouraring.com/data-export (sign in with the email code, choose Request export, wait for the email). Save the ZIP on the phone and open it here: the scores, sleep stages, heart rate and activity of all your history are read, and nothing leaves the phone.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="113"/>
+        <source>Open from Downloads</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="120"/>
+        <source>Open from Documents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="127"/>
+        <source>Or a file or folder path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="139"/>
+        <source>Oura Cloud API</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="147"/>
+        <source>Needs an active Oura Membership. Oura no longer issues personal tokens, so you register a small application of your own at cloud.ouraring.com/oauth/applications with the redirect address below, and enter its client id and secret here. They stay in this phone&apos;s secure vault.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="156"/>
+        <source>Client id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="166"/>
+        <source>Client secret</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="174"/>
+        <source>Redirect address: http://localhost:%1/callback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="185"/>
+        <source>Sign in again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="185"/>
+        <source>Sign in with Oura</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="197"/>
+        <source>If the browser could not reach the app: paste the address or code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="198"/>
+        <source>Address or code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="214"/>
+        <source>Connected to Oura.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="220"/>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="222"/>
+        <source>the last 30 days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="223"/>
+        <source>the last 90 days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="224"/>
+        <source>the last year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="225"/>
+        <source>everything (up to 10 years)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="232"/>
+        <source>Import now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="243"/>
+        <source>Disconnect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="250"/>
+        <source>Imported data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="255"/>
+        <source>Check my scores against Oura&apos;s</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="263"/>
+        <source>Remove imported data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="264"/>
+        <source>Removing imported data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="274"/>
+        <source>Removing leaves the history read from the ring untouched.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="285"/>
+        <location filename="../qml/pages/CloudPage.qml" line="295"/>
+        <source>Choose the export</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ContributorBars</name>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="16"/>
+        <source>Total sleep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="17"/>
+        <source>Deep sleep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="18"/>
+        <source>REM sleep</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="19"/>
+        <source>Efficiency</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="20"/>
+        <source>Latency</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="21"/>
+        <source>Restfulness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="22"/>
+        <source>Restfulness part</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="23"/>
+        <source>Timing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="25"/>
+        <source>Activity balance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="26"/>
+        <source>Body temperature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="27"/>
+        <source>HRV balance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="28"/>
+        <source>Previous day activity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="29"/>
+        <source>Previous night</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="30"/>
+        <source>Recovery index</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="31"/>
+        <source>Resting heart rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="32"/>
+        <source>Sleep balance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="34"/>
+        <source>Daily targets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="35"/>
+        <source>Move every hour</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="36"/>
+        <source>Recovery time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="37"/>
+        <source>Stay active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="38"/>
+        <source>Training frequency</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="39"/>
+        <source>Training volume</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
-        <location filename="../qml/cover/CoverPage.qml" line="55"/>
+        <location filename="../qml/cover/CoverPage.qml" line="58"/>
         <source>Slept %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/cover/CoverPage.qml" line="72"/>
+        <location filename="../qml/cover/CoverPage.qml" line="75"/>
         <source>No history yet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/cover/CoverPage.qml" line="72"/>
+        <location filename="../qml/cover/CoverPage.qml" line="75"/>
         <source>No ring set up</source>
         <translation type="unfinished"></translation>
     </message>
@@ -220,47 +549,82 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
 <context>
     <name>DayPage</name>
     <message>
-        <location filename="../qml/pages/DayPage.qml" line="36"/>
-        <source>Active, estimated</source>
+        <location filename="../qml/pages/DayPage.qml" line="40"/>
+        <source>Oura activity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DayPage.qml" line="42"/>
-        <source>Moderate or harder</source>
+        <location filename="../qml/pages/DayPage.qml" line="46"/>
+        <source>Oura readiness</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DayPage.qml" line="48"/>
-        <source>Light</source>
+        <location filename="../qml/pages/DayPage.qml" line="52"/>
+        <source>Steps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DayPage.qml" line="54"/>
-        <source>Lowest heart rate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/DayPage.qml" line="60"/>
-        <source>Highest heart rate</source>
+        <location filename="../qml/pages/DayPage.qml" line="59"/>
+        <source>Total burned</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/DayPage.qml" line="66"/>
-        <source>Average effort</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/DayPage.qml" line="70"/>
-        <source>Heart rate by hour (bpm)</source>
+        <source>Temperature vs usual</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/DayPage.qml" line="78"/>
+        <source>Active, estimated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="84"/>
+        <source>Moderate or harder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="90"/>
+        <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="96"/>
+        <source>Lowest heart rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="102"/>
+        <source>Highest heart rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="108"/>
+        <source>Average effort</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="114"/>
+        <source>Readiness, Oura&apos;s contributors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="122"/>
+        <source>Activity, Oura&apos;s contributors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="129"/>
+        <source>Heart rate by hour (bpm)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="137"/>
         <source>Effort by hour (MET)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DayPage.qml" line="93"/>
+        <location filename="../qml/pages/DayPage.qml" line="152"/>
         <source>The ring reports how hard you moved, minute by minute, as a MET value (1 is sitting still). It does not report steps. Active calories are an estimate: each minute above 1 MET counts (MET − 1) × your weight ÷ 60, with the weight from Settings. Heart rate bars show the 5th to 95th percentile of the hour, with a tick at the mean.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -293,17 +657,22 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DaysPage.qml" line="65"/>
+        <location filename="../qml/pages/DaysPage.qml" line="56"/>
+        <source>%1 steps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DaysPage.qml" line="68"/>
         <source>%1 kcal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DaysPage.qml" line="71"/>
+        <location filename="../qml/pages/DaysPage.qml" line="74"/>
         <source>No activity yet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DaysPage.qml" line="72"/>
+        <location filename="../qml/pages/DaysPage.qml" line="75"/>
         <source>Sync the ring after wearing it for a day</source>
         <translation type="unfinished"></translation>
     </message>
@@ -403,168 +772,218 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
 <context>
     <name>MainPage</name>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="32"/>
+        <location filename="../qml/pages/MainPage.qml" line="35"/>
         <source>Not synced yet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="34"/>
+        <location filename="../qml/pages/MainPage.qml" line="37"/>
         <source>Synced just now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="34"/>
+        <location filename="../qml/pages/MainPage.qml" line="37"/>
         <source>Synced %1 ago</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="44"/>
+        <location filename="../qml/pages/MainPage.qml" line="47"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="48"/>
+        <location filename="../qml/pages/MainPage.qml" line="51"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="53"/>
-        <location filename="../qml/pages/MainPage.qml" line="134"/>
+        <location filename="../qml/pages/MainPage.qml" line="60"/>
+        <location filename="../qml/pages/MainPage.qml" line="142"/>
         <source>Set up ring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="59"/>
+        <location filename="../qml/pages/MainPage.qml" line="66"/>
         <source>Sync now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="70"/>
+        <location filename="../qml/pages/MainPage.qml" line="77"/>
         <source>Oura Sync</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="121"/>
+        <location filename="../qml/pages/MainPage.qml" line="128"/>
         <source>Your ring, without the cloud</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="128"/>
-        <source>Oura Sync reads your ring over Bluetooth and shows its sleep, heart rate, HRV, temperature and activity. There is no account, no subscription and no network access: the data stays on this phone.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/MainPage.qml" line="147"/>
+        <location filename="../qml/pages/MainPage.qml" line="160"/>
         <source>Reading the history…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="148"/>
+        <location filename="../qml/pages/MainPage.qml" line="161"/>
         <source>No history yet. Pull down and choose Sync now, with the ring nearby. The first sync downloads everything the ring holds, which takes a few minutes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="159"/>
+        <location filename="../qml/pages/MainPage.qml" line="172"/>
         <source>Last night, %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="173"/>
+        <location filename="../qml/pages/MainPage.qml" line="298"/>
         <source>Sleep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="195"/>
+        <location filename="../qml/pages/MainPage.qml" line="209"/>
         <source>asleep (estimated)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="195"/>
+        <location filename="../qml/pages/MainPage.qml" line="33"/>
+        <source>From Oura&apos;s cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="55"/>
+        <source>Oura cloud</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="135"/>
+        <source>Oura Sync reads your ring over Bluetooth and shows its sleep, heart rate, HRV, temperature and activity. There is no account and no subscription: the data stays on this phone. You can also bring in your Oura history from a data export.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="147"/>
+        <source>Import Oura history</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="187"/>
+        <source>Oura</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="187"/>
+        <source>Estimate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="209"/>
         <source>asleep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="203"/>
+        <location filename="../qml/pages/MainPage.qml" line="217"/>
         <source>Efficiency %1 %</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="224"/>
+        <location filename="../qml/pages/MainPage.qml" line="232"/>
+        <source>This app&apos;s estimate: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="246"/>
         <source>Lowest heart rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="230"/>
+        <location filename="../qml/pages/MainPage.qml" line="252"/>
         <source>HRV</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="239"/>
+        <location filename="../qml/pages/MainPage.qml" line="261"/>
         <source>Skin temp. vs usual</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="239"/>
+        <location filename="../qml/pages/MainPage.qml" line="261"/>
         <source>Skin temperature</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="245"/>
+        <location filename="../qml/pages/MainPage.qml" line="267"/>
         <source>Blood oxygen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="251"/>
+        <location filename="../qml/pages/MainPage.qml" line="273"/>
         <source>Breathing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="258"/>
+        <location filename="../qml/pages/MainPage.qml" line="280"/>
         <source>Heart rate, %1 ago</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="259"/>
+        <location filename="../qml/pages/MainPage.qml" line="281"/>
         <source>Heart rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="270"/>
+        <location filename="../qml/pages/MainPage.qml" line="290"/>
+        <source>Oura&apos;s scores</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="303"/>
+        <source>Readiness</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="308"/>
+        <source>Activity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="318"/>
+        <source>%1 steps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="328"/>
         <source>Today</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="285"/>
+        <location filename="../qml/pages/MainPage.qml" line="343"/>
         <source>Heart rate by hour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="298"/>
+        <location filename="../qml/pages/MainPage.qml" line="356"/>
         <source>About %1 kcal active · %2 min moderate or harder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="313"/>
+        <location filename="../qml/pages/MainPage.qml" line="371"/>
         <source>Sleep score, recent nights</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="347"/>
+        <location filename="../qml/pages/MainPage.qml" line="405"/>
         <source>Sleep history</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="357"/>
+        <location filename="../qml/pages/MainPage.qml" line="415"/>
         <source>Activity history</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="367"/>
+        <location filename="../qml/pages/MainPage.qml" line="425"/>
         <source>Trends</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="381"/>
+        <location filename="../qml/pages/MainPage.qml" line="439"/>
         <source>%1 · battery %2 % · firmware %3</source>
         <translation type="unfinished"></translation>
     </message>
@@ -572,179 +991,204 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
 <context>
     <name>NightPage</name>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="21"/>
+        <location filename="../qml/pages/NightPage.qml" line="22"/>
         <source>Duration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="22"/>
-        <location filename="../qml/pages/NightPage.qml" line="124"/>
+        <location filename="../qml/pages/NightPage.qml" line="23"/>
+        <location filename="../qml/pages/NightPage.qml" line="126"/>
         <source>Efficiency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="23"/>
+        <location filename="../qml/pages/NightPage.qml" line="24"/>
         <source>Falling asleep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="24"/>
+        <location filename="../qml/pages/NightPage.qml" line="25"/>
         <source>Time awake in the night</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="25"/>
-        <location filename="../qml/pages/NightPage.qml" line="144"/>
+        <location filename="../qml/pages/NightPage.qml" line="26"/>
+        <location filename="../qml/pages/NightPage.qml" line="146"/>
         <source>Awakenings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="26"/>
+        <location filename="../qml/pages/NightPage.qml" line="27"/>
         <source>Deep and REM sleep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="27"/>
+        <location filename="../qml/pages/NightPage.qml" line="28"/>
         <source>Heart rate and HRV vs usual</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="32"/>
+        <location filename="../qml/pages/NightPage.qml" line="33"/>
         <source>Optimal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="33"/>
+        <location filename="../qml/pages/NightPage.qml" line="34"/>
         <source>Good</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="34"/>
+        <location filename="../qml/pages/NightPage.qml" line="35"/>
         <source>Fair</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="35"/>
+        <location filename="../qml/pages/NightPage.qml" line="36"/>
         <source>Pay attention</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="59"/>
+        <location filename="../qml/pages/NightPage.qml" line="60"/>
         <source>No data for this night</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="74"/>
-        <source>Sleep</source>
+        <location filename="../qml/pages/NightPage.qml" line="76"/>
+        <source>Oura</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="96"/>
+        <location filename="../qml/pages/NightPage.qml" line="76"/>
+        <source>Estimate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NightPage.qml" line="98"/>
         <source>asleep, estimated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="96"/>
+        <location filename="../qml/pages/NightPage.qml" line="98"/>
         <source>asleep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="102"/>
+        <location filename="../qml/pages/NightPage.qml" line="104"/>
         <source>%1 in bed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="131"/>
+        <location filename="../qml/pages/NightPage.qml" line="133"/>
         <source>To fall asleep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="138"/>
+        <location filename="../qml/pages/NightPage.qml" line="140"/>
         <source>Awake in the night</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="151"/>
+        <location filename="../qml/pages/NightPage.qml" line="153"/>
         <source>Lowest heart rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="158"/>
+        <location filename="../qml/pages/NightPage.qml" line="160"/>
         <source>HRV</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="165"/>
+        <location filename="../qml/pages/NightPage.qml" line="167"/>
         <source>Sleep stages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="180"/>
+        <location filename="../qml/pages/NightPage.qml" line="182"/>
         <source>Deep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="181"/>
+        <location filename="../qml/pages/NightPage.qml" line="183"/>
         <source>Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="182"/>
+        <location filename="../qml/pages/NightPage.qml" line="184"/>
         <source>REM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="183"/>
+        <location filename="../qml/pages/NightPage.qml" line="185"/>
         <source>Awake</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="192"/>
+        <location filename="../qml/pages/NightPage.qml" line="194"/>
         <source>The ring has not reported sleep stages for this night. Its own sleep window is shown, and the time asleep is estimated from it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="199"/>
+        <location filename="../qml/pages/NightPage.qml" line="201"/>
         <source>Heart rate (bpm)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="212"/>
+        <location filename="../qml/pages/NightPage.qml" line="214"/>
         <source>Heart rate variability (ms)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="225"/>
+        <location filename="../qml/pages/NightPage.qml" line="227"/>
         <source>Breathing (per minute)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="240"/>
+        <location filename="../qml/pages/NightPage.qml" line="242"/>
         <source>Skin temperature (°C), %1 vs usual</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="241"/>
+        <location filename="../qml/pages/NightPage.qml" line="243"/>
         <source>Skin temperature (°C)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="255"/>
+        <location filename="../qml/pages/NightPage.qml" line="257"/>
         <source>Blood oxygen (%)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="271"/>
+        <location filename="../qml/pages/NightPage.qml" line="273"/>
+        <source>Oura&apos;s score: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NightPage.qml" line="290"/>
+        <source>In brackets: the same contributor computed here with Oura&apos;s own formula from the night&apos;s stages. The difference shows how close that arithmetic is.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NightPage.qml" line="300"/>
+        <source>This night comes from Oura&apos;s cloud, not from the ring: stages are in five-minute steps.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NightPage.qml" line="306"/>
         <source>How the score is made</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="321"/>
+        <location filename="../qml/pages/NightPage.qml" line="306"/>
+        <source>This app&apos;s estimate: how it is made</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NightPage.qml" line="356"/>
         <source>This score is this app&apos;s own estimate, built from published sleep research (National Sleep Foundation guidelines). Oura computes its score with closed software on the phone, so the two numbers will not match.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="332"/>
+        <location filename="../qml/pages/NightPage.qml" line="367"/>
         <source>The ring&apos;s clock could not be tied to the calendar for this night, so its times are placed from the moment of the download and may be off by hours.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -772,13 +1216,137 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightsPage.qml" line="72"/>
+        <location filename="../qml/pages/NightsPage.qml" line="73"/>
         <source>No nights yet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightsPage.qml" line="73"/>
+        <location filename="../qml/pages/NightsPage.qml" line="74"/>
         <source>Sync the ring after a night&apos;s sleep</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OuraCloudClient</name>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="66"/>
+        <source>Enter the client id and client secret of your Oura application first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="71"/>
+        <source>Could not listen on port %1 for Oura&apos;s redirect: %2. You can still paste the address the browser ends up on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="134"/>
+        <source>That address belongs to a different sign-in. Start again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="137"/>
+        <source>There is no authorization code in what was entered.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="153"/>
+        <source>Oura did not accept the code (HTTP %1): %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="162"/>
+        <source>Oura&apos;s reply did not contain a token.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="177"/>
+        <source>Not connected to Oura. Connect again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="190"/>
+        <source>Oura refused to renew the sign-in (HTTP %1). Connect again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="230"/>
+        <source>Oura did not answer in time. Check the network connection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="237"/>
+        <source>Could not reach Oura: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="260"/>
+        <source>Oura&apos;s reply could not be read.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="275"/>
+        <source>Not connected to Oura.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="279"/>
+        <source>Fetching %1…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="303"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="342"/>
+        <source>Oura says too many requests were made. Try again in a few minutes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="308"/>
+        <source>Oura answered HTTP %1 for %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="320"/>
+        <source>Fetching heart rate from %1…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="360"/>
+        <source>Oura refused: %1 (no membership, or the permission was declined).</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../src/cloud/exportimport.cpp" line="31"/>
+        <location filename="../src/cloud/exportimport.cpp" line="81"/>
+        <source>Reading %1…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/exportimport.cpp" line="54"/>
+        <location filename="../src/cloud/exportimport.cpp" line="61"/>
+        <source>Could not open the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/exportimport.cpp" line="64"/>
+        <source>Opening the archive…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/exportimport.cpp" line="87"/>
+        <source>No Oura data files were found. The export is a ZIP of CSV files such as dailysleep.csv, from membership.ouraring.com/data-export.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1199"/>
+        <source>Saving %1 documents and %2 heart rate samples…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1203"/>
+        <source>Could not save the import: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -882,6 +1450,49 @@ If this keeps happening, pair the ring once in Settings &gt; Bluetooth, then set
     </message>
 </context>
 <context>
+    <name>ScoreCheckPage</name>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="57"/>
+        <source>Score check</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="64"/>
+        <source>Oura&apos;s sleep score against this app&apos;s estimate, and against Oura&apos;s own arithmetic applied to your night (age from Settings). Contributor errors are the mean difference in points; restfulness is not computed yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="87"/>
+        <source>Night by night</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="103"/>
+        <source>Oura</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="110"/>
+        <source>formula</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="117"/>
+        <source>estimate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="124"/>
+        <source>Nothing to compare</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="125"/>
+        <source>Import your Oura data first</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SettingsPage</name>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="16"/>
@@ -909,57 +1520,62 @@ If this keeps happening, pair the ring once in Settings &gt; Bluetooth, then set
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="53"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="54"/>
+        <source>Oura cloud and data export</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="60"/>
         <source>Ring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="57"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="64"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="62"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="69"/>
         <source>Serial</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="67"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="74"/>
         <source>Firmware</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="72"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="79"/>
         <source>Battery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="77"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="84"/>
         <source>Last sync</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="86"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="93"/>
         <source>Back up the key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="93"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="100"/>
         <source>Diagnostics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="102"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="109"/>
         <source>Forget this ring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="103"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="110"/>
         <source>Forgetting the ring and its history</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="119"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="126"/>
         <source>Forgetting removes the stored history and the ring&apos;s key from this phone. The ring keeps its key, so back it up first if you may want to read the ring again.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1031,106 +1647,126 @@ If this keeps happening, pair the ring once in Settings &gt; Bluetooth, then set
     <name>TrendsPage</name>
     <message>
         <location filename="../qml/pages/TrendsPage.qml" line="10"/>
-        <source>Sleep score</source>
+        <source>Oura sleep score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/TrendsPage.qml" line="11"/>
-        <source>Time asleep</source>
+        <source>Oura readiness score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/TrendsPage.qml" line="12"/>
-        <source>Sleep efficiency</source>
+        <source>Oura activity score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/TrendsPage.qml" line="13"/>
-        <source>Deep sleep</source>
+        <source>Steps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/TrendsPage.qml" line="14"/>
-        <source>REM sleep</source>
+        <source>Sleep score (estimate)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/TrendsPage.qml" line="15"/>
-        <source>Lowest heart rate</source>
+        <source>Time asleep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/TrendsPage.qml" line="16"/>
-        <source>HRV</source>
+        <source>Sleep efficiency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/TrendsPage.qml" line="17"/>
-        <source>Skin temperature vs usual</source>
+        <source>Deep sleep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/TrendsPage.qml" line="18"/>
-        <source>Skin temperature</source>
+        <source>REM sleep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/TrendsPage.qml" line="19"/>
-        <source>Blood oxygen</source>
+        <source>Lowest heart rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/TrendsPage.qml" line="20"/>
+        <source>HRV</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/TrendsPage.qml" line="21"/>
+        <source>Skin temperature vs usual</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/TrendsPage.qml" line="22"/>
+        <source>Skin temperature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/TrendsPage.qml" line="23"/>
+        <source>Blood oxygen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/TrendsPage.qml" line="24"/>
         <source>Breathing rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="59"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="72"/>
         <source>Trends</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="62"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="75"/>
         <source>Measure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="76"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="89"/>
         <source>Period</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="79"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="92"/>
         <source>14 nights</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="80"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="93"/>
         <source>30 nights</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="81"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="94"/>
         <source>90 nights</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="111"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="124"/>
         <source>Lowest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="117"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="130"/>
         <source>Average</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="123"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="136"/>
         <source>Highest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="133"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="146"/>
         <source>Nothing to show for this measure yet.</source>
         <translation type="unfinished"></translation>
     </message>

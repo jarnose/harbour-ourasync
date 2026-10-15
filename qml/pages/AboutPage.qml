@@ -51,8 +51,10 @@ Page {
                 wrapMode: Text.Wrap
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeSmall
-                text: qsTr("The app has no network permission. The history is kept in a database on this "
-                           + "phone and the ring's key in the Sailfish secrets vault.")
+                text: qsTr("Reading the ring needs no network. The history is kept in a database on this phone, and "
+                           + "the ring's key and any Oura sign-in in the Sailfish secrets vault. The only time "
+                           + "the app uses the network is when you tap Import in the Oura cloud page, and then "
+                           + "it only fetches from Oura: nothing is uploaded anywhere.")
             }
 
             SectionHeader { text: qsTr("Credits") }

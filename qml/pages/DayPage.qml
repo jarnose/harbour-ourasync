@@ -25,6 +25,48 @@ Page {
 
             PageHeader { title: page.date.length > 0 ? Format.dayLabel(page.date) : "" }
 
+            // Oura's own numbers for the day, from the cloud.
+            Flow {
+                id: official
+                width: parent.width
+                visible: page.d.steps !== null && page.d.steps !== undefined
+                         || page.d.activityScore !== null && page.d.activityScore !== undefined
+                         || page.d.readinessScore !== null && page.d.readinessScore !== undefined
+                readonly property real cell: width / 3
+                StatTile {
+                    width: official.cell
+                    visible: page.d.activityScore !== null && page.d.activityScore !== undefined
+                    value: Format.number(page.d.activityScore)
+                    caption: qsTr("Oura activity")
+                }
+                StatTile {
+                    width: official.cell
+                    visible: page.d.readinessScore !== null && page.d.readinessScore !== undefined
+                    value: Format.number(page.d.readinessScore)
+                    caption: qsTr("Oura readiness")
+                }
+                StatTile {
+                    width: official.cell
+                    visible: page.d.steps !== null && page.d.steps !== undefined
+                    value: Format.number(page.d.steps)
+                    caption: qsTr("Steps")
+                }
+                StatTile {
+                    width: official.cell
+                    visible: page.d.totalKcal !== null && page.d.totalKcal !== undefined
+                    value: Format.number(page.d.totalKcal)
+                    unit: "kcal"
+                    caption: qsTr("Total burned")
+                }
+                StatTile {
+                    width: official.cell
+                    visible: page.d.temperatureDeviation !== null && page.d.temperatureDeviation !== undefined
+                    value: Format.signed(page.d.temperatureDeviation, 2)
+                    unit: "°C"
+                    caption: qsTr("Temperature vs usual")
+                }
+            }
+
             Flow {
                 id: facts
                 width: parent.width
@@ -65,6 +107,23 @@ Page {
                     unit: "MET"
                     caption: qsTr("Average effort")
                 }
+            }
+
+            SectionHeader {
+                visible: page.d.readinessContributors !== undefined && page.d.readinessContributors.length > 0
+                text: qsTr("Readiness, Oura's contributors")
+            }
+            ContributorBars {
+                visible: page.d.readinessContributors !== undefined && page.d.readinessContributors.length > 0
+                items: page.d.readinessContributors !== undefined ? page.d.readinessContributors : []
+            }
+            SectionHeader {
+                visible: page.d.activityContributors !== undefined && page.d.activityContributors.length > 0
+                text: qsTr("Activity, Oura's contributors")
+            }
+            ContributorBars {
+                visible: page.d.activityContributors !== undefined && page.d.activityContributors.length > 0
+                items: page.d.activityContributors !== undefined ? page.d.activityContributors : []
             }
 
             SectionHeader { text: qsTr("Heart rate by hour (bpm)") }

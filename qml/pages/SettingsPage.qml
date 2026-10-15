@@ -48,6 +48,13 @@ Page {
                 onActiveFocusChanged: if (!activeFocus) page.saveProfile()
             }
 
+            Item { width: 1; height: Theme.paddingLarge }
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Oura cloud and data export")
+                onClicked: pageStack.push(Qt.resolvedUrl("CloudPage.qml"))
+            }
+
             SectionHeader {
                 visible: AppController.hasRing
                 text: qsTr("Ring")

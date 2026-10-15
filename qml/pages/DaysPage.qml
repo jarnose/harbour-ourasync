@@ -52,6 +52,8 @@ Page {
                            ? qsTr("Heart rate %1–%2 bpm").arg(Format.number(modelData.hrMin))
                              .arg(Format.number(modelData.hrMax)) : qsTr("No heart rate"))
                           + " · " + qsTr("%1 min active").arg(modelData.moderateMin + modelData.vigorousMin)
+                          + (modelData.steps !== null && modelData.steps !== undefined
+                             ? " · " + qsTr("%1 steps").arg(modelData.steps) : "")
                 }
             }
             Label {
@@ -62,7 +64,8 @@ Page {
                     verticalCenter: parent.verticalCenter
                 }
                 color: Theme.highlightColor
-                text: modelData.activeKcal > 0 ? qsTr("%1 kcal").arg(Format.number(modelData.activeKcal)) : ""
+                text: modelData.activityScore !== null && modelData.activityScore !== undefined ? modelData.activityScore
+                      : (modelData.activeKcal > 0 ? qsTr("%1 kcal").arg(Format.number(modelData.activeKcal)) : "")
             }
         }
 

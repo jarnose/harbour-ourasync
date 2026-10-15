@@ -11,6 +11,7 @@ Page {
     property string date: ""
     property var n: AppController.night(date)
     readonly property bool hasStages: n.staged === true
+    readonly property bool official: n.ouraScore !== null && n.ouraScore !== undefined
 
     Connections {
         target: AppController
@@ -70,8 +71,9 @@ Page {
                     id: gauge
                     x: Theme.horizontalPageMargin
                     width: Theme.itemSizeHuge * 1.15
-                    value: page.n.score !== null && page.n.score !== undefined ? page.n.score : -1
-                    caption: qsTr("Sleep")
+                    value: page.official ? page.n.ouraScore
+                           : (page.n.score !== null && page.n.score !== undefined ? page.n.score : -1)
+                    caption: page.official ? qsTr("Oura") : qsTr("Estimate")
                 }
                 Column {
                     id: headline
@@ -105,8 +107,8 @@ Page {
                         width: parent.width
                         color: Theme.secondaryHighlightColor
                         font.pixelSize: Theme.fontSizeExtraSmall
-                        text: page.n.score !== null && page.n.score !== undefined
-                              ? page.scoreWord(page.n.score) : ""
+                        text: page.official ? page.scoreWord(page.n.ouraScore)
+                              : (page.n.score !== null && page.n.score !== undefined ? page.scoreWord(page.n.score) : "")
                     }
                 }
             }
@@ -265,10 +267,43 @@ Page {
                 lineColor: "#b69bf0"
             }
 
+            // ---- Oura's own score and contributors ----
+            SectionHeader {
+                visible: page.official
+                text: qsTr("Oura's score: %1").arg(page.n.ouraScore)
+            }
+            ContributorBars {
+                visible: page.official
+                items: page.n.ouraContributors !== undefined ? page.n.ouraContributors : []
+                compare: page.n.ouraFormula !== undefined && page.n.ouraFormula.contributors !== undefined
+                         ? Object.keys(page.n.ouraFormula.contributors).map(function (k) {
+                               return { key: k, value: page.n.ouraFormula.contributors[k] } })
+                         : []
+            }
+            Label {
+                visible: page.official && page.n.ouraFormula !== undefined && page.n.ouraFormula.contributors !== undefined
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.Wrap
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeExtraSmall
+                text: qsTr("In brackets: the same contributor computed here with Oura's own formula from the "
+                           + "night's stages. The difference shows how close that arithmetic is.")
+            }
+            Label {
+                visible: page.n.fromCloud === true
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.Wrap
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeExtraSmall
+                text: qsTr("This night comes from Oura's cloud, not from the ring: stages are in five-minute steps.")
+            }
+
             // ---- how the score came about ----
             SectionHeader {
                 visible: page.n.components !== undefined && page.n.components.length > 0
-                text: qsTr("How the score is made")
+                text: page.official ? qsTr("This app's estimate: how it is made") : qsTr("How the score is made")
             }
             Repeater {
                 model: page.n.components !== undefined ? page.n.components : []

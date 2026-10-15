@@ -7,7 +7,11 @@ Page {
     id: page
 
     readonly property var metrics: [
-        { key: "score", name: qsTr("Sleep score"), unit: "", decimals: 0, color: "#8d9bf0", fixedMin: 0, fixedMax: 100 },
+        { key: "ouraSleep", name: qsTr("Oura sleep score"), unit: "", decimals: 0, color: "#8d9bf0", fixedMin: 0, fixedMax: 100 },
+        { key: "ouraReadiness", name: qsTr("Oura readiness score"), unit: "", decimals: 0, color: "#7fd18b", fixedMin: 0, fixedMax: 100 },
+        { key: "ouraActivity", name: qsTr("Oura activity score"), unit: "", decimals: 0, color: "#f0a35e", fixedMin: 0, fixedMax: 100 },
+        { key: "steps", name: qsTr("Steps"), unit: "", decimals: 0, color: "#f0a35e" },
+        { key: "score", name: qsTr("Sleep score (estimate)"), unit: "", decimals: 0, color: "#8d9bf0", fixedMin: 0, fixedMax: 100 },
         { key: "asleep", name: qsTr("Time asleep"), unit: "h", decimals: 1, color: "#8d9bf0" },
         { key: "efficiency", name: qsTr("Sleep efficiency"), unit: "%", decimals: 0, color: "#8d9bf0" },
         { key: "deep", name: qsTr("Deep sleep"), unit: "min", decimals: 0, color: "#4a5bd0" },
@@ -28,7 +32,16 @@ Page {
     function reload() {
         points = AppController.trend(metrics[metricIndex].key, counts[countIndex])
     }
-    Component.onCompleted: reload()
+    // Start on the first measure that has anything to show.
+    Component.onCompleted: {
+        for (var i = 0; i < metrics.length; ++i) {
+            if (AppController.trend(metrics[i].key, counts[countIndex]).length > 0) {
+                metricIndex = i
+                break
+            }
+        }
+        reload()
+    }
     Connections {
         target: AppController
         onSummaryChanged: page.reload()

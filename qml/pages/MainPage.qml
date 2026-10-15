@@ -12,6 +12,9 @@ Page {
     property var overview: ({})
     readonly property var night: overview.night
     readonly property var today: overview.today
+    readonly property var oura: overview.oura
+    // The score shown for last night: Oura's own when the cloud has it.
+    readonly property bool officialNight: night !== undefined && night.ouraScore !== null && night.ouraScore !== undefined
 
     function reload() {
         overview = AppController.overview()
@@ -27,7 +30,7 @@ Page {
 
     function syncedText() {
         if (!AppController.hasRing)
-            return ""
+            return overview.hasData ? qsTr("From Oura's cloud") : ""
         if (AppController.lastSyncMs <= 0)
             return qsTr("Not synced yet")
         var a = Format.ago(AppController.lastSyncMs)
@@ -47,6 +50,10 @@ Page {
             MenuItem {
                 text: qsTr("Settings")
                 onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
+            }
+            MenuItem {
+                text: qsTr("Oura cloud")
+                onClicked: pageStack.push(Qt.resolvedUrl("CloudPage.qml"))
             }
             MenuItem {
                 visible: !AppController.hasRing
@@ -109,7 +116,7 @@ Page {
             // ---- first run ----
             Column {
                 width: parent.width
-                visible: !AppController.hasRing
+                visible: !AppController.hasRing && !overview.hasData
                 spacing: Theme.paddingLarge
 
                 Label {
@@ -126,13 +133,19 @@ Page {
                     wrapMode: Text.Wrap
                     color: Theme.secondaryColor
                     text: qsTr("Oura Sync reads your ring over Bluetooth and shows its sleep, heart rate, "
-                               + "HRV, temperature and activity. There is no account, no subscription and no "
-                               + "network access: the data stays on this phone.")
+                               + "HRV, temperature and activity. There is no account and no subscription: "
+                               + "the data stays on this phone. You can also bring in your Oura history "
+                               + "from a data export.")
                 }
                 Button {
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: qsTr("Set up ring")
                     onClicked: pageStack.push(Qt.resolvedUrl("SetupPage.qml"))
+                }
+                Button {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: qsTr("Import Oura history")
+                    onClicked: pageStack.push(Qt.resolvedUrl("CloudPage.qml"))
                 }
             }
 
@@ -169,8 +182,9 @@ Page {
                         x: Theme.horizontalPageMargin
                         anchors.verticalCenter: parent.verticalCenter
                         width: Theme.itemSizeHuge * 1.15
-                        value: night && night.score !== null && night.score !== undefined ? night.score : -1
-                        caption: qsTr("Sleep")
+                        value: page.officialNight ? night.ouraScore
+                               : (night && night.score !== null && night.score !== undefined ? night.score : -1)
+                        caption: page.officialNight ? qsTr("Oura") : qsTr("Estimate")
                     }
                     Column {
                         id: nightStats
@@ -208,6 +222,14 @@ Page {
                             font.pixelSize: Theme.fontSizeSmall
                             visible: night !== undefined
                             text: night ? Format.hm(night.startMs) + " – " + Format.hm(night.endMs) : ""
+                        }
+                        Label {
+                            width: parent.width
+                            color: Theme.secondaryColor
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            visible: page.officialNight && night.score !== null && night.score !== undefined
+                            text: night && night.score !== null && night.score !== undefined
+                                  ? qsTr("This app's estimate: %1").arg(night.score) : ""
                         }
                     }
                 }
@@ -258,6 +280,42 @@ Page {
                                  ? qsTr("Heart rate, %1 ago").arg(Format.ago(overview.latestHrMs))
                                  : qsTr("Heart rate")
                     }
+                }
+            }
+
+            // ---- Oura's own scores, from the cloud ----
+            Column {
+                width: parent.width
+                visible: oura !== undefined
+                SectionHeader { text: qsTr("Oura's scores") }
+                Row {
+                    x: Theme.horizontalPageMargin
+                    width: parent.width - 2 * Theme.horizontalPageMargin
+                    spacing: Theme.paddingLarge
+                    ScoreGauge {
+                        width: (parent.width - 2 * Theme.paddingLarge) / 3
+                        value: oura && oura.sleep !== undefined ? oura.sleep : -1
+                        caption: qsTr("Sleep")
+                    }
+                    ScoreGauge {
+                        width: (parent.width - 2 * Theme.paddingLarge) / 3
+                        value: oura && oura.readiness !== undefined ? oura.readiness : -1
+                        caption: qsTr("Readiness")
+                    }
+                    ScoreGauge {
+                        width: (parent.width - 2 * Theme.paddingLarge) / 3
+                        value: oura && oura.activity !== undefined ? oura.activity : -1
+                        caption: qsTr("Activity")
+                    }
+                }
+                Label {
+                    visible: oura !== undefined && oura.steps !== undefined
+                    x: Theme.horizontalPageMargin
+                    width: parent.width - 2 * Theme.horizontalPageMargin
+                    horizontalAlignment: Text.AlignHCenter
+                    color: Theme.secondaryColor
+                    font.pixelSize: Theme.fontSizeSmall
+                    text: oura && oura.steps !== undefined ? qsTr("%1 steps").arg(oura.steps) : ""
                 }
             }
 
@@ -337,7 +395,7 @@ Page {
             // ---- navigation ----
             Column {
                 width: parent.width
-                visible: AppController.hasRing
+                visible: AppController.hasRing || overview.hasData
                 BackgroundItem {
                     width: parent.width
                     onClicked: pageStack.push(Qt.resolvedUrl("NightsPage.qml"))

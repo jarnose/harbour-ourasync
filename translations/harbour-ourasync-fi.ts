@@ -38,16 +38,16 @@ Ei saatavilla: Ouran omat uni-, valmiusaste- ja aktiivisuuspisteet sekä askelee
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="54"/>
-        <source>The app has no network permission. The history is kept in a database on this phone and the ring&apos;s key in the Sailfish secrets vault.</source>
-        <translation>Sovelluksella ei ole verkkolupaa. Historia on tietokannassa tässä puhelimessa ja sormuksen avain Sailfishin salaisuusholvissa.</translation>
+        <source>Reading the ring needs no network. The history is kept in a database on this phone, and the ring&apos;s key and any Oura sign-in in the Sailfish secrets vault. The only time the app uses the network is when you tap Import in the Oura cloud page, and then it only fetches from Oura: nothing is uploaded anywhere.</source>
+        <translation>Sormuksen lukeminen ei tarvitse verkkoa. Historia on tietokannassa tässä puhelimessa, ja sormuksen avain sekä mahdollinen Oura-kirjautuminen Sailfishin salaisuusholvissa. Verkkoa käytetään vain, kun painat Tuo Oura-pilvisivulla, ja silloinkin vain haetaan Ouralta: mitään ei lähetetä minnekään.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="58"/>
+        <location filename="../qml/pages/AboutPage.qml" line="60"/>
         <source>Credits</source>
         <translation>Tekijät ja kiitokset</translation>
     </message>
     <message>
-        <location filename="../qml/pages/AboutPage.qml" line="66"/>
+        <location filename="../qml/pages/AboutPage.qml" line="68"/>
         <source>The ring&apos;s protocol was reverse engineered by the open_oura project, and the sleep-score method and several decoders come from open_health, both by Thomas Marchand (MIT licence). The dashboards follow the ideas of Cracked Oura. The protocol details were checked against version 7.27.0 of Oura&apos;s Android app.</source>
         <translation>Sormuksen protokollan on selvittänyt open_oura-projekti, ja unipisteiden menetelmä sekä useat dekooderit tulevat open_health-projektista; molemmat ovat Thomas Marchandin (MIT-lisenssi). Näkymät seuraavat Cracked Ouran ideoita. Protokollan yksityiskohdat tarkistettiin Ouran Android-sovelluksen version 7.27.0 koodista.</translation>
     </message>
@@ -55,138 +55,149 @@ Ei saatavilla: Ouran omat uni-, valmiusaste- ja aktiivisuuspisteet sekä askelee
 <context>
     <name>AppController</name>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="231"/>
+        <location filename="../src/controller/appcontroller.cpp" line="295"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1280"/>
+        <source>Imported</source>
+        <translation>Tuotu</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="313"/>
         <source>Could not open the local database: %1</source>
         <translation>Paikallista tietokantaa ei voitu avata: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="277"/>
+        <location filename="../src/controller/appcontroller.cpp" line="370"/>
         <source>Another operation is still running.</source>
         <translation>Toinen toiminto on vielä käynnissä.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="294"/>
+        <location filename="../src/controller/appcontroller.cpp" line="387"/>
         <source>Done</source>
         <translation>Valmis</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="433"/>
-        <location filename="../src/controller/appcontroller.cpp" line="460"/>
+        <location filename="../src/controller/appcontroller.cpp" line="526"/>
+        <location filename="../src/controller/appcontroller.cpp" line="552"/>
         <source>The secrets vault did not answer.</source>
         <translation>Salaisuusholvi ei vastannut.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="487"/>
+        <location filename="../src/controller/appcontroller.cpp" line="572"/>
+        <source>The stored key has the wrong length.</source>
+        <translation>Tallennetun avaimen pituus on väärä.</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="603"/>
         <source>Connecting to the ring…</source>
         <translation>Yhdistetään sormukseen…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="496"/>
+        <location filename="../src/controller/appcontroller.cpp" line="612"/>
         <source>The ring&apos;s key is not in the secrets vault (%1). Set the ring up again, or enter its key.</source>
         <translation>Sormuksen avainta ei löydy salaisuusholvista (%1). Ota sormus käyttöön uudelleen tai anna sen avain.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="497"/>
+        <location filename="../src/controller/appcontroller.cpp" line="613"/>
         <source>not found</source>
         <translation>ei löytynyt</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="499"/>
-        <location filename="../src/controller/appcontroller.cpp" line="658"/>
-        <location filename="../src/controller/appcontroller.cpp" line="699"/>
+        <location filename="../src/controller/appcontroller.cpp" line="615"/>
+        <location filename="../src/controller/appcontroller.cpp" line="774"/>
+        <location filename="../src/controller/appcontroller.cpp" line="815"/>
         <source>Authenticating…</source>
         <translation>Todennetaan…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="505"/>
+        <location filename="../src/controller/appcontroller.cpp" line="621"/>
         <source>The ring has been factory reset and has no key. Set it up again.</source>
         <translation>Sormus on palautettu tehdasasetuksiin eikä sillä ole avainta. Ota se käyttöön uudelleen.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="507"/>
+        <location filename="../src/controller/appcontroller.cpp" line="623"/>
         <source>The ring rejected the stored key. Another app has probably set the ring up since; a factory reset and a new set-up are needed.</source>
         <translation>Sormus hylkäsi tallennetun avaimen. Jokin toinen sovellus on luultavasti ottanut sormuksen käyttöön sen jälkeen; tarvitaan tehdasasetusten palautus ja uusi käyttöönotto.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="509"/>
+        <location filename="../src/controller/appcontroller.cpp" line="625"/>
         <source>Authentication failed: %1</source>
         <translation>Todennus epäonnistui: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="529"/>
+        <location filename="../src/controller/appcontroller.cpp" line="645"/>
         <source>Preparing the ring…</source>
         <translation>Valmistellaan sormusta…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="532"/>
+        <location filename="../src/controller/appcontroller.cpp" line="648"/>
         <source>Could not prepare the ring: %1</source>
         <translation>Sormuksen valmistelu epäonnistui: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="538"/>
+        <location filename="../src/controller/appcontroller.cpp" line="654"/>
         <source>Could not set the ring&apos;s clock: %1</source>
         <translation>Sormuksen kelloa ei voitu asettaa: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="550"/>
+        <location filename="../src/controller/appcontroller.cpp" line="666"/>
         <source>Downloading history…</source>
         <translation>Ladataan historiaa…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="558"/>
+        <location filename="../src/controller/appcontroller.cpp" line="674"/>
         <source>Downloading history: %1 events</source>
         <translation>Ladataan historiaa: %1 tapahtumaa</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="564"/>
+        <location filename="../src/controller/appcontroller.cpp" line="680"/>
         <source>History download stopped: %1</source>
         <translation>Historian lataus pysähtyi: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="605"/>
+        <location filename="../src/controller/appcontroller.cpp" line="721"/>
         <source>No ring is set up yet.</source>
         <translation>Sormusta ei ole vielä otettu käyttöön.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="608"/>
+        <location filename="../src/controller/appcontroller.cpp" line="724"/>
         <source>Syncing…</source>
         <translation>Synkronoidaan…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="615"/>
+        <location filename="../src/controller/appcontroller.cpp" line="731"/>
         <source>Bluetooth does not know this ring any more. Set it up again.</source>
         <translation>Bluetooth ei enää tunne tätä sormusta. Ota se käyttöön uudelleen.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="633"/>
-        <location filename="../src/controller/appcontroller.cpp" line="730"/>
+        <location filename="../src/controller/appcontroller.cpp" line="749"/>
+        <location filename="../src/controller/appcontroller.cpp" line="846"/>
         <source>Pairing…</source>
         <translation>Pariutetaan…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="641"/>
-        <location filename="../src/controller/appcontroller.cpp" line="721"/>
+        <location filename="../src/controller/appcontroller.cpp" line="757"/>
+        <location filename="../src/controller/appcontroller.cpp" line="837"/>
         <source>Oura ring</source>
         <translation>Oura-sormus</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="663"/>
+        <location filename="../src/controller/appcontroller.cpp" line="779"/>
         <source>Installing the ring&apos;s key…</source>
         <translation>Asennetaan sormuksen avainta…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="667"/>
+        <location filename="../src/controller/appcontroller.cpp" line="783"/>
         <source>Could not read the system&apos;s random source.</source>
         <translation>Järjestelmän satunnaislähdettä ei voitu lukea.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="676"/>
-        <location filename="../src/controller/appcontroller.cpp" line="725"/>
+        <location filename="../src/controller/appcontroller.cpp" line="792"/>
+        <location filename="../src/controller/appcontroller.cpp" line="841"/>
         <source>Could not store the key in the secrets vault: %1</source>
         <translation>Avainta ei voitu tallentaa salaisuusholviin: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="686"/>
+        <location filename="../src/controller/appcontroller.cpp" line="802"/>
         <source>The ring would not take a new key: %1
 
 A ring that is still set up with the Oura app must first be factory reset.</source>
@@ -195,30 +206,348 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
 Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palauttaa tehdasasetuksiin.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="715"/>
+        <location filename="../src/controller/appcontroller.cpp" line="831"/>
         <source>A key is 32 hexadecimal characters (16 bytes).</source>
         <translation>Avain on 32 heksadesimaalimerkkiä (16 tavua).</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="718"/>
+        <location filename="../src/controller/appcontroller.cpp" line="834"/>
         <source>Storing the key…</source>
         <translation>Tallennetaan avainta…</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1167"/>
+        <source>Could not store the Oura sign-in in the secrets vault: %1</source>
+        <translation>Oura-kirjautumista ei voitu tallentaa salaisuusholviin: %1</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1181"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1252"/>
+        <source>Another import is still running.</source>
+        <translation>Toinen tuonti on vielä käynnissä.</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1186"/>
+        <source>Reading the export…</source>
+        <translation>Luetaan vientiä…</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1237"/>
+        <source>Signing in to Oura…</source>
+        <translation>Kirjaudutaan Ouraan…</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1246"/>
+        <source>Connected to Oura</source>
+        <translation>Yhdistetty Ouraan</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1256"/>
+        <source>Not connected to Oura.</source>
+        <translation>Ei yhteyttä Ouraan.</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1261"/>
+        <source>Connecting to Oura…</source>
+        <translation>Yhdistetään Ouraan…</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1271"/>
+        <source>Saving…</source>
+        <translation>Tallennetaan…</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1273"/>
+        <source>Could not save the import: %1</source>
+        <translation>Tuontia ei voitu tallentaa: %1</translation>
+    </message>
+</context>
+<context>
+    <name>CloudPage</name>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="43"/>
+        <source>Oura cloud</source>
+        <translation>Oura-pilvi</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="53"/>
+        <source>%1 nights, %2 days of activity and %3 readiness scores, from %4 to %5.</source>
+        <translation>%1 yötä, %2 päivää aktiivisuutta ja %3 valmiuspistettä, ajalta %4–%5.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="56"/>
+        <source>Nothing imported yet.</source>
+        <translation>Ei vielä tuotua dataa.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="96"/>
+        <source>Data export (no account needed)</source>
+        <translation>Datavienti (ei tiliä tarvita)</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="104"/>
+        <source>Every Oura user can download their own data from membership.ouraring.com/data-export (sign in with the email code, choose Request export, wait for the email). Save the ZIP on the phone and open it here: the scores, sleep stages, heart rate and activity of all your history are read, and nothing leaves the phone.</source>
+        <translation>Jokainen Oura-käyttäjä voi ladata oman datansa osoitteesta membership.ouraring.com/data-export (kirjaudu sähköpostikoodilla, valitse Request export ja odota sähköpostia). Tallenna ZIP puhelimeen ja avaa se tässä: koko historiasi pisteet, unen vaiheet, syke ja aktiivisuus luetaan, eikä mikään poistu puhelimesta.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="113"/>
+        <source>Open from Downloads</source>
+        <translation>Avaa Latauksista</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="120"/>
+        <source>Open from Documents</source>
+        <translation>Avaa Asiakirjoista</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="127"/>
+        <source>Or a file or folder path</source>
+        <translation>Tai tiedoston tai kansion polku</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="139"/>
+        <source>Oura Cloud API</source>
+        <translation>Oura Cloud API</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="147"/>
+        <source>Needs an active Oura Membership. Oura no longer issues personal tokens, so you register a small application of your own at cloud.ouraring.com/oauth/applications with the redirect address below, and enter its client id and secret here. They stay in this phone&apos;s secure vault.</source>
+        <translation>Vaatii voimassa olevan Oura-jäsenyyden. Oura ei enää anna henkilökohtaisia tunnisteita, joten rekisteröit osoitteessa cloud.ouraring.com/oauth/applications oman pienen sovelluksen alla näkyvällä uudelleenohjausosoitteella ja annat sen client id:n ja salaisuuden tässä. Ne pysyvät tämän puhelimen suojatussa holvissa.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="156"/>
+        <source>Client id</source>
+        <translation>Client id</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="166"/>
+        <source>Client secret</source>
+        <translation>Client secret</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="174"/>
+        <source>Redirect address: http://localhost:%1/callback</source>
+        <translation>Uudelleenohjausosoite: http://localhost:%1/callback</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="185"/>
+        <source>Sign in again</source>
+        <translation>Kirjaudu uudelleen</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="185"/>
+        <source>Sign in with Oura</source>
+        <translation>Kirjaudu Ouralla</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="197"/>
+        <source>If the browser could not reach the app: paste the address or code</source>
+        <translation>Jos selain ei tavoittanut sovellusta: liitä osoite tai koodi</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="198"/>
+        <source>Address or code</source>
+        <translation>Osoite tai koodi</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="214"/>
+        <source>Connected to Oura.</source>
+        <translation>Yhdistetty Ouraan.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="220"/>
+        <source>Import</source>
+        <translation>Tuo</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="222"/>
+        <source>the last 30 days</source>
+        <translation>viimeiset 30 päivää</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="223"/>
+        <source>the last 90 days</source>
+        <translation>viimeiset 90 päivää</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="224"/>
+        <source>the last year</source>
+        <translation>viimeisin vuosi</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="225"/>
+        <source>everything (up to 10 years)</source>
+        <translation>kaikki (enintään 10 vuotta)</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="232"/>
+        <source>Import now</source>
+        <translation>Tuo nyt</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="243"/>
+        <source>Disconnect</source>
+        <translation>Katkaise yhteys</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="250"/>
+        <source>Imported data</source>
+        <translation>Tuotu data</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="255"/>
+        <source>Check my scores against Oura&apos;s</source>
+        <translation>Vertaa pisteitäni Ouran pisteisiin</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="263"/>
+        <source>Remove imported data</source>
+        <translation>Poista tuotu data</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="264"/>
+        <source>Removing imported data</source>
+        <translation>Poistetaan tuotua dataa</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="274"/>
+        <source>Removing leaves the history read from the ring untouched.</source>
+        <translation>Poisto ei koske sormuksesta luettuun historiaan.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="285"/>
+        <location filename="../qml/pages/CloudPage.qml" line="295"/>
+        <source>Choose the export</source>
+        <translation>Valitse vienti</translation>
+    </message>
+</context>
+<context>
+    <name>ContributorBars</name>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="16"/>
+        <source>Total sleep</source>
+        <translation>Kokonaisuni</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="17"/>
+        <source>Deep sleep</source>
+        <translation>Syvä uni</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="18"/>
+        <source>REM sleep</source>
+        <translation>REM-uni</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="19"/>
+        <source>Efficiency</source>
+        <translation>Tehokkuus</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="20"/>
+        <source>Latency</source>
+        <translation>Nukahtamisaika</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="21"/>
+        <source>Restfulness</source>
+        <translation>Levollisuus</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="22"/>
+        <source>Restfulness part</source>
+        <translation>Levollisuuden osa</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="23"/>
+        <source>Timing</source>
+        <translation>Ajoitus</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="25"/>
+        <source>Activity balance</source>
+        <translation>Aktiivisuuden tasapaino</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="26"/>
+        <source>Body temperature</source>
+        <translation>Kehon lämpötila</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="27"/>
+        <source>HRV balance</source>
+        <translation>HRV-tasapaino</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="28"/>
+        <source>Previous day activity</source>
+        <translation>Edellisen päivän aktiivisuus</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="29"/>
+        <source>Previous night</source>
+        <translation>Edellinen yö</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="30"/>
+        <source>Recovery index</source>
+        <translation>Palautumisindeksi</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="31"/>
+        <source>Resting heart rate</source>
+        <translation>Leposyke</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="32"/>
+        <source>Sleep balance</source>
+        <translation>Unen tasapaino</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="34"/>
+        <source>Daily targets</source>
+        <translation>Päivätavoitteet</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="35"/>
+        <source>Move every hour</source>
+        <translation>Liiku joka tunti</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="36"/>
+        <source>Recovery time</source>
+        <translation>Palautumisaika</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="37"/>
+        <source>Stay active</source>
+        <translation>Pysy aktiivisena</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="38"/>
+        <source>Training frequency</source>
+        <translation>Harjoittelun tiheys</translation>
+    </message>
+    <message>
+        <location filename="../qml/components/ContributorBars.qml" line="39"/>
+        <source>Training volume</source>
+        <translation>Harjoittelun määrä</translation>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
-        <location filename="../qml/cover/CoverPage.qml" line="55"/>
+        <location filename="../qml/cover/CoverPage.qml" line="58"/>
         <source>Slept %1</source>
         <translation>Nukuttu %1</translation>
     </message>
     <message>
-        <location filename="../qml/cover/CoverPage.qml" line="72"/>
+        <location filename="../qml/cover/CoverPage.qml" line="75"/>
         <source>No history yet</source>
         <translation>Ei vielä historiaa</translation>
     </message>
     <message>
-        <location filename="../qml/cover/CoverPage.qml" line="72"/>
+        <location filename="../qml/cover/CoverPage.qml" line="75"/>
         <source>No ring set up</source>
         <translation>Sormusta ei otettu käyttöön</translation>
     </message>
@@ -226,47 +555,82 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
 <context>
     <name>DayPage</name>
     <message>
-        <location filename="../qml/pages/DayPage.qml" line="36"/>
+        <location filename="../qml/pages/DayPage.qml" line="40"/>
+        <source>Oura activity</source>
+        <translation>Ouran aktiivisuus</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="46"/>
+        <source>Oura readiness</source>
+        <translation>Ouran valmius</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="52"/>
+        <source>Steps</source>
+        <translation>Askeleet</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="59"/>
+        <source>Total burned</source>
+        <translation>Kulutus yhteensä</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="66"/>
+        <source>Temperature vs usual</source>
+        <translation>Lämpötila vs. tavallinen</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="78"/>
         <source>Active, estimated</source>
         <translation>Aktiivinen, arvio</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DayPage.qml" line="42"/>
+        <location filename="../qml/pages/DayPage.qml" line="84"/>
         <source>Moderate or harder</source>
         <translation>Kohtalaista tai rankempaa</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DayPage.qml" line="48"/>
+        <location filename="../qml/pages/DayPage.qml" line="90"/>
         <source>Light</source>
         <translation>Kevyt</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DayPage.qml" line="54"/>
+        <location filename="../qml/pages/DayPage.qml" line="96"/>
         <source>Lowest heart rate</source>
         <translation>Alin syke</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DayPage.qml" line="60"/>
+        <location filename="../qml/pages/DayPage.qml" line="102"/>
         <source>Highest heart rate</source>
         <translation>Korkein syke</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DayPage.qml" line="66"/>
+        <location filename="../qml/pages/DayPage.qml" line="108"/>
         <source>Average effort</source>
         <translation>Keskimääräinen rasitus</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DayPage.qml" line="70"/>
+        <location filename="../qml/pages/DayPage.qml" line="114"/>
+        <source>Readiness, Oura&apos;s contributors</source>
+        <translation>Valmius, Ouran osatekijät</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="122"/>
+        <source>Activity, Oura&apos;s contributors</source>
+        <translation>Aktiivisuus, Ouran osatekijät</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DayPage.qml" line="129"/>
         <source>Heart rate by hour (bpm)</source>
         <translation>Syke tunneittain (bpm)</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DayPage.qml" line="78"/>
+        <location filename="../qml/pages/DayPage.qml" line="137"/>
         <source>Effort by hour (MET)</source>
         <translation>Rasitus tunneittain (MET)</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DayPage.qml" line="93"/>
+        <location filename="../qml/pages/DayPage.qml" line="152"/>
         <source>The ring reports how hard you moved, minute by minute, as a MET value (1 is sitting still). It does not report steps. Active calories are an estimate: each minute above 1 MET counts (MET − 1) × your weight ÷ 60, with the weight from Settings. Heart rate bars show the 5th to 95th percentile of the hour, with a tick at the mean.</source>
         <translation>Sormus kertoo liikkeen rasittavuuden minuutti minuutilta MET-arvona (1 on paikallaan istumista). Se ei kerro askelia. Aktiiviset kalorit ovat arvio: jokainen 1 METin ylittävä minuutti lasketaan (MET − 1) × painosi ÷ 60, paino Asetuksista. Sykepalkit näyttävät tunnin 5.–95. persentiilin ja keskiarvon pienenä viivana.</translation>
     </message>
@@ -299,17 +663,22 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
         <translation>%1 min aktiivinen</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DaysPage.qml" line="65"/>
+        <location filename="../qml/pages/DaysPage.qml" line="56"/>
+        <source>%1 steps</source>
+        <translation>%1 askelta</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/DaysPage.qml" line="68"/>
         <source>%1 kcal</source>
         <translation>%1 kcal</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DaysPage.qml" line="71"/>
+        <location filename="../qml/pages/DaysPage.qml" line="74"/>
         <source>No activity yet</source>
         <translation>Ei vielä aktiivisuutta</translation>
     </message>
     <message>
-        <location filename="../qml/pages/DaysPage.qml" line="72"/>
+        <location filename="../qml/pages/DaysPage.qml" line="75"/>
         <source>Sync the ring after wearing it for a day</source>
         <translation>Synkronoi sormus päivän käytön jälkeen</translation>
     </message>
@@ -409,168 +778,218 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
 <context>
     <name>MainPage</name>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="32"/>
+        <location filename="../qml/pages/MainPage.qml" line="35"/>
         <source>Not synced yet</source>
         <translation>Ei vielä synkronoitu</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="34"/>
+        <location filename="../qml/pages/MainPage.qml" line="37"/>
         <source>Synced just now</source>
         <translation>Synkronoitu juuri nyt</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="34"/>
+        <location filename="../qml/pages/MainPage.qml" line="37"/>
         <source>Synced %1 ago</source>
         <translation>Synkronoitu %1 sitten</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="44"/>
+        <location filename="../qml/pages/MainPage.qml" line="47"/>
         <source>About</source>
         <translation>Tietoja</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="48"/>
+        <location filename="../qml/pages/MainPage.qml" line="51"/>
         <source>Settings</source>
         <translation>Asetukset</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="53"/>
-        <location filename="../qml/pages/MainPage.qml" line="134"/>
+        <location filename="../qml/pages/MainPage.qml" line="60"/>
+        <location filename="../qml/pages/MainPage.qml" line="142"/>
         <source>Set up ring</source>
         <translation>Ota sormus käyttöön</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="59"/>
+        <location filename="../qml/pages/MainPage.qml" line="66"/>
         <source>Sync now</source>
         <translation>Synkronoi nyt</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="70"/>
+        <location filename="../qml/pages/MainPage.qml" line="77"/>
         <source>Oura Sync</source>
         <translation>Oura Sync</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="121"/>
+        <location filename="../qml/pages/MainPage.qml" line="128"/>
         <source>Your ring, without the cloud</source>
         <translation>Sormuksesi ilman pilveä</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="128"/>
-        <source>Oura Sync reads your ring over Bluetooth and shows its sleep, heart rate, HRV, temperature and activity. There is no account, no subscription and no network access: the data stays on this phone.</source>
-        <translation>Oura Sync lukee sormuksesi Bluetoothilla ja näyttää sen unen, sykkeen, sykevaihtelun, lämpötilan ja aktiivisuuden. Ei tiliä, ei tilausta eikä verkkoyhteyttä: tiedot pysyvät tässä puhelimessa.</translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/MainPage.qml" line="147"/>
+        <location filename="../qml/pages/MainPage.qml" line="160"/>
         <source>Reading the history…</source>
         <translation>Luetaan historiaa…</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="148"/>
+        <location filename="../qml/pages/MainPage.qml" line="161"/>
         <source>No history yet. Pull down and choose Sync now, with the ring nearby. The first sync downloads everything the ring holds, which takes a few minutes.</source>
         <translation>Ei vielä historiaa. Vedä alas ja valitse Synkronoi nyt sormus lähellä. Ensimmäinen synkronointi lataa kaiken, mitä sormus sisältää, ja kestää muutaman minuutin.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="159"/>
+        <location filename="../qml/pages/MainPage.qml" line="172"/>
         <source>Last night, %1</source>
         <translation>Viime yö, %1</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="173"/>
+        <location filename="../qml/pages/MainPage.qml" line="298"/>
         <source>Sleep</source>
         <translation>Uni</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="195"/>
+        <location filename="../qml/pages/MainPage.qml" line="209"/>
         <source>asleep (estimated)</source>
         <translation>unessa (arvio)</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="195"/>
+        <location filename="../qml/pages/MainPage.qml" line="33"/>
+        <source>From Oura&apos;s cloud</source>
+        <translation>Ouran pilvestä</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="55"/>
+        <source>Oura cloud</source>
+        <translation>Oura-pilvi</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="135"/>
+        <source>Oura Sync reads your ring over Bluetooth and shows its sleep, heart rate, HRV, temperature and activity. There is no account and no subscription: the data stays on this phone. You can also bring in your Oura history from a data export.</source>
+        <translation>Oura Sync lukee sormuksesi Bluetoothilla ja näyttää sen unen, sykkeen, sykevaihtelun, lämpötilan ja aktiivisuuden. Ei tiliä eikä tilausta: tiedot pysyvät tässä puhelimessa. Voit tuoda myös Oura-historiasi datavientitiedostosta.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="147"/>
+        <source>Import Oura history</source>
+        <translation>Tuo Oura-historia</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="187"/>
+        <source>Oura</source>
+        <translation>Oura</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="187"/>
+        <source>Estimate</source>
+        <translation>Arvio</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="209"/>
         <source>asleep</source>
         <translation>unessa</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="203"/>
+        <location filename="../qml/pages/MainPage.qml" line="217"/>
         <source>Efficiency %1 %</source>
         <translation>Tehokkuus %1 %</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="224"/>
+        <location filename="../qml/pages/MainPage.qml" line="232"/>
+        <source>This app&apos;s estimate: %1</source>
+        <translation>Tämän sovelluksen arvio: %1</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="246"/>
         <source>Lowest heart rate</source>
         <translation>Alin syke</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="230"/>
+        <location filename="../qml/pages/MainPage.qml" line="252"/>
         <source>HRV</source>
         <translation>HRV</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="239"/>
+        <location filename="../qml/pages/MainPage.qml" line="261"/>
         <source>Skin temp. vs usual</source>
         <translation>Ihon lämpö vs. tavallinen</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="239"/>
+        <location filename="../qml/pages/MainPage.qml" line="261"/>
         <source>Skin temperature</source>
         <translation>Ihon lämpötila</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="245"/>
+        <location filename="../qml/pages/MainPage.qml" line="267"/>
         <source>Blood oxygen</source>
         <translation>Veren happi</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="251"/>
+        <location filename="../qml/pages/MainPage.qml" line="273"/>
         <source>Breathing</source>
         <translation>Hengitys</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="258"/>
+        <location filename="../qml/pages/MainPage.qml" line="280"/>
         <source>Heart rate, %1 ago</source>
         <translation>Syke, %1 sitten</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="259"/>
+        <location filename="../qml/pages/MainPage.qml" line="281"/>
         <source>Heart rate</source>
         <translation>Syke</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="270"/>
+        <location filename="../qml/pages/MainPage.qml" line="290"/>
+        <source>Oura&apos;s scores</source>
+        <translation>Ouran pisteet</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="303"/>
+        <source>Readiness</source>
+        <translation>Valmius</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="308"/>
+        <source>Activity</source>
+        <translation>Aktiivisuus</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="318"/>
+        <source>%1 steps</source>
+        <translation>%1 askelta</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/MainPage.qml" line="328"/>
         <source>Today</source>
         <translation>Tänään</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="285"/>
+        <location filename="../qml/pages/MainPage.qml" line="343"/>
         <source>Heart rate by hour</source>
         <translation>Syke tunneittain</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="298"/>
+        <location filename="../qml/pages/MainPage.qml" line="356"/>
         <source>About %1 kcal active · %2 min moderate or harder</source>
         <translation>Noin %1 kcal aktiivista · %2 min kohtalaista tai rankempaa</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="313"/>
+        <location filename="../qml/pages/MainPage.qml" line="371"/>
         <source>Sleep score, recent nights</source>
         <translation>Unipisteet, viime yöt</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="347"/>
+        <location filename="../qml/pages/MainPage.qml" line="405"/>
         <source>Sleep history</source>
         <translation>Unihistoria</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="357"/>
+        <location filename="../qml/pages/MainPage.qml" line="415"/>
         <source>Activity history</source>
         <translation>Aktiivisuushistoria</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="367"/>
+        <location filename="../qml/pages/MainPage.qml" line="425"/>
         <source>Trends</source>
         <translation>Trendit</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="381"/>
+        <location filename="../qml/pages/MainPage.qml" line="439"/>
         <source>%1 · battery %2 % · firmware %3</source>
         <translation>%1 · akku %2 % · laiteohjelmisto %3</translation>
     </message>
@@ -578,179 +997,204 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
 <context>
     <name>NightPage</name>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="21"/>
+        <location filename="../qml/pages/NightPage.qml" line="22"/>
         <source>Duration</source>
         <translation>Kesto</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="22"/>
-        <location filename="../qml/pages/NightPage.qml" line="124"/>
+        <location filename="../qml/pages/NightPage.qml" line="23"/>
+        <location filename="../qml/pages/NightPage.qml" line="126"/>
         <source>Efficiency</source>
         <translation>Tehokkuus</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="23"/>
+        <location filename="../qml/pages/NightPage.qml" line="24"/>
         <source>Falling asleep</source>
         <translation>Nukahtaminen</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="24"/>
+        <location filename="../qml/pages/NightPage.qml" line="25"/>
         <source>Time awake in the night</source>
         <translation>Hereillä yöllä</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="25"/>
-        <location filename="../qml/pages/NightPage.qml" line="144"/>
+        <location filename="../qml/pages/NightPage.qml" line="26"/>
+        <location filename="../qml/pages/NightPage.qml" line="146"/>
         <source>Awakenings</source>
         <translation>Heräämiset</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="26"/>
+        <location filename="../qml/pages/NightPage.qml" line="27"/>
         <source>Deep and REM sleep</source>
         <translation>Syvä ja REM-uni</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="27"/>
+        <location filename="../qml/pages/NightPage.qml" line="28"/>
         <source>Heart rate and HRV vs usual</source>
         <translation>Syke ja HRV vs. tavallinen</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="32"/>
+        <location filename="../qml/pages/NightPage.qml" line="33"/>
         <source>Optimal</source>
         <translation>Erinomainen</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="33"/>
+        <location filename="../qml/pages/NightPage.qml" line="34"/>
         <source>Good</source>
         <translation>Hyvä</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="34"/>
+        <location filename="../qml/pages/NightPage.qml" line="35"/>
         <source>Fair</source>
         <translation>Kohtalainen</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="35"/>
+        <location filename="../qml/pages/NightPage.qml" line="36"/>
         <source>Pay attention</source>
         <translation>Kiinnitä huomiota</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="59"/>
+        <location filename="../qml/pages/NightPage.qml" line="60"/>
         <source>No data for this night</source>
         <translation>Ei tietoja tältä yöltä</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="74"/>
-        <source>Sleep</source>
-        <translation>Uni</translation>
+        <location filename="../qml/pages/NightPage.qml" line="76"/>
+        <source>Oura</source>
+        <translation>Oura</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="96"/>
+        <location filename="../qml/pages/NightPage.qml" line="76"/>
+        <source>Estimate</source>
+        <translation>Arvio</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NightPage.qml" line="98"/>
         <source>asleep, estimated</source>
         <translation>unessa, arvio</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="96"/>
+        <location filename="../qml/pages/NightPage.qml" line="98"/>
         <source>asleep</source>
         <translation>unessa</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="102"/>
+        <location filename="../qml/pages/NightPage.qml" line="104"/>
         <source>%1 in bed</source>
         <translation>%1 sängyssä</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="131"/>
+        <location filename="../qml/pages/NightPage.qml" line="133"/>
         <source>To fall asleep</source>
         <translation>Nukahtamiseen</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="138"/>
+        <location filename="../qml/pages/NightPage.qml" line="140"/>
         <source>Awake in the night</source>
         <translation>Hereillä yöllä</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="151"/>
+        <location filename="../qml/pages/NightPage.qml" line="153"/>
         <source>Lowest heart rate</source>
         <translation>Alin syke</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="158"/>
+        <location filename="../qml/pages/NightPage.qml" line="160"/>
         <source>HRV</source>
         <translation>HRV</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="165"/>
+        <location filename="../qml/pages/NightPage.qml" line="167"/>
         <source>Sleep stages</source>
         <translation>Unen vaiheet</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="180"/>
+        <location filename="../qml/pages/NightPage.qml" line="182"/>
         <source>Deep</source>
         <translation>Syvä</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="181"/>
+        <location filename="../qml/pages/NightPage.qml" line="183"/>
         <source>Light</source>
         <translation>Kevyt</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="182"/>
+        <location filename="../qml/pages/NightPage.qml" line="184"/>
         <source>REM</source>
         <translation>REM</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="183"/>
+        <location filename="../qml/pages/NightPage.qml" line="185"/>
         <source>Awake</source>
         <translation>Hereillä</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="192"/>
+        <location filename="../qml/pages/NightPage.qml" line="194"/>
         <source>The ring has not reported sleep stages for this night. Its own sleep window is shown, and the time asleep is estimated from it.</source>
         <translation>Sormus ei ole raportoinut unen vaiheita tältä yöltä. Näytetään sormuksen oma unijakso, ja nukuttu aika arvioidaan siitä.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="199"/>
+        <location filename="../qml/pages/NightPage.qml" line="201"/>
         <source>Heart rate (bpm)</source>
         <translation>Syke (bpm)</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="212"/>
+        <location filename="../qml/pages/NightPage.qml" line="214"/>
         <source>Heart rate variability (ms)</source>
         <translation>Sykevaihtelu (ms)</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="225"/>
+        <location filename="../qml/pages/NightPage.qml" line="227"/>
         <source>Breathing (per minute)</source>
         <translation>Hengitys (minuutissa)</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="240"/>
+        <location filename="../qml/pages/NightPage.qml" line="242"/>
         <source>Skin temperature (°C), %1 vs usual</source>
         <translation>Ihon lämpötila (°C), %1 vs. tavallinen</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="241"/>
+        <location filename="../qml/pages/NightPage.qml" line="243"/>
         <source>Skin temperature (°C)</source>
         <translation>Ihon lämpötila (°C)</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="255"/>
+        <location filename="../qml/pages/NightPage.qml" line="257"/>
         <source>Blood oxygen (%)</source>
         <translation>Veren happi (%)</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="271"/>
+        <location filename="../qml/pages/NightPage.qml" line="273"/>
+        <source>Oura&apos;s score: %1</source>
+        <translation>Ouran pisteet: %1</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NightPage.qml" line="290"/>
+        <source>In brackets: the same contributor computed here with Oura&apos;s own formula from the night&apos;s stages. The difference shows how close that arithmetic is.</source>
+        <translation>Sulkeissa: sama osatekijä laskettuna täällä Ouran omalla kaavalla yön unen vaiheista. Ero kertoo, kuinka lähellä tämä laskenta on.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NightPage.qml" line="300"/>
+        <source>This night comes from Oura&apos;s cloud, not from the ring: stages are in five-minute steps.</source>
+        <translation>Tämä yö on Ouran pilvestä, ei sormuksesta: vaiheet ovat viiden minuutin jaksoissa.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NightPage.qml" line="306"/>
         <source>How the score is made</source>
         <translation>Miten pisteet muodostuvat</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="321"/>
+        <location filename="../qml/pages/NightPage.qml" line="306"/>
+        <source>This app&apos;s estimate: how it is made</source>
+        <translation>Tämän sovelluksen arvio: miten se muodostuu</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/NightPage.qml" line="356"/>
         <source>This score is this app&apos;s own estimate, built from published sleep research (National Sleep Foundation guidelines). Oura computes its score with closed software on the phone, so the two numbers will not match.</source>
         <translation>Nämä pisteet ovat tämän sovelluksen oma arvio, joka perustuu julkaistuun unitutkimukseen (National Sleep Foundationin suositukset). Oura laskee omat pisteensä puhelimessa suljetulla ohjelmistolla, joten luvut eivät täsmää.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightPage.qml" line="332"/>
+        <location filename="../qml/pages/NightPage.qml" line="367"/>
         <source>The ring&apos;s clock could not be tied to the calendar for this night, so its times are placed from the moment of the download and may be off by hours.</source>
         <translation>Sormuksen kelloa ei saatu sidottua kalenteriin tältä yöltä, joten ajat on sijoitettu latauksen hetken mukaan ja ne voivat olla tuntien päässä.</translation>
     </message>
@@ -778,14 +1222,138 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
         <translation>%1 % tehokkuus</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightsPage.qml" line="72"/>
+        <location filename="../qml/pages/NightsPage.qml" line="73"/>
         <source>No nights yet</source>
         <translation>Ei vielä öitä</translation>
     </message>
     <message>
-        <location filename="../qml/pages/NightsPage.qml" line="73"/>
+        <location filename="../qml/pages/NightsPage.qml" line="74"/>
         <source>Sync the ring after a night&apos;s sleep</source>
         <translation>Synkronoi sormus yöunen jälkeen</translation>
+    </message>
+</context>
+<context>
+    <name>OuraCloudClient</name>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="66"/>
+        <source>Enter the client id and client secret of your Oura application first.</source>
+        <translation>Anna ensin Oura-sovelluksesi client id ja client secret.</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="71"/>
+        <source>Could not listen on port %1 for Oura&apos;s redirect: %2. You can still paste the address the browser ends up on.</source>
+        <translation>Porttia %1 ei voitu kuunnella Ouran uudelleenohjausta varten: %2. Voit silti liittää osoitteen, johon selain päätyy.</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="134"/>
+        <source>That address belongs to a different sign-in. Start again.</source>
+        <translation>Tuo osoite kuuluu toiseen kirjautumiseen. Aloita alusta.</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="137"/>
+        <source>There is no authorization code in what was entered.</source>
+        <translation>Annetussa ei ole valtuutuskoodia.</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="153"/>
+        <source>Oura did not accept the code (HTTP %1): %2</source>
+        <translation>Oura ei hyväksynyt koodia (HTTP %1): %2</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="162"/>
+        <source>Oura&apos;s reply did not contain a token.</source>
+        <translation>Ouran vastauksessa ei ollut tunnistetta.</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="177"/>
+        <source>Not connected to Oura. Connect again.</source>
+        <translation>Ei yhteyttä Ouraan. Yhdistä uudelleen.</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="190"/>
+        <source>Oura refused to renew the sign-in (HTTP %1). Connect again.</source>
+        <translation>Oura kieltäytyi uusimasta kirjautumista (HTTP %1). Yhdistä uudelleen.</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="230"/>
+        <source>Oura did not answer in time. Check the network connection.</source>
+        <translation>Oura ei vastannut ajoissa. Tarkista verkkoyhteys.</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="237"/>
+        <source>Could not reach Oura: %1</source>
+        <translation>Ouraan ei saatu yhteyttä: %1</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="260"/>
+        <source>Oura&apos;s reply could not be read.</source>
+        <translation>Ouran vastausta ei voitu lukea.</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="275"/>
+        <source>Not connected to Oura.</source>
+        <translation>Ei yhteyttä Ouraan.</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="279"/>
+        <source>Fetching %1…</source>
+        <translation>Haetaan: %1…</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="303"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="342"/>
+        <source>Oura says too many requests were made. Try again in a few minutes.</source>
+        <translation>Oura ilmoittaa liian monesta pyynnöstä. Yritä muutaman minuutin kuluttua.</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="308"/>
+        <source>Oura answered HTTP %1 for %2.</source>
+        <translation>Oura vastasi HTTP %1 kohteelle %2.</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="320"/>
+        <source>Fetching heart rate from %1…</source>
+        <translation>Haetaan sykettä alkaen %1…</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="360"/>
+        <source>Oura refused: %1 (no membership, or the permission was declined).</source>
+        <translation>Oura kieltäytyi: %1 (ei jäsenyyttä tai lupa evättiin).</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../src/cloud/exportimport.cpp" line="31"/>
+        <location filename="../src/cloud/exportimport.cpp" line="81"/>
+        <source>Reading %1…</source>
+        <translation>Luetaan: %1…</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/exportimport.cpp" line="54"/>
+        <location filename="../src/cloud/exportimport.cpp" line="61"/>
+        <source>Could not open the file</source>
+        <translation>Tiedostoa ei voitu avata</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/exportimport.cpp" line="64"/>
+        <source>Opening the archive…</source>
+        <translation>Avataan arkistoa…</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/exportimport.cpp" line="87"/>
+        <source>No Oura data files were found. The export is a ZIP of CSV files such as dailysleep.csv, from membership.ouraring.com/data-export.</source>
+        <translation>Oura-datatiedostoja ei löytynyt. Vienti on ZIP, jossa on CSV-tiedostoja kuten dailysleep.csv, osoitteesta membership.ouraring.com/data-export.</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1199"/>
+        <source>Saving %1 documents and %2 heart rate samples…</source>
+        <translation>Tallennetaan %1 dokumenttia ja %2 sykenäytettä…</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1203"/>
+        <source>Could not save the import: %1</source>
+        <translation>Tuontia ei voitu tallentaa: %1</translation>
     </message>
 </context>
 <context>
@@ -890,6 +1458,49 @@ Jos tämä toistuu, pariuta sormus kerran kohdassa Asetukset &gt; Bluetooth ja o
     </message>
 </context>
 <context>
+    <name>ScoreCheckPage</name>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="57"/>
+        <source>Score check</source>
+        <translation>Pisteiden vertailu</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="64"/>
+        <source>Oura&apos;s sleep score against this app&apos;s estimate, and against Oura&apos;s own arithmetic applied to your night (age from Settings). Contributor errors are the mean difference in points; restfulness is not computed yet.</source>
+        <translation>Ouran unipisteet verrattuna tämän sovelluksen arvioon ja Ouran omaan laskentaan sovellettuna yöhösi (ikä Asetuksista). Osatekijöiden virheet ovat pisteiden keskimääräinen ero; levollisuutta ei vielä lasketa.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="87"/>
+        <source>Night by night</source>
+        <translation>Yö kerrallaan</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="103"/>
+        <source>Oura</source>
+        <translation>Oura</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="110"/>
+        <source>formula</source>
+        <translation>kaava</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="117"/>
+        <source>estimate</source>
+        <translation>arvio</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="124"/>
+        <source>Nothing to compare</source>
+        <translation>Ei vertailtavaa</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ScoreCheckPage.qml" line="125"/>
+        <source>Import your Oura data first</source>
+        <translation>Tuo ensin Oura-datasi</translation>
+    </message>
+</context>
+<context>
     <name>SettingsPage</name>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="16"/>
@@ -917,57 +1528,62 @@ Jos tämä toistuu, pariuta sormus kerran kohdassa Asetukset &gt; Bluetooth ja o
         <translation>Paino, kg</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="53"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="54"/>
+        <source>Oura cloud and data export</source>
+        <translation>Oura-pilvi ja datavienti</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="60"/>
         <source>Ring</source>
         <translation>Sormus</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="57"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="64"/>
         <source>Name</source>
         <translation>Nimi</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="62"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="69"/>
         <source>Serial</source>
         <translation>Sarjanumero</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="67"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="74"/>
         <source>Firmware</source>
         <translation>Laiteohjelmisto</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="72"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="79"/>
         <source>Battery</source>
         <translation>Akku</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="77"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="84"/>
         <source>Last sync</source>
         <translation>Viimeisin synkronointi</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="86"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="93"/>
         <source>Back up the key</source>
         <translation>Varmuuskopioi avain</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="93"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="100"/>
         <source>Diagnostics</source>
         <translation>Diagnostiikka</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="102"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="109"/>
         <source>Forget this ring</source>
         <translation>Unohda tämä sormus</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="103"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="110"/>
         <source>Forgetting the ring and its history</source>
         <translation>Unohdetaan sormus ja sen historia</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="119"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="126"/>
         <source>Forgetting removes the stored history and the ring&apos;s key from this phone. The ring keeps its key, so back it up first if you may want to read the ring again.</source>
         <translation>Unohtaminen poistaa tallennetun historian ja sormuksen avaimen tästä puhelimesta. Sormus säilyttää avaimensa, joten varmuuskopioi se ensin, jos saatat haluta lukea sormuksen uudelleen.</translation>
     </message>
@@ -1039,106 +1655,126 @@ Jos tämä toistuu, pariuta sormus kerran kohdassa Asetukset &gt; Bluetooth ja o
     <name>TrendsPage</name>
     <message>
         <location filename="../qml/pages/TrendsPage.qml" line="10"/>
-        <source>Sleep score</source>
-        <translation>Unipisteet</translation>
+        <source>Oura sleep score</source>
+        <translation>Ouran unipisteet</translation>
     </message>
     <message>
         <location filename="../qml/pages/TrendsPage.qml" line="11"/>
+        <source>Oura readiness score</source>
+        <translation>Ouran valmiuspisteet</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/TrendsPage.qml" line="12"/>
+        <source>Oura activity score</source>
+        <translation>Ouran aktiivisuuspisteet</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/TrendsPage.qml" line="13"/>
+        <source>Steps</source>
+        <translation>Askeleet</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/TrendsPage.qml" line="14"/>
+        <source>Sleep score (estimate)</source>
+        <translation>Unipisteet (arvio)</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/TrendsPage.qml" line="15"/>
         <source>Time asleep</source>
         <translation>Nukuttu aika</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="12"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="16"/>
         <source>Sleep efficiency</source>
         <translation>Unen tehokkuus</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="13"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="17"/>
         <source>Deep sleep</source>
         <translation>Syvä uni</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="14"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="18"/>
         <source>REM sleep</source>
         <translation>REM-uni</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="15"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="19"/>
         <source>Lowest heart rate</source>
         <translation>Alin syke</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="16"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="20"/>
         <source>HRV</source>
         <translation>HRV</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="17"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="21"/>
         <source>Skin temperature vs usual</source>
         <translation>Ihon lämpötila vs. tavallinen</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="18"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="22"/>
         <source>Skin temperature</source>
         <translation>Ihon lämpötila</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="19"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="23"/>
         <source>Blood oxygen</source>
         <translation>Veren happi</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="20"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="24"/>
         <source>Breathing rate</source>
         <translation>Hengitystiheys</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="59"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="72"/>
         <source>Trends</source>
         <translation>Trendit</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="62"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="75"/>
         <source>Measure</source>
         <translation>Mittaus</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="76"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="89"/>
         <source>Period</source>
         <translation>Jakso</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="79"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="92"/>
         <source>14 nights</source>
         <translation>14 yötä</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="80"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="93"/>
         <source>30 nights</source>
         <translation>30 yötä</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="81"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="94"/>
         <source>90 nights</source>
         <translation>90 yötä</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="111"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="124"/>
         <source>Lowest</source>
         <translation>Alin</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="117"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="130"/>
         <source>Average</source>
         <translation>Keskiarvo</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="123"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="136"/>
         <source>Highest</source>
         <translation>Korkein</translation>
     </message>
     <message>
-        <location filename="../qml/pages/TrendsPage.qml" line="133"/>
+        <location filename="../qml/pages/TrendsPage.qml" line="146"/>
         <source>Nothing to show for this measure yet.</source>
         <translation>Tästä mittauksesta ei ole vielä mitään näytettävää.</translation>
     </message>
