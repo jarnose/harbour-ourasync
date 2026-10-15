@@ -27,3 +27,4 @@ run aes128 ../src/ring/aes128.cpp
 run protocol $CORE
 run session $CORE ../src/ring/session.cpp
 run daysummary $CORE $ANALYSIS
+run oura_sleep_score ../src/analysis/oura_sleep_score.cpp

@@ -29,6 +29,7 @@ set(CORE_SOURCES
     src/analysis/ringclock.cpp
     src/analysis/sleepscore.cpp
     src/analysis/daysummary.cpp
+    src/analysis/oura_sleep_score.cpp
 )
 
 add_executable(harbour-ourasync
