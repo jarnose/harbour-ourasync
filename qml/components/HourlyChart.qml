@@ -25,6 +25,10 @@ Item {
     Canvas {
         id: canvas
         anchors.fill: parent
+        // A page that was left and is back again has lost the canvas's contents
+        // (the texture is released while it is not shown): paint again.
+        onVisibleChanged: if (visible) requestPaint()
+        onAvailableChanged: if (available) requestPaint()
         onPaint: {
             var ctx = getContext("2d")
             ctx.reset()
