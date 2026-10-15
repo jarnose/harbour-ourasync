@@ -7,6 +7,7 @@
 #include "secrets/keyvault.h"
 #include "store/ringstore.h"
 
+#include <QDate>
 #include <QFutureWatcher>
 #include <QObject>
 #include <QPointer>
@@ -40,6 +41,7 @@ class AppController : public QObject
     Q_PROPERTY(int summaryVersion READ summaryVersion NOTIFY summaryChanged)
     Q_PROPERTY(bool summaryBusy READ summaryBusy NOTIFY summaryBusyChanged)
     Q_PROPERTY(int profileAge READ profileAge NOTIFY profileChanged)
+    Q_PROPERTY(QString birthDate READ birthDate NOTIFY profileChanged)
     Q_PROPERTY(double profileWeight READ profileWeight NOTIFY profileChanged)
     Q_PROPERTY(int syncedEvents READ syncedEvents NOTIFY statusChanged)
     Q_PROPERTY(bool keyStored READ keyStored NOTIFY ringChanged)
@@ -67,7 +69,13 @@ public:
     double batteryMs() const { return static_cast<double>(m_batteryUnix) * 1000.0; }
     int summaryVersion() const { return m_summaryVersion; }
     bool summaryBusy() const { return m_summaryBusy; }
-    int profileAge() const { return m_age; }
+    // Today's age: from the birth date when there is one, otherwise the age that was set
+    // or that Oura's profile gave.
+    int profileAge() const;
+    // YYYY-MM-DD, empty when not set.
+    QString birthDate() const { return m_birthDate.isValid() ? m_birthDate.toString(Qt::ISODate) : QString(); }
+    // The age on a given night (YYYY-MM-DD): the score's limits step on the birthday.
+    int ageOn(const std::string &isoDate) const;
     double profileWeight() const { return m_weightKg; }
     int syncedEvents() const { return m_syncedEvents; }
     bool keyStored() const { return m_keyStored; }
@@ -119,6 +127,8 @@ public:
     Q_INVOKABLE void cloudClear();
 
     Q_INVOKABLE void setProfile(int age, double weightKg);
+    // The birth date replaces the age: pass an empty string to forget it.
+    Q_INVOKABLE void setBirthDate(const QString &isoDate);
     Q_INVOKABLE void clearError();
 
 signals:
@@ -193,6 +203,7 @@ private:
     int m_syncedEvents = 0;
 
     int m_age = 40;
+    QDate m_birthDate;
     double m_weightKg = 75;
 
     OuraCloudClient m_cloud;

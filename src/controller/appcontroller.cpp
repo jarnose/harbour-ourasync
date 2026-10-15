@@ -304,6 +304,7 @@ AppController::AppController(QObject *parent)
         return;
     }
     m_age = m_store.setting(QStringLiteral("age"), QStringLiteral("40")).toInt();
+    m_birthDate = QDate::fromString(m_store.setting(QStringLiteral("birthdate"), QString()), Qt::ISODate);
     m_weightKg = m_store.setting(QStringLiteral("weight"), QStringLiteral("75")).toDouble();
 
     CloudStore::ensureSchema(m_store.path());
@@ -873,6 +874,42 @@ void AppController::forgetRing()
 
 // ---- profile ----------------------------------------------------------------
 
+static int yearsBetween(const QDate &born, const QDate &day)
+{
+    int years = day.year() - born.year();
+    if (day.month() < born.month() || (day.month() == born.month() && day.day() < born.day()))
+        --years;
+    return years;
+}
+
+int AppController::ageOn(const std::string &isoDate) const
+{
+    if (m_birthDate.isValid()) {
+        const QDate day = QDate::fromString(QString::fromStdString(isoDate), Qt::ISODate);
+        if (day.isValid())
+            return std::max(10, std::min(110, yearsBetween(m_birthDate, day)));
+    }
+    return m_age;
+}
+
+int AppController::profileAge() const
+{
+    if (m_birthDate.isValid())
+        return std::max(10, std::min(110, yearsBetween(m_birthDate, QDate::currentDate())));
+    return m_age;
+}
+
+void AppController::setBirthDate(const QString &isoDate)
+{
+    const QDate date = QDate::fromString(isoDate, Qt::ISODate);
+    if (!isoDate.isEmpty() && (!date.isValid() || date > QDate::currentDate() || date.year() < 1900))
+        return;
+    m_birthDate = isoDate.isEmpty() ? QDate() : date;
+    m_store.setSetting(QStringLiteral("birthdate"), isoDate.isEmpty() ? QString() : date.toString(Qt::ISODate));
+    emit profileChanged();
+    refreshSummary();
+}
+
 void AppController::setProfile(int age, double weightKg)
 {
     m_age = std::max(10, std::min(110, age));
@@ -897,7 +934,7 @@ void AppController::refreshSummary()
 
     const QString path = m_store.path();
     const QString address = m_ring.address;
-    const double age = m_age;
+    const double age = profileAge();
     const double weight = m_weightKg;
     // About three months. The history is read by when it was downloaded, which
     // is a safe bound on when it happened.
@@ -1004,7 +1041,7 @@ QVariantMap AppController::night(const QString &date) const
     for (const Night &n : m_summary->nights)
         if (n.date == key && (!best || n.asleepMin > best->asleepMin))
             best = &n;
-    return best ? nightFull(*best, m_age, m_summary->nights) : QVariantMap();
+    return best ? nightFull(*best, ageOn(best->date), m_summary->nights) : QVariantMap();
 }
 
 QVariantList AppController::days(int count) const
@@ -1267,8 +1304,13 @@ void AppController::cloudImport(int days)
     // take it from there instead of leaving it to be kept up to date by hand.
     if (error.isEmpty()) {
         OuraCloudClient::Personal personal;
-        if (m_cloud.fetchPersonal(personal).isEmpty() && personal.age)
-            setProfile(*personal.age, personal.weightKg.value_or(m_weightKg));
+        if (m_cloud.fetchPersonal(personal).isEmpty() && personal.age) {
+            // A birth date the person gave is better than a year count, which is all Oura says.
+            if (m_birthDate.isValid())
+                setProfile(m_age, personal.weightKg.value_or(m_weightKg));
+            else
+                setProfile(*personal.age, personal.weightKg.value_or(m_weightKg));
+        }
     }
 
     // A long import that stops half way (rate limit, network) keeps what it got:

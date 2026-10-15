@@ -27,15 +27,38 @@ Page {
                            + "It is not sent to the ring and does not leave the phone.")
             }
 
-            TextField {
-                id: ageField
-                width: parent.width
-                label: qsTr("Age, years")
-                text: AppController.profileAge
-                inputMethodHints: Qt.ImhDigitsOnly
-                EnterKey.iconSource: "image://theme/icon-m-enter-next"
-                EnterKey.onClicked: weightField.focus = true
-                onActiveFocusChanged: if (!activeFocus) page.saveProfile()
+            ValueButton {
+                id: birthButton
+                label: qsTr("Birthday")
+                value: AppController.birthDate.length > 0
+                       ? Qt.formatDate(new Date(AppController.birthDate + "T12:00:00"), "d.M.yyyy")
+                       : qsTr("Not set")
+                onClicked: {
+                    var start = AppController.birthDate.length > 0
+                            ? new Date(AppController.birthDate + "T12:00:00") : new Date(1985, 0, 1)
+                    var dialog = pageStack.push("Sailfish.Silica.DatePickerDialog",
+                                                { date: start, yearMin: 1920, yearMax: new Date().getFullYear() })
+                    dialog.accepted.connect(function () {
+                        var d = dialog.date
+                        var mm = d.getMonth() + 1, dd = d.getDate()
+                        AppController.setBirthDate(d.getFullYear() + "-" + (mm < 10 ? "0" : "") + mm
+                                                   + "-" + (dd < 10 ? "0" : "") + dd)
+                    })
+                }
+            }
+            DetailItem {
+                label: qsTr("Age")
+                value: AppController.profileAge
+            }
+            Label {
+                visible: AppController.birthDate.length === 0
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.Wrap
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeExtraSmall
+                text: qsTr("Without a birthday the age is the figure Oura's profile gave, or 40. The score's "
+                           + "limits step with the age, so set the birthday if you do not use Oura's cloud.")
             }
             TextField {
                 id: weightField
@@ -132,9 +155,8 @@ Page {
     }
 
     function saveProfile() {
-        var age = parseInt(ageField.text, 10)
         var weight = parseFloat(weightField.text.replace(",", "."))
-        if (!isNaN(age) && !isNaN(weight))
-            AppController.setProfile(age, weight)
+        if (!isNaN(weight))
+            AppController.setProfile(AppController.profileAge, weight)
     }
 }

@@ -55,149 +55,149 @@ Ei saatavilla: Ouran omat uni-, valmiusaste- ja aktiivisuuspisteet sekä askelee
 <context>
     <name>AppController</name>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="310"/>
-        <location filename="../src/controller/appcontroller.cpp" line="1306"/>
+        <location filename="../src/controller/appcontroller.cpp" line="285"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1331"/>
         <source>Imported</source>
         <translation>Tuotu</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="328"/>
+        <location filename="../src/controller/appcontroller.cpp" line="303"/>
         <source>Could not open the local database: %1</source>
         <translation>Paikallista tietokantaa ei voitu avata: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="385"/>
+        <location filename="../src/controller/appcontroller.cpp" line="361"/>
         <source>Another operation is still running.</source>
         <translation>Toinen toiminto on vielä käynnissä.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="402"/>
+        <location filename="../src/controller/appcontroller.cpp" line="378"/>
         <source>Done</source>
         <translation>Valmis</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="541"/>
-        <location filename="../src/controller/appcontroller.cpp" line="573"/>
+        <location filename="../src/controller/appcontroller.cpp" line="517"/>
+        <location filename="../src/controller/appcontroller.cpp" line="549"/>
         <source>The secrets vault did not answer.</source>
         <translation>Salaisuusholvi ei vastannut.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="593"/>
+        <location filename="../src/controller/appcontroller.cpp" line="569"/>
         <source>The stored key has the wrong length.</source>
         <translation>Tallennetun avaimen pituus on väärä.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="624"/>
+        <location filename="../src/controller/appcontroller.cpp" line="600"/>
         <source>Connecting to the ring…</source>
         <translation>Yhdistetään sormukseen…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="633"/>
+        <location filename="../src/controller/appcontroller.cpp" line="609"/>
         <source>The ring&apos;s key is not in the secrets vault (%1). Set the ring up again, or enter its key.</source>
         <translation>Sormuksen avainta ei löydy salaisuusholvista (%1). Ota sormus käyttöön uudelleen tai anna sen avain.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="634"/>
+        <location filename="../src/controller/appcontroller.cpp" line="610"/>
         <source>not found</source>
         <translation>ei löytynyt</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="636"/>
-        <location filename="../src/controller/appcontroller.cpp" line="795"/>
-        <location filename="../src/controller/appcontroller.cpp" line="836"/>
+        <location filename="../src/controller/appcontroller.cpp" line="612"/>
+        <location filename="../src/controller/appcontroller.cpp" line="771"/>
+        <location filename="../src/controller/appcontroller.cpp" line="812"/>
         <source>Authenticating…</source>
         <translation>Todennetaan…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="642"/>
+        <location filename="../src/controller/appcontroller.cpp" line="618"/>
         <source>The ring has been factory reset and has no key. Set it up again.</source>
         <translation>Sormus on palautettu tehdasasetuksiin eikä sillä ole avainta. Ota se käyttöön uudelleen.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="644"/>
+        <location filename="../src/controller/appcontroller.cpp" line="620"/>
         <source>The ring rejected the stored key. Another app has probably set the ring up since; a factory reset and a new set-up are needed.</source>
         <translation>Sormus hylkäsi tallennetun avaimen. Jokin toinen sovellus on luultavasti ottanut sormuksen käyttöön sen jälkeen; tarvitaan tehdasasetusten palautus ja uusi käyttöönotto.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="646"/>
+        <location filename="../src/controller/appcontroller.cpp" line="622"/>
         <source>Authentication failed: %1</source>
         <translation>Todennus epäonnistui: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="666"/>
+        <location filename="../src/controller/appcontroller.cpp" line="642"/>
         <source>Preparing the ring…</source>
         <translation>Valmistellaan sormusta…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="669"/>
+        <location filename="../src/controller/appcontroller.cpp" line="645"/>
         <source>Could not prepare the ring: %1</source>
         <translation>Sormuksen valmistelu epäonnistui: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="675"/>
+        <location filename="../src/controller/appcontroller.cpp" line="651"/>
         <source>Could not set the ring&apos;s clock: %1</source>
         <translation>Sormuksen kelloa ei voitu asettaa: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="687"/>
+        <location filename="../src/controller/appcontroller.cpp" line="663"/>
         <source>Downloading history…</source>
         <translation>Ladataan historiaa…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="695"/>
+        <location filename="../src/controller/appcontroller.cpp" line="671"/>
         <source>Downloading history: %1 events</source>
         <translation>Ladataan historiaa: %1 tapahtumaa</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="701"/>
+        <location filename="../src/controller/appcontroller.cpp" line="677"/>
         <source>History download stopped: %1</source>
         <translation>Historian lataus pysähtyi: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="742"/>
+        <location filename="../src/controller/appcontroller.cpp" line="718"/>
         <source>No ring is set up yet.</source>
         <translation>Sormusta ei ole vielä otettu käyttöön.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="745"/>
+        <location filename="../src/controller/appcontroller.cpp" line="721"/>
         <source>Syncing…</source>
         <translation>Synkronoidaan…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="752"/>
+        <location filename="../src/controller/appcontroller.cpp" line="728"/>
         <source>Bluetooth does not know this ring any more. Set it up again.</source>
         <translation>Bluetooth ei enää tunne tätä sormusta. Ota se käyttöön uudelleen.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="770"/>
-        <location filename="../src/controller/appcontroller.cpp" line="867"/>
+        <location filename="../src/controller/appcontroller.cpp" line="746"/>
+        <location filename="../src/controller/appcontroller.cpp" line="843"/>
         <source>Pairing…</source>
         <translation>Pariutetaan…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="778"/>
-        <location filename="../src/controller/appcontroller.cpp" line="858"/>
+        <location filename="../src/controller/appcontroller.cpp" line="754"/>
+        <location filename="../src/controller/appcontroller.cpp" line="834"/>
         <source>Oura ring</source>
         <translation>Oura-sormus</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="800"/>
+        <location filename="../src/controller/appcontroller.cpp" line="776"/>
         <source>Installing the ring&apos;s key…</source>
         <translation>Asennetaan sormuksen avainta…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="804"/>
+        <location filename="../src/controller/appcontroller.cpp" line="780"/>
         <source>Could not read the system&apos;s random source.</source>
         <translation>Järjestelmän satunnaislähdettä ei voitu lukea.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="813"/>
-        <location filename="../src/controller/appcontroller.cpp" line="862"/>
+        <location filename="../src/controller/appcontroller.cpp" line="789"/>
+        <location filename="../src/controller/appcontroller.cpp" line="838"/>
         <source>Could not store the key in the secrets vault: %1</source>
         <translation>Avainta ei voitu tallentaa salaisuusholviin: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="823"/>
+        <location filename="../src/controller/appcontroller.cpp" line="799"/>
         <source>The ring would not take a new key: %1
 
 A ring that is still set up with the Oura app must first be factory reset.</source>
@@ -206,63 +206,63 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
 Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palauttaa tehdasasetuksiin.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="852"/>
+        <location filename="../src/controller/appcontroller.cpp" line="828"/>
         <source>A key is 32 hexadecimal characters (16 bytes).</source>
         <translation>Avain on 32 heksadesimaalimerkkiä (16 tavua).</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="855"/>
+        <location filename="../src/controller/appcontroller.cpp" line="831"/>
         <source>Storing the key…</source>
         <translation>Tallennetaan avainta…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1188"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1200"/>
         <source>Could not store the Oura sign-in in the secrets vault: %1</source>
         <translation>Oura-kirjautumista ei voitu tallentaa salaisuusholviin: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1202"/>
-        <location filename="../src/controller/appcontroller.cpp" line="1273"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1214"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1285"/>
         <source>Another import is still running.</source>
         <translation>Toinen tuonti on vielä käynnissä.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1207"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1219"/>
         <source>Reading the export…</source>
         <translation>Luetaan vientiä…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1258"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1270"/>
         <source>Signing in to Oura…</source>
         <translation>Kirjaudutaan Ouraan…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1267"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1279"/>
         <source>Connected to Oura</source>
         <translation>Yhdistetty Ouraan</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1277"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1289"/>
         <source>Not connected to Oura.</source>
         <translation>Ei yhteyttä Ouraan.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1282"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1294"/>
         <source>Connecting to Oura…</source>
         <translation>Yhdistetään Ouraan…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1294"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1319"/>
         <source>Saving…</source>
         <translation>Tallennetaan…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1297"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1322"/>
         <source>Could not save the import: %1</source>
         <translation>Tuontia ei voitu tallentaa: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1299"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1324"/>
         <source>The import stopped early, and what was fetched so far was saved. %1</source>
         <translation>Tuonti keskeytyi aikaisin, ja tähän mennessä haettu tallennettiin. %1</translation>
     </message>
@@ -704,22 +704,22 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
 <context>
     <name>Hypnogram</name>
     <message>
-        <location filename="../qml/components/Hypnogram.qml" line="51"/>
+        <location filename="../qml/components/Hypnogram.qml" line="55"/>
         <source>Awake</source>
         <translation>Hereillä</translation>
     </message>
     <message>
-        <location filename="../qml/components/Hypnogram.qml" line="51"/>
+        <location filename="../qml/components/Hypnogram.qml" line="55"/>
         <source>REM</source>
         <translation>REM</translation>
     </message>
     <message>
-        <location filename="../qml/components/Hypnogram.qml" line="51"/>
+        <location filename="../qml/components/Hypnogram.qml" line="55"/>
         <source>Light</source>
         <translation>Kevyt</translation>
     </message>
     <message>
-        <location filename="../qml/components/Hypnogram.qml" line="51"/>
+        <location filename="../qml/components/Hypnogram.qml" line="55"/>
         <source>Deep</source>
         <translation>Syvä</translation>
     </message>
@@ -775,7 +775,7 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
 <context>
     <name>LineChart</name>
     <message>
-        <location filename="../qml/components/LineChart.qml" line="79"/>
+        <location filename="../qml/components/LineChart.qml" line="83"/>
         <source>No data</source>
         <translation>Ei tietoja</translation>
     </message>
@@ -1300,38 +1300,43 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
         <translation>Ouran vastausta ei voitu lukea.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="325"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="330"/>
+        <source>Oura answered HTTP %1 for the profile.</source>
+        <translation>Oura vastasi HTTP %1 profiilille.</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="356"/>
         <source>Not connected to Oura.</source>
         <translation>Ei yhteyttä Ouraan.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="330"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="361"/>
         <source>Fetching %1…</source>
         <translation>Haetaan: %1…</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="356"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="387"/>
         <source>Oura did not accept the sign-in (HTTP 401). Disconnect and connect again.</source>
         <translation>Oura ei hyväksynyt kirjautumista (HTTP 401). Katkaise yhteys ja yhdistä uudelleen.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="358"/>
-        <location filename="../src/cloud/ouraclient.cpp" line="398"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="389"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="429"/>
         <source>Oura says too many requests were made. Try again in a few minutes.</source>
         <translation>Oura ilmoittaa liian monesta pyynnöstä. Yritä muutaman minuutin kuluttua.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="363"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="394"/>
         <source>Oura answered HTTP %1 for %2.</source>
         <translation>Oura vastasi HTTP %1 kohteelle %2.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="376"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="407"/>
         <source>Fetching heart rate from %1…</source>
         <translation>Haetaan sykettä alkaen %1…</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="416"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="447"/>
         <source>Oura refused: %1 (no membership, or the permission was declined).</source>
         <translation>Oura kieltäytyi: %1 (ei jäsenyyttä tai lupa evättiin).</translation>
     </message>
@@ -1361,12 +1366,12 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
         <translation>Oura-datatiedostoja ei löytynyt. Vienti on ZIP, jossa on CSV-tiedostoja kuten dailysleep.csv, osoitteesta membership.ouraring.com/data-export.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1220"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1232"/>
         <source>Saving %1 documents and %2 heart rate samples…</source>
         <translation>Tallennetaan %1 dokumenttia ja %2 sykenäytettä…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1224"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1236"/>
         <source>Could not save the import: %1</source>
         <translation>Tuontia ei voitu tallentaa: %1</translation>
     </message>
@@ -1533,72 +1538,87 @@ Jos tämä toistuu, pariuta sormus kerran kohdassa Asetukset &gt; Bluetooth ja o
         <translation>Käytetään vain unipisteiden ikäryhmiin ja kalorien arvioon. Sitä ei lähetetä sormukseen eikä se poistu puhelimesta.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="33"/>
-        <source>Age, years</source>
-        <translation>Ikä, vuotta</translation>
+        <location filename="../qml/pages/SettingsPage.qml" line="32"/>
+        <source>Birthday</source>
+        <translation>Syntymäpäivä</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="43"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="35"/>
+        <source>Not set</source>
+        <translation>Ei asetettu</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="50"/>
+        <source>Age</source>
+        <translation>Ikä</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="60"/>
+        <source>Without a birthday the age is the figure Oura&apos;s profile gave, or 40. The score&apos;s limits step with the age, so set the birthday if you do not use Oura&apos;s cloud.</source>
+        <translation>Ilman syntymäpäivää ikä on Ouran profiilin antama luku tai 40. Pisteiden rajat muuttuvat iän mukana, joten aseta syntymäpäivä, jos et käytä Ouran pilveä.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="66"/>
         <source>Weight, kg</source>
         <translation>Paino, kg</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="54"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="77"/>
         <source>Oura cloud and data export</source>
         <translation>Oura-pilvi ja datavienti</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="60"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="83"/>
         <source>Ring</source>
         <translation>Sormus</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="64"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="87"/>
         <source>Name</source>
         <translation>Nimi</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="69"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="92"/>
         <source>Serial</source>
         <translation>Sarjanumero</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="74"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="97"/>
         <source>Firmware</source>
         <translation>Laiteohjelmisto</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="79"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="102"/>
         <source>Battery</source>
         <translation>Akku</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="84"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="107"/>
         <source>Last sync</source>
         <translation>Viimeisin synkronointi</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="93"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="116"/>
         <source>Back up the key</source>
         <translation>Varmuuskopioi avain</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="100"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="123"/>
         <source>Diagnostics</source>
         <translation>Diagnostiikka</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="109"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="132"/>
         <source>Forget this ring</source>
         <translation>Unohda tämä sormus</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="110"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="133"/>
         <source>Forgetting the ring and its history</source>
         <translation>Unohdetaan sormus ja sen historia</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="126"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="149"/>
         <source>Forgetting removes the stored history and the ring&apos;s key from this phone. The ring keeps its key, so back it up first if you may want to read the ring again.</source>
         <translation>Unohtaminen poistaa tallennetun historian ja sormuksen avaimen tästä puhelimesta. Sormus säilyttää avaimensa, joten varmuuskopioi se ensin, jos saatat haluta lukea sormuksen uudelleen.</translation>
     </message>
