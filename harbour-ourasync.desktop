@@ -9,7 +9,10 @@ Name=Oura Sync
 OrganizationName=io.github.jarnose
 ApplicationName=ourasync
 # Bluetooth: the ring, through BlueZ over the system bus.
-# Secrets: the ring's app-auth key lives in the Sailfish Secrets vault.
-# There is deliberately no Internet permission. The app talks to the ring and
-# to nothing else; the history never leaves the phone.
-Permissions=Bluetooth;Secrets
+# Secrets: the ring's app-auth key and the Oura cloud sign-in live in the
+# Sailfish Secrets vault.
+# Internet: only for "Import from Oura's cloud" (the Oura API), which runs when
+# the user taps it. Nothing is uploaded, and reading the ring or an Oura data
+# export file needs no network.
+# Downloads, Documents: to open a data export the user saved from Oura.
+Permissions=Bluetooth;Secrets;Internet;Downloads;Documents

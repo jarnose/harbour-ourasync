@@ -1,9 +1,16 @@
 #include "appcontroller.h"
 
+#include "analysis/cloudmerge.h"
+#include "analysis/oura_sleep_score.h"
+#include "cloud/exportimport.h"
 #include "ring/events.h"
+#include "store/cloudstore.h"
 
 #include <QCoreApplication>
+#include <QDate>
 #include <QDateTime>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QEventLoop>
 #include <QFile>
 #include <QTimeZone>
@@ -103,9 +110,60 @@ QVariant opt(const std::optional<double> &v)
     return v ? QVariant(*v) : QVariant();
 }
 
+QVariantList contributorList(const std::vector<std::pair<std::string, int>> &list)
+{
+    QVariantList out;
+    for (const auto &c : list) {
+        QVariantMap m;
+        m.insert(QStringLiteral("key"), QString::fromStdString(c.first));
+        m.insert(QStringLiteral("value"), c.second);
+        out.append(m);
+    }
+    return out;
+}
+
+// Oura's own sleep-score arithmetic (docs/oura-score-extraction.md) applied to a
+// night, for comparison with the official score. Only where the night has
+// stages: without them the inputs are not known.
+QVariantMap ouraFormulaFor(const Night &n, int age)
+{
+    QVariantMap out;
+    if (!n.staged || n.asleepMin <= 0)
+        return out;
+    OuraSleepInput in;
+    in.ageYears = age;
+    in.inBedEpochs = static_cast<int>(std::lround(n.inBedMin * 2.0));
+    in.deepEpochs = static_cast<int>(std::lround(n.deepMin * 2.0));
+    in.lightEpochs = static_cast<int>(std::lround(n.lightMin * 2.0));
+    in.remEpochs = static_cast<int>(std::lround(n.remMin * 2.0));
+    in.latencyEpochs = static_cast<int>(std::lround(n.latencyMin.value_or(0) * 2.0));
+    // Midpoint of the night, in minutes after local midnight, wrapped to -12..+12 h.
+    const int64_t mid = (n.startUnix + n.endUnix) / 2;
+    const int off = localOffsetSeconds(mid);
+    int minutes = static_cast<int>((((mid + off) % 86400) + 86400) % 86400 / 60);
+    if (minutes >= 720)
+        minutes -= 1440;
+    in.midpointMinutes = minutes;
+    const OuraSleepScore r = ouraSleepScore(in);
+
+    static const char *const names[9] = { "total_sleep", "deep_sleep", "rem_sleep", "efficiency", "latency",
+                                          "restfulness_a", "restfulness_b", "restfulness_c", "timing" };
+    QVariantMap contributors;
+    for (int i = 0; i < 9; ++i)
+        if (r.contributor[static_cast<size_t>(i)] >= 0)
+            contributors.insert(QLatin1String(names[i]), r.contributor[static_cast<size_t>(i)]);
+    out.insert(QStringLiteral("score"), r.score);
+    out.insert(QStringLiteral("complete"), r.complete);
+    out.insert(QStringLiteral("weightUsed"), r.weightUsed);
+    out.insert(QStringLiteral("contributors"), contributors);
+    return out;
+}
+
 QVariantMap nightCompact(const Night &n)
 {
     QVariantMap m;
+    m.insert(QStringLiteral("fromCloud"), n.fromCloud);
+    m.insert(QStringLiteral("ouraScore"), n.ouraScore ? QVariant(*n.ouraScore) : QVariant());
     m.insert(QStringLiteral("date"), QString::fromStdString(n.date));
     m.insert(QStringLiteral("startMs"), static_cast<double>(n.startUnix) * 1000.0);
     m.insert(QStringLiteral("endMs"), static_cast<double>(n.endUnix) * 1000.0);
@@ -130,9 +188,11 @@ QVariantMap nightCompact(const Night &n)
     return m;
 }
 
-QVariantMap nightFull(const Night &n)
+QVariantMap nightFull(const Night &n, int age = 40)
 {
     QVariantMap m = nightCompact(n);
+    m.insert(QStringLiteral("ouraContributors"), contributorList(n.ouraContributors));
+    m.insert(QStringLiteral("ouraFormula"), ouraFormulaFor(n, age));
     m.insert(QStringLiteral("latencyMin"), opt(n.latencyMin));
     m.insert(QStringLiteral("wasoMin"), opt(n.wasoMin));
     m.insert(QStringLiteral("awakenings"), n.awakenings ? QVariant(*n.awakenings) : QVariant());
@@ -165,6 +225,12 @@ QVariantMap nightFull(const Night &n)
 QVariantMap dayCompact(const Day &d)
 {
     QVariantMap m;
+    m.insert(QStringLiteral("fromCloud"), d.fromCloud);
+    m.insert(QStringLiteral("steps"), d.steps ? QVariant(*d.steps) : QVariant());
+    m.insert(QStringLiteral("totalKcal"), d.totalKcal ? QVariant(*d.totalKcal) : QVariant());
+    m.insert(QStringLiteral("activityScore"), d.ouraActivityScore ? QVariant(*d.ouraActivityScore) : QVariant());
+    m.insert(QStringLiteral("readinessScore"), d.readinessScore ? QVariant(*d.readinessScore) : QVariant());
+    m.insert(QStringLiteral("temperatureDeviation"), opt(d.temperatureDeviation));
     m.insert(QStringLiteral("date"), QString::fromStdString(d.date));
     m.insert(QStringLiteral("activeKcal"), d.activeKcal);
     m.insert(QStringLiteral("lightMin"), d.lightMin);
@@ -190,6 +256,11 @@ QVariantMap dayCompact(const Day &d)
 QVariantMap dayFull(const Day &d)
 {
     QVariantMap m = dayCompact(d);
+    m.insert(QStringLiteral("activityContributors"), contributorList(d.activityContributors));
+    m.insert(QStringLiteral("readinessContributors"), contributorList(d.readinessContributors));
+    m.insert(QStringLiteral("stressHighMin"), d.stressHighMin ? QVariant(*d.stressHighMin) : QVariant());
+    m.insert(QStringLiteral("recoveryHighMin"), d.recoveryHighMin ? QVariant(*d.recoveryHighMin) : QVariant());
+    m.insert(QStringLiteral("stressSummary"), QString::fromStdString(d.stressSummary));
     QVariantList hours;
     for (const HourStat &h : d.hr) {
         QVariantMap hm;
@@ -214,6 +285,17 @@ AppController::AppController(QObject *parent)
 {
     connect(&m_scanner, &RingScanner::deviceUpdated, this, &AppController::onDeviceUpdated);
     connect(&m_scanner, &RingScanner::errorOccurred, this, &AppController::onScannerError);
+    connect(&m_cloud, &OuraCloudClient::tokensChanged, this, &AppController::onCloudTokens);
+    connect(&m_cloud, &OuraCloudClient::authorizationReceived, this, &AppController::onCloudCode);
+    connect(&m_importWatcher, &QFutureWatcher<QString>::finished, this, [this]() {
+        const QString error = m_importWatcher.result();
+        m_cloudBusy = false;
+        reloadCloudStats();
+        setCloudStatus(QString());
+        emit cloudFinished(error.isEmpty(), error.isEmpty() ? tr("Imported") : error);
+        if (error.isEmpty())
+            refreshSummary();
+    });
     connect(&m_summaryWatcher, &QFutureWatcher<std::shared_ptr<const Oura::Summary>>::finished, this, [this]() {
         m_summary = m_summaryWatcher.result();
         m_summaryBusy = false;
@@ -234,6 +316,16 @@ AppController::AppController(QObject *parent)
     m_age = m_store.setting(QStringLiteral("age"), QStringLiteral("40")).toInt();
     m_weightKg = m_store.setting(QStringLiteral("weight"), QStringLiteral("75")).toDouble();
 
+    CloudStore::ensureSchema(m_store.path());
+    reloadCloudStats();
+    // Only what is not a secret: the application's client id and the port.
+    {
+        OuraCloudClient::Config config;
+        config.clientId = m_store.setting(QStringLiteral("cloud_client_id"));
+        config.port = static_cast<quint16>(m_store.setting(QStringLiteral("cloud_port"), QStringLiteral("8421")).toUInt());
+        m_cloud.setConfig(config);
+    }
+
     reloadRing();
     // The vault may ask the device lock, and a nested event loop belongs after
     // the application loop has started.
@@ -243,6 +335,7 @@ AppController::AppController(QObject *parent)
             m_keyStored = loadKey(m_ring.address, key);
             emit ringChanged();
         }
+        loadCloudSecrets();
         refreshSummary();
     });
 }
@@ -408,18 +501,18 @@ struct VaultWait
 
 } // namespace
 
-bool AppController::loadKey(const QString &address, Oura::AesKey &key, QString *error)
+bool AppController::loadBlob(const QString &name, QByteArray &out, QString *error)
 {
     auto state = std::make_shared<VaultWait>();
     // The collection must exist before anything is read from it; creating it
     // again is reported as success.
-    m_vault.ensureCollection([this, state, address](bool ok, const QString &err) {
+    m_vault.ensureCollection([this, state, name](bool ok, const QString &err) {
         if (!ok) {
             state->error = err;
             state->finish();
             return;
         }
-        m_vault.loadSecret(secretName(address), [state](bool ok2, const QByteArray &data, const QString &err2) {
+        m_vault.loadSecret(name, [state](bool ok2, const QByteArray &data, const QString &err2) {
             state->ok = ok2;
             state->data = data;
             state->error = err2;
@@ -428,26 +521,25 @@ bool AppController::loadKey(const QString &address, Oura::AesKey &key, QString *
     });
     state->wait();
 
-    if (!state->done || !state->ok || state->data.size() != 16) {
+    if (!state->done || !state->ok) {
         if (error)
             *error = state->done ? state->error : tr("The secrets vault did not answer.");
         return false;
     }
-    std::copy(state->data.begin(), state->data.end(), key.begin());
+    out = state->data;
     return true;
 }
 
-bool AppController::saveKey(const QString &address, const Oura::AesKey &key, QString *error)
+bool AppController::saveBlob(const QString &name, const QByteArray &data, QString *error)
 {
     auto state = std::make_shared<VaultWait>();
-    const QByteArray data(reinterpret_cast<const char *>(key.data()), 16);
-    m_vault.ensureCollection([this, state, address, data](bool ok, const QString &err) {
+    m_vault.ensureCollection([this, state, name, data](bool ok, const QString &err) {
         if (!ok) {
             state->error = err;
             state->finish();
             return;
         }
-        m_vault.storeSecret(secretName(address), data, [state](bool ok2, const QString &err2) {
+        m_vault.storeSecret(name, data, [state](bool ok2, const QString &err2) {
             state->ok = ok2;
             state->error = err2;
             state->finish();
@@ -463,11 +555,35 @@ bool AppController::saveKey(const QString &address, const Oura::AesKey &key, QSt
     return true;
 }
 
-void AppController::deleteKey(const QString &address)
+void AppController::deleteBlob(const QString &name)
 {
     auto state = std::make_shared<VaultWait>();
-    m_vault.deleteSecret(secretName(address), [state](bool, const QString &) { state->finish(); });
+    m_vault.deleteSecret(name, [state](bool, const QString &) { state->finish(); });
     state->wait();
+}
+
+bool AppController::loadKey(const QString &address, Oura::AesKey &key, QString *error)
+{
+    QByteArray data;
+    if (!loadBlob(secretName(address), data, error))
+        return false;
+    if (data.size() != 16) {
+        if (error)
+            *error = tr("The stored key has the wrong length.");
+        return false;
+    }
+    std::copy(data.begin(), data.end(), key.begin());
+    return true;
+}
+
+bool AppController::saveKey(const QString &address, const Oura::AesKey &key, QString *error)
+{
+    return saveBlob(secretName(address), QByteArray(reinterpret_cast<const char *>(key.data()), 16), error);
+}
+
+void AppController::deleteKey(const QString &address)
+{
+    deleteBlob(secretName(address));
 }
 
 QString AppController::keyHex()
@@ -752,12 +868,11 @@ void AppController::forgetRing()
         m_scanner.removeDevice(path);
     deleteKey(address);
     m_store.forgetRing(address);
-    m_summary.reset();
     m_devices.clear();
     reloadRing();
-    ++m_summaryVersion;
-    emit summaryChanged();
     emit devicesChanged();
+    // Oura's cloud data, if imported, stays and is shown on its own.
+    refreshSummary();
 }
 
 // ---- profile ----------------------------------------------------------------
@@ -776,12 +891,7 @@ void AppController::setProfile(int age, double weightKg)
 
 void AppController::refreshSummary()
 {
-    if (!hasRing()) {
-        m_summary.reset();
-        ++m_summaryVersion;
-        emit summaryChanged();
-        return;
-    }
+    // A ring is optional: Oura's cloud data can be shown without one.
     if (m_summaryBusy) {
         m_summaryStale = true;
         return;
@@ -798,12 +908,20 @@ void AppController::refreshSummary()
     const qint64 since = nowUnix() - 100LL * 86400;
 
     m_summaryWatcher.setFuture(QtConcurrent::run([path, address, age, weight, since]() {
-        const std::vector<StoredEvent> events = RingStore::readEvents(path, address, since);
+        const std::vector<StoredEvent> events = address.isEmpty()
+                ? std::vector<StoredEvent>() : RingStore::readEvents(path, address, since);
         AnalysisOptions options;
         options.ageYears = age;
         options.weightKg = weight;
         options.utcOffset = [](int64_t t) { return localOffsetSeconds(t); };
-        return std::shared_ptr<const Summary>(std::make_shared<Summary>(summarize(events, options)));
+        auto summary = std::make_shared<Summary>(summarize(events, options));
+
+        // Oura's cloud documents, if any were imported: all the history there
+        // is, and a year of heart rate for the days the ring has not covered.
+        const CloudStore::Loaded cloud = CloudStore::load(path, QStringLiteral("0000-00-00"),
+                                                          nowUnix() - 400LL * 86400);
+        mergeCloud(*summary, cloud.docs, cloud.hr, options);
+        return std::shared_ptr<const Summary>(summary);
     }));
 }
 
@@ -841,6 +959,32 @@ QVariantMap AppController::overview() const
     }
     m.insert(QStringLiteral("nightCount"), static_cast<int>(s.nights.size()));
     m.insert(QStringLiteral("unplacedEvents"), s.unplacedEvents);
+
+    // Oura's own scores for the newest day that has any.
+    {
+        QVariantMap oura;
+        for (auto it = s.nights.rbegin(); it != s.nights.rend(); ++it) {
+            if (it->main && it->ouraScore) {
+                oura.insert(QStringLiteral("sleep"), *it->ouraScore);
+                oura.insert(QStringLiteral("sleepDate"), QString::fromStdString(it->date));
+                break;
+            }
+        }
+        for (auto it = s.days.rbegin(); it != s.days.rend(); ++it) {
+            if (it->readinessScore && !oura.contains(QStringLiteral("readiness"))) {
+                oura.insert(QStringLiteral("readiness"), *it->readinessScore);
+                oura.insert(QStringLiteral("readinessDate"), QString::fromStdString(it->date));
+            }
+            if (it->ouraActivityScore && !oura.contains(QStringLiteral("activity"))) {
+                oura.insert(QStringLiteral("activity"), *it->ouraActivityScore);
+                oura.insert(QStringLiteral("activityDate"), QString::fromStdString(it->date));
+                if (it->steps)
+                    oura.insert(QStringLiteral("steps"), *it->steps);
+            }
+        }
+        if (!oura.isEmpty())
+            m.insert(QStringLiteral("oura"), oura);
+    }
     return m;
 }
 
@@ -864,7 +1008,7 @@ QVariantMap AppController::night(const QString &date) const
     for (const Night &n : m_summary->nights)
         if (n.date == key && (!best || n.asleepMin > best->asleepMin))
             best = &n;
-    return best ? nightFull(*best) : QVariantMap();
+    return best ? nightFull(*best, m_age) : QVariantMap();
 }
 
 QVariantList AppController::days(int count) const
@@ -922,8 +1066,25 @@ QVariantList AppController::trend(const QString &metric, int count) const
             v = n.deepMin;
         else if (metric == QLatin1String("rem") && n.staged)
             v = n.remMin;
+        else if (metric == QLatin1String("ouraSleep") && n.ouraScore)
+            v = *n.ouraScore;
         if (v)
             points.emplace_back(n.date, *v);
+    }
+    // Daily documents from Oura's cloud: scores and steps.
+    if (metric == QLatin1String("ouraReadiness") || metric == QLatin1String("ouraActivity")
+        || metric == QLatin1String("steps")) {
+        for (const Day &d : m_summary->days) {
+            std::optional<double> v;
+            if (metric == QLatin1String("ouraReadiness") && d.readinessScore)
+                v = *d.readinessScore;
+            else if (metric == QLatin1String("ouraActivity") && d.ouraActivityScore)
+                v = *d.ouraActivityScore;
+            else if (metric == QLatin1String("steps") && d.steps)
+                v = *d.steps;
+            if (v)
+                points.emplace_back(d.date, *v);
+        }
     }
     const size_t first = points.size() > static_cast<size_t>(count) ? points.size() - static_cast<size_t>(count) : 0;
     for (size_t i = first; i < points.size(); ++i) {
@@ -948,4 +1109,193 @@ QVariantList AppController::eventStats() const
         out.append(m);
     }
     return out;
+}
+
+// ---- Oura's cloud -------------------------------------------------------------
+
+namespace {
+
+const QString kCloudSecret = QStringLiteral("oura-cloud");
+
+} // namespace
+
+void AppController::setCloudStatus(const QString &text)
+{
+    if (m_cloudStatus == text)
+        return;
+    m_cloudStatus = text;
+    emit cloudChanged();
+}
+
+void AppController::reloadCloudStats()
+{
+    m_cloudStats = CloudStore::stats(m_store.path());
+    emit cloudChanged();
+}
+
+void AppController::loadCloudSecrets()
+{
+    QByteArray blob;
+    if (!loadBlob(kCloudSecret, blob))
+        return;
+    const QJsonObject o = QJsonDocument::fromJson(blob).object();
+    OuraCloudClient::Config config = m_cloud.config();
+    config.clientSecret = o.value(QStringLiteral("client_secret")).toString();
+    if (config.clientId.isEmpty())
+        config.clientId = o.value(QStringLiteral("client_id")).toString();
+    m_cloud.setConfig(config);
+    OuraCloudClient::Tokens tokens;
+    tokens.access = o.value(QStringLiteral("access")).toString();
+    tokens.refresh = o.value(QStringLiteral("refresh")).toString();
+    tokens.expiresUtc = static_cast<qint64>(o.value(QStringLiteral("expires")).toDouble());
+    m_cloud.setTokens(tokens);
+    emit cloudChanged();
+}
+
+void AppController::saveCloudSecrets()
+{
+    QJsonObject o;
+    const OuraCloudClient::Config config = m_cloud.config();
+    const OuraCloudClient::Tokens tokens = m_cloud.tokens();
+    o.insert(QStringLiteral("client_id"), config.clientId);
+    o.insert(QStringLiteral("client_secret"), config.clientSecret);
+    o.insert(QStringLiteral("access"), tokens.access);
+    o.insert(QStringLiteral("refresh"), tokens.refresh);
+    o.insert(QStringLiteral("expires"), static_cast<double>(tokens.expiresUtc));
+    QString error;
+    if (!saveBlob(kCloudSecret, QJsonDocument(o).toJson(QJsonDocument::Compact), &error))
+        fail(tr("Could not store the Oura sign-in in the secrets vault: %1").arg(error));
+}
+
+void AppController::onCloudTokens()
+{
+    // A refresh token is single use: the new pair must reach the vault before
+    // anything else can go wrong.
+    saveCloudSecrets();
+    emit cloudChanged();
+}
+
+void AppController::importOuraExport(const QString &path)
+{
+    if (m_cloudBusy) {
+        fail(tr("Another import is still running."));
+        return;
+    }
+    clearError();
+    m_cloudBusy = true;
+    setCloudStatus(tr("Reading the export…"));
+
+    const QString databasePath = m_store.path();
+    // Progress texts come from the worker thread: queued onto this one.
+    QPointer<AppController> self(this);
+    m_importWatcher.setFuture(QtConcurrent::run([databasePath, path, self]() -> QString {
+        const auto progress = [self](const QString &text) {
+            if (self)
+                QMetaObject::invokeMethod(self.data(), "setCloudStatusQueued", Qt::QueuedConnection, Q_ARG(QString, text));
+        };
+        ExportReadResult read = readOuraExport(path, progress);
+        if (!read.ok)
+            return read.error;
+        progress(QObject::tr("Saving %1 documents and %2 heart rate samples…")
+                         .arg(read.data.docs.size()).arg(read.data.hr.size()));
+        QString error;
+        if (!CloudStore::store(databasePath, read.data.docs, read.data.hr, &error))
+            return QObject::tr("Could not save the import: %1").arg(error);
+        return QString();
+    }));
+}
+
+QString AppController::cloudBeginAuth(const QString &clientId, const QString &clientSecret, int port)
+{
+    clearError();
+    OuraCloudClient::Config config = m_cloud.config();
+    config.clientId = clientId.trimmed();
+    config.clientSecret = clientSecret.trimmed();
+    config.port = static_cast<quint16>(std::max(1024, std::min(65535, port)));
+    m_cloud.setConfig(config);
+    m_store.setSetting(QStringLiteral("cloud_client_id"), config.clientId);
+    m_store.setSetting(QStringLiteral("cloud_port"), QString::number(config.port));
+
+    QString error;
+    const QUrl url = m_cloud.beginAuthorization(&error);
+    if (!error.isEmpty())
+        fail(error);
+    emit cloudChanged();
+    return url.toString(QUrl::FullyEncoded);
+}
+
+void AppController::onCloudCode(const QString &code)
+{
+    cloudCompleteAuth(code);
+}
+
+void AppController::cloudCompleteAuth(const QString &codeOrUrl)
+{
+    if (m_cloudBusy)
+        return;
+    m_cloudBusy = true;
+    setCloudStatus(tr("Signing in to Oura…"));
+    const QString error = m_cloud.completeAuthorization(codeOrUrl);
+    m_cloudBusy = false;
+    setCloudStatus(QString());
+    if (error.isEmpty())
+        saveCloudSecrets();
+    else
+        fail(error);
+    emit cloudChanged();
+    emit cloudFinished(error.isEmpty(), error.isEmpty() ? tr("Connected to Oura") : error);
+}
+
+void AppController::cloudImport(int days)
+{
+    if (m_cloudBusy) {
+        fail(tr("Another import is still running."));
+        return;
+    }
+    if (!m_cloud.connected()) {
+        fail(tr("Not connected to Oura."));
+        return;
+    }
+    clearError();
+    m_cloudBusy = true;
+    setCloudStatus(tr("Connecting to Oura…"));
+
+    const QDate today = QDate::currentDate();
+    OuraCloudClient::FetchRequest request;
+    request.endDay = today.toString(Qt::ISODate);
+    request.startDay = today.addDays(-std::max(1, std::min(3650, days))).toString(Qt::ISODate);
+
+    Oura::CloudImport data;
+    QString error = m_cloud.fetch(request, data, [this](const QString &text) { setCloudStatus(text); });
+    if (error.isEmpty()) {
+        setCloudStatus(tr("Saving…"));
+        if (!CloudStore::store(m_store.path(), data.docs, data.hr, &error))
+            error = tr("Could not save the import: %1").arg(error);
+    }
+    m_cloudBusy = false;
+    setCloudStatus(QString());
+    reloadCloudStats();
+    if (!error.isEmpty())
+        fail(error);
+    emit cloudFinished(error.isEmpty(), error.isEmpty() ? tr("Imported") : error);
+    if (error.isEmpty())
+        refreshSummary();
+}
+
+void AppController::cloudDisconnect()
+{
+    m_cloud.endAuthorization();
+    m_cloud.setTokens(OuraCloudClient::Tokens());
+    OuraCloudClient::Config config = m_cloud.config();
+    config.clientSecret.clear();
+    m_cloud.setConfig(config);
+    deleteBlob(kCloudSecret);
+    emit cloudChanged();
+}
+
+void AppController::cloudClear()
+{
+    CloudStore::clear(m_store.path());
+    reloadCloudStats();
+    refreshSummary();
 }

@@ -10,7 +10,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # pkgconfig(Qt5Bluetooth) at all (QtConnectivity is not part of its Qt5), so the
 # ring is reached through BlueZ's D-Bus API (org.bluez.*) with Qt5::DBus, the
 # way harbour-suuntosync does it.
-find_package(Qt5 COMPONENTS Core Sql DBus Qml Gui Quick Concurrent LinguistTools REQUIRED)
+find_package(Qt5 COMPONENTS Core Sql DBus Network Qml Gui Quick Concurrent LinguistTools REQUIRED)
+find_package(ZLIB REQUIRED)
 
 include(FindPkgConfig)
 pkg_search_module(SAILFISH sailfishapp REQUIRED)
@@ -30,6 +31,11 @@ set(CORE_SOURCES
     src/analysis/sleepscore.cpp
     src/analysis/daysummary.cpp
     src/analysis/oura_sleep_score.cpp
+    src/analysis/cloudmerge.cpp
+    src/cloud/json.cpp
+    src/cloud/csv.cpp
+    src/cloud/zip.cpp
+    src/cloud/clouddoc.cpp
 )
 
 add_executable(harbour-ourasync
@@ -39,6 +45,9 @@ add_executable(harbour-ourasync
     src/ble/ringscanner.cpp
     src/ble/ringlink.cpp
     src/store/ringstore.cpp
+    src/store/cloudstore.cpp
+    src/cloud/exportimport.cpp
+    src/cloud/ouraclient.cpp
     src/secrets/keyvault.cpp
     ${CORE_SOURCES}
 )
@@ -55,6 +64,8 @@ target_include_directories(harbour-ourasync PRIVATE
 >)
 
 target_link_libraries(harbour-ourasync
+    ZLIB::ZLIB
+    Qt5::Network
     Qt5::Quick
     Qt5::Sql
     Qt5::Concurrent

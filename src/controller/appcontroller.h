@@ -1,6 +1,7 @@
 #pragma once
 
 #include "analysis/daysummary.h"
+#include "cloud/ouraclient.h"
 #include "ble/ringlink.h"
 #include "ble/ringscanner.h"
 #include "secrets/keyvault.h"
@@ -8,6 +9,7 @@
 
 #include <QFutureWatcher>
 #include <QObject>
+#include <QPointer>
 #include <QVariantList>
 #include <QVariantMap>
 
@@ -41,6 +43,12 @@ class AppController : public QObject
     Q_PROPERTY(double profileWeight READ profileWeight NOTIFY profileChanged)
     Q_PROPERTY(int syncedEvents READ syncedEvents NOTIFY statusChanged)
     Q_PROPERTY(bool keyStored READ keyStored NOTIFY ringChanged)
+    Q_PROPERTY(bool cloudBusy READ cloudBusy NOTIFY cloudChanged)
+    Q_PROPERTY(QString cloudStatus READ cloudStatus NOTIFY cloudChanged)
+    Q_PROPERTY(bool cloudConnected READ cloudConnected NOTIFY cloudChanged)
+    Q_PROPERTY(QVariantMap cloudStats READ cloudStats NOTIFY cloudChanged)
+    Q_PROPERTY(QString cloudClientId READ cloudClientId NOTIFY cloudChanged)
+    Q_PROPERTY(int cloudPort READ cloudPort NOTIFY cloudChanged)
 
 public:
     explicit AppController(QObject *parent = nullptr);
@@ -63,6 +71,12 @@ public:
     double profileWeight() const { return m_weightKg; }
     int syncedEvents() const { return m_syncedEvents; }
     bool keyStored() const { return m_keyStored; }
+    bool cloudBusy() const { return m_cloudBusy; }
+    QString cloudStatus() const { return m_cloudStatus; }
+    bool cloudConnected() const { return m_cloud.connected(); }
+    QVariantMap cloudStats() const { return m_cloudStats; }
+    QString cloudClientId() const { return m_cloud.config().clientId; }
+    int cloudPort() const { return m_cloud.config().port; }
 
     // ---- ring discovery and set-up ----
     Q_INVOKABLE void startScan();
@@ -90,6 +104,20 @@ public:
     Q_INVOKABLE QVariantList eventStats() const;
     Q_INVOKABLE QString databasePath() const { return m_store.path(); }
 
+    // ---- Oura's cloud ----
+    // Reads an Oura data export: the ZIP, a folder of its CSV files, or one CSV.
+    // Needs no account, no membership and no network.
+    Q_INVOKABLE void importOuraExport(const QString &path);
+    // Oura Cloud API: sign in with the user's own registered application.
+    // Returns the URL to open in the browser, empty on failure (lastError set).
+    Q_INVOKABLE QString cloudBeginAuth(const QString &clientId, const QString &clientSecret, int port);
+    // Finishes the sign-in with a pasted code or redirect address.
+    Q_INVOKABLE void cloudCompleteAuth(const QString &codeOrUrl);
+    Q_INVOKABLE void cloudImport(int days);
+    Q_INVOKABLE void cloudDisconnect();
+    // Removes everything imported from the cloud (the ring's own history stays).
+    Q_INVOKABLE void cloudClear();
+
     Q_INVOKABLE void setProfile(int age, double weightKg);
     Q_INVOKABLE void clearError();
 
@@ -107,10 +135,19 @@ signals:
     void operationFinished(bool ok);
     // The ring now has a key we generated: the UI should offer a backup.
     void keyInstalled();
+    void cloudChanged();
+    // Outcome of an export import, a sign-in or an API import.
+    void cloudFinished(bool ok, const QString &message);
+
+public slots:
+    // Progress text from the import worker thread, delivered on this one.
+    void setCloudStatusQueued(const QString &text) { setCloudStatus(text); }
 
 private slots:
     void onDeviceUpdated(const RingScanner::Device &device);
     void onScannerError(const QString &message);
+    void onCloudTokens();
+    void onCloudCode(const QString &code);
 
 private:
     bool beginOperation(const QString &what);
@@ -119,6 +156,13 @@ private:
     void fail(const QString &message);
 
     // Blocking vault access: nested event loops around the async callbacks.
+    bool loadBlob(const QString &name, QByteArray &data, QString *error = nullptr);
+    bool saveBlob(const QString &name, const QByteArray &data, QString *error = nullptr);
+    void deleteBlob(const QString &name);
+    void loadCloudSecrets();
+    void saveCloudSecrets();
+    void setCloudStatus(const QString &text);
+    void reloadCloudStats();
     bool loadKey(const QString &address, Oura::AesKey &key, QString *error = nullptr);
     bool saveKey(const QString &address, const Oura::AesKey &key, QString *error = nullptr);
     void deleteKey(const QString &address);
@@ -150,6 +194,12 @@ private:
 
     int m_age = 40;
     double m_weightKg = 75;
+
+    OuraCloudClient m_cloud;
+    bool m_cloudBusy = false;
+    QString m_cloudStatus;
+    QVariantMap m_cloudStats;
+    QFutureWatcher<QString> m_importWatcher;
 
     std::shared_ptr<const Oura::Summary> m_summary;
     int m_summaryVersion = 0;
