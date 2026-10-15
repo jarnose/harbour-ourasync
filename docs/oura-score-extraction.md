@@ -141,6 +141,33 @@ Volume/Frequency) depend on a personalised target (`actinfo_get_activity_target`
 from age and sex) and on days of history; with the engine readable, both are
 reachable, and the ring's per-minute MET is the engine's own input.
 
+### What reading `get_activity_score_raw` showed (why it is not ported yet)
+
+Read in full (1,700 instructions, `0x64404`-`0x65ee0`), not ported:
+
+* it is **not a pure function of its input struct**. Besides the day's
+  `activity_score_input_t` it reads a nine-slot history of earlier days, 0x18
+  bytes per slot, from one of two global stores chosen by
+  `actinfo_get_stateless_mode()`, plus two feature flags
+  (`ecore_is_feature_enabled(3)` and `(0x17)`) that switch whole branches
+  (including a vectorised variant of the same counting). The third argument is
+  the number of history days available (compared with 9 and 10);
+* each day is five 16-bit minute counts plus a byte; an all-zero day is skipped,
+  and most contributors are *counts of days* (of the last six, nine) that pass a
+  threshold, turned into a class 0-3 and interpolated on the same
+  `0, 25, 95, 100` curve as sleep (`0x3d220`) with breakpoints from
+  `0x3d170`, `0x3d180`, `0x3d470`, `0x3d600`, `0x3d7e0`, `0x3d870`, `0x3d880`;
+* the target thresholds come from `actinfo_get_default_met_values_for_categories`
+  (age and sex), scaled by 10 and 60.
+
+A faithful port therefore has to model that history store and its feature
+flags, and the mapping from the ring's MET minutes to the five counts is not
+visible in this function. The honest next step is to verify the sleep
+restfulness against a real night first (it fixes how the app feeds the engine),
+then do this with the same emulator oracle: seed the two globals, vary the input,
+compare. Until then activity shows the ring-measured MET minutes and, for
+imported days, Oura's own score.
+
 ## Readiness: not analysed
 
 `readiness_calculate` (1.6 kB) and `recovery_run` read baselines (HRV, resting
