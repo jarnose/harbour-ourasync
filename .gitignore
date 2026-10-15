@@ -1,0 +1,32 @@
+build/
+*.user
+.qmake.stash
+.directory
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+bin/
+
+# Real captures off a real ring are personal data: sleep, heart rate and the
+# ring's serial. They stay on the machine that captured them. The tests in this
+# repository carry only synthetic bytes and vectors published by open_oura.
+tests/fixtures/
+captures/
+*.qm
+
+# The ring's app-auth key. It is the only secret in this project; the app keeps
+# it in the Sailfish Secrets vault, and nothing should ever write it to a file
+# inside the tree.
+*.key
+*.hex
+
+__pycache__/
+
+# An in-source sfdk build leaves these behind.
+RPMS/
+QtCreatorDeployment.txt
+documentation.list
+install_manifest.txt
+/harbour-ourasync
+*_autogen/
