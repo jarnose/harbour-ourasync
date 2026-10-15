@@ -165,22 +165,57 @@ QString OuraCloudClient::completeAuthorization(const QString &codeOrUrl)
     return storeTokenReply(body, status);
 }
 
+namespace {
+
+// The value of a top-level "key": "string" pair, found without a JSON parser.
+QString looseString(const QString &text, const QString &key)
+{
+    const QRegularExpression re(QStringLiteral("\"%1\"\\s*:\\s*\"([^\"]*)\"").arg(QRegularExpression::escape(key)));
+    const QRegularExpressionMatch m = re.match(text);
+    return m.hasMatch() ? m.captured(1) : QString();
+}
+
+double looseNumber(const QString &text, const QString &key, double fallback)
+{
+    const QRegularExpression re(QStringLiteral("\"%1\"\\s*:\\s*(-?[0-9.eE+]+)").arg(QRegularExpression::escape(key)));
+    const QRegularExpressionMatch m = re.match(text);
+    return m.hasMatch() ? m.captured(1).toDouble() : fallback;
+}
+
+} // namespace
+
 QString OuraCloudClient::storeTokenReply(const QByteArray &body, int status)
 {
-    const auto json = Oura::Json::parse(body.toStdString());
-    if (!json || json->str("access_token").empty()) {
-        // Say what did come back, with any token values blanked.
-        QString shown = QString::fromUtf8(body.left(300));
-        shown.replace(QRegularExpression(QStringLiteral("(\"[A-Za-z_]*token[A-Za-z_]*\"\\s*:\\s*\")[^\"]*")),
-                      QStringLiteral("\\1…"));
-        return tr("Oura's reply did not contain a token (HTTP %1): %2").arg(status).arg(shown.isEmpty() ? tr("(empty)") : shown);
-    }
     Tokens t;
-    t.access = QString::fromStdString(json->str("access_token"));
-    t.refresh = QString::fromStdString(json->str("refresh_token"));
+    double expiresIn = 86400;
+    size_t errorAt = 0;
+    const auto json = Oura::Json::parse(body.toStdString(), &errorAt);
+    if (json && !json->str("access_token").empty()) {
+        t.access = QString::fromStdString(json->str("access_token"));
+        t.refresh = QString::fromStdString(json->str("refresh_token"));
+        expiresIn = json->num("expires_in", expiresIn);
+    } else {
+        // Oura's reply carried a token that the strict parser would not take.
+        // The reply is a flat object of strings and numbers, so read the three
+        // fields that matter directly rather than refuse a good sign-in.
+        const QString text = QString::fromUtf8(body);
+        qWarning("ourasync: strict JSON parse of the token reply failed at byte %llu of %d (json=%d)",
+                 static_cast<unsigned long long>(errorAt), body.size(), json ? 1 : 0);
+        t.access = looseString(text, QStringLiteral("access_token"));
+        t.refresh = looseString(text, QStringLiteral("refresh_token"));
+        expiresIn = looseNumber(text, QStringLiteral("expires_in"), expiresIn);
+        if (t.access.isEmpty()) {
+            // Say what did come back, with any token values blanked.
+            QString shown = text.left(300);
+            shown.replace(QRegularExpression(QStringLiteral("(\"[A-Za-z_]*token[A-Za-z_]*\"\\s*:\\s*\")[^\"]*")),
+                          QStringLiteral("\\1…"));
+            return tr("Oura's reply did not contain a token (HTTP %1, parse error at byte %2): %3")
+                    .arg(status).arg(static_cast<qulonglong>(errorAt)).arg(shown.isEmpty() ? tr("(empty)") : shown);
+        }
+    }
     if (t.refresh.isEmpty())
         t.refresh = m_tokens.refresh;
-    t.expiresUtc = QDateTime::currentMSecsSinceEpoch() / 1000 + static_cast<qint64>(json->num("expires_in", 86400));
+    t.expiresUtc = QDateTime::currentMSecsSinceEpoch() / 1000 + static_cast<qint64>(expiresIn);
     m_tokens = t;
     emit tokensChanged();
     return QString();

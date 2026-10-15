@@ -327,7 +327,7 @@ FI.update({
 "That address belongs to a different sign-in. Start again.": "Tuo osoite kuuluu toiseen kirjautumiseen. Aloita alusta.",
 "There is no authorization code in what was entered.": "Annetussa ei ole valtuutuskoodia.",
 "Oura did not accept the code (HTTP %1): %2": "Oura ei hyväksynyt koodia (HTTP %1): %2",
-"Oura's reply did not contain a token (HTTP %1): %2": "Ouran vastauksessa ei ollut tunnistetta (HTTP %1): %2",
+"Oura's reply did not contain a token (HTTP %1, parse error at byte %2): %3": "Ouran vastauksessa ei ollut tunnistetta (HTTP %1, jäsennysvirhe tavussa %2): %3",
 "(empty)": "(tyhjä)",
 "Not connected to Oura. Connect again.": "Ei yhteyttä Ouraan. Yhdistä uudelleen.",
 "Oura refused to renew the sign-in (HTTP %1). Connect again.": "Oura kieltäytyi uusimasta kirjautumista (HTTP %1). Yhdistä uudelleen.",

@@ -52,7 +52,7 @@ Not available: Oura&apos;s own Sleep, Readiness and Activity scores, and step co
     <name>AppController</name>
     <message>
         <location filename="../src/controller/appcontroller.cpp" line="310"/>
-        <location filename="../src/controller/appcontroller.cpp" line="1295"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1301"/>
         <source>Imported</source>
         <translation type="unfinished"></translation>
     </message>
@@ -73,185 +73,185 @@ Not available: Oura&apos;s own Sleep, Readiness and Activity scores, and step co
     </message>
     <message>
         <location filename="../src/controller/appcontroller.cpp" line="541"/>
-        <location filename="../src/controller/appcontroller.cpp" line="567"/>
+        <location filename="../src/controller/appcontroller.cpp" line="573"/>
         <source>The secrets vault did not answer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="587"/>
+        <location filename="../src/controller/appcontroller.cpp" line="593"/>
         <source>The stored key has the wrong length.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="618"/>
+        <location filename="../src/controller/appcontroller.cpp" line="624"/>
         <source>Connecting to the ring…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="627"/>
+        <location filename="../src/controller/appcontroller.cpp" line="633"/>
         <source>The ring&apos;s key is not in the secrets vault (%1). Set the ring up again, or enter its key.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="628"/>
+        <location filename="../src/controller/appcontroller.cpp" line="634"/>
         <source>not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="630"/>
-        <location filename="../src/controller/appcontroller.cpp" line="789"/>
-        <location filename="../src/controller/appcontroller.cpp" line="830"/>
+        <location filename="../src/controller/appcontroller.cpp" line="636"/>
+        <location filename="../src/controller/appcontroller.cpp" line="795"/>
+        <location filename="../src/controller/appcontroller.cpp" line="836"/>
         <source>Authenticating…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="636"/>
+        <location filename="../src/controller/appcontroller.cpp" line="642"/>
         <source>The ring has been factory reset and has no key. Set it up again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="638"/>
+        <location filename="../src/controller/appcontroller.cpp" line="644"/>
         <source>The ring rejected the stored key. Another app has probably set the ring up since; a factory reset and a new set-up are needed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="640"/>
+        <location filename="../src/controller/appcontroller.cpp" line="646"/>
         <source>Authentication failed: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="660"/>
+        <location filename="../src/controller/appcontroller.cpp" line="666"/>
         <source>Preparing the ring…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="663"/>
+        <location filename="../src/controller/appcontroller.cpp" line="669"/>
         <source>Could not prepare the ring: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="669"/>
+        <location filename="../src/controller/appcontroller.cpp" line="675"/>
         <source>Could not set the ring&apos;s clock: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="681"/>
+        <location filename="../src/controller/appcontroller.cpp" line="687"/>
         <source>Downloading history…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="689"/>
+        <location filename="../src/controller/appcontroller.cpp" line="695"/>
         <source>Downloading history: %1 events</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="695"/>
+        <location filename="../src/controller/appcontroller.cpp" line="701"/>
         <source>History download stopped: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="736"/>
+        <location filename="../src/controller/appcontroller.cpp" line="742"/>
         <source>No ring is set up yet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="739"/>
+        <location filename="../src/controller/appcontroller.cpp" line="745"/>
         <source>Syncing…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="746"/>
+        <location filename="../src/controller/appcontroller.cpp" line="752"/>
         <source>Bluetooth does not know this ring any more. Set it up again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="764"/>
-        <location filename="../src/controller/appcontroller.cpp" line="861"/>
+        <location filename="../src/controller/appcontroller.cpp" line="770"/>
+        <location filename="../src/controller/appcontroller.cpp" line="867"/>
         <source>Pairing…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="772"/>
-        <location filename="../src/controller/appcontroller.cpp" line="852"/>
+        <location filename="../src/controller/appcontroller.cpp" line="778"/>
+        <location filename="../src/controller/appcontroller.cpp" line="858"/>
         <source>Oura ring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="794"/>
+        <location filename="../src/controller/appcontroller.cpp" line="800"/>
         <source>Installing the ring&apos;s key…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="798"/>
+        <location filename="../src/controller/appcontroller.cpp" line="804"/>
         <source>Could not read the system&apos;s random source.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="807"/>
-        <location filename="../src/controller/appcontroller.cpp" line="856"/>
+        <location filename="../src/controller/appcontroller.cpp" line="813"/>
+        <location filename="../src/controller/appcontroller.cpp" line="862"/>
         <source>Could not store the key in the secrets vault: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="817"/>
+        <location filename="../src/controller/appcontroller.cpp" line="823"/>
         <source>The ring would not take a new key: %1
 
 A ring that is still set up with the Oura app must first be factory reset.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="846"/>
+        <location filename="../src/controller/appcontroller.cpp" line="852"/>
         <source>A key is 32 hexadecimal characters (16 bytes).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="849"/>
+        <location filename="../src/controller/appcontroller.cpp" line="855"/>
         <source>Storing the key…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1182"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1188"/>
         <source>Could not store the Oura sign-in in the secrets vault: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1196"/>
-        <location filename="../src/controller/appcontroller.cpp" line="1267"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1202"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1273"/>
         <source>Another import is still running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1201"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1207"/>
         <source>Reading the export…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1252"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1258"/>
         <source>Signing in to Oura…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1261"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1267"/>
         <source>Connected to Oura</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1271"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1277"/>
         <source>Not connected to Oura.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1276"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1282"/>
         <source>Connecting to Oura…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1286"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1292"/>
         <source>Saving…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1288"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1294"/>
         <source>Could not save the import: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1254,68 +1254,68 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="176"/>
-        <source>Oura&apos;s reply did not contain a token (HTTP %1): %2</source>
+        <location filename="../src/cloud/ouraclient.cpp" line="212"/>
+        <source>Oura&apos;s reply did not contain a token (HTTP %1, parse error at byte %2): %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="176"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="213"/>
         <source>(empty)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="192"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="227"/>
         <source>Not connected to Oura. Connect again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="205"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="240"/>
         <source>Oura refused to renew the sign-in (HTTP %1). Connect again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="245"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="280"/>
         <source>Oura did not answer in time. Check the network connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="252"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="287"/>
         <source>Could not reach Oura: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="275"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="310"/>
         <source>Oura&apos;s reply could not be read.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="290"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="325"/>
         <source>Not connected to Oura.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="294"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="329"/>
         <source>Fetching %1…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="318"/>
-        <location filename="../src/cloud/ouraclient.cpp" line="357"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="353"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="392"/>
         <source>Oura says too many requests were made. Try again in a few minutes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="323"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="358"/>
         <source>Oura answered HTTP %1 for %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="335"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="370"/>
         <source>Fetching heart rate from %1…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="375"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="410"/>
         <source>Oura refused: %1 (no membership, or the permission was declined).</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1345,12 +1345,12 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1214"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1220"/>
         <source>Saving %1 documents and %2 heart rate samples…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1218"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1224"/>
         <source>Could not save the import: %1</source>
         <translation type="unfinished"></translation>
     </message>
