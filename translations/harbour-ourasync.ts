@@ -1294,28 +1294,33 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="329"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="330"/>
         <source>Fetching %1…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="353"/>
-        <location filename="../src/cloud/ouraclient.cpp" line="392"/>
-        <source>Oura says too many requests were made. Try again in a few minutes.</source>
+        <location filename="../src/cloud/ouraclient.cpp" line="356"/>
+        <source>Oura did not accept the sign-in (HTTP 401). Disconnect and connect again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/cloud/ouraclient.cpp" line="358"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="398"/>
+        <source>Oura says too many requests were made. Try again in a few minutes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="363"/>
         <source>Oura answered HTTP %1 for %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="370"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="376"/>
         <source>Fetching heart rate from %1…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="410"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="416"/>
         <source>Oura refused: %1 (no membership, or the permission was declined).</source>
         <translation type="unfinished"></translation>
     </message>

@@ -47,7 +47,7 @@ serve their data. So the sign-in here is:
 4. The tokens go into the Sailfish Secrets vault at once: a refresh token is
    single use, so the new pair is stored before anything else happens.
 
-Scopes asked: `personal daily heartrate workout session tag spo2` (the names in Oura's OpenAPI 1.41; `spo2Daily` is not one of them). The sign-in uses PKCE (S256), which Oura recommends. Applications are registered at developer.ouraring.com/applications (the old cloud.ouraring.com/oauth/applications now redirects there); an unapproved application is limited to 10 users. A
+Scopes asked: `personal daily heartrate workout session tag spo2 heart_health` (the names in Oura's OpenAPI 1.41; `spo2Daily` is not one of them). The sign-in uses PKCE (S256), which Oura recommends. Applications are registered at developer.ouraring.com/applications (the old cloud.ouraring.com/oauth/applications now redirects there); an unapproved application is limited to 10 users. A
 collection that answers 403 (no membership, or its scope was declined) is skipped
 with a note; the rest are still imported. Heart rate is fetched a week at a time.
 

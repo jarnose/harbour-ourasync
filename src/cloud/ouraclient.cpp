@@ -16,7 +16,7 @@ namespace {
 const char *const kAuthorize = "https://cloud.ouraring.com/oauth/authorize";
 const char *const kToken = "https://api.ouraring.com/oauth/token";
 const char *const kApi = "https://api.ouraring.com";
-const char *const kScopes = "personal daily heartrate workout session tag spo2";
+const char *const kScopes = "personal daily heartrate workout session tag spo2 heart_health";
 
 constexpr int kRequestTimeoutMs = 60000;
 
@@ -325,6 +325,7 @@ QString OuraCloudClient::fetch(const FetchRequest &request, Oura::CloudImport &o
         return tr("Not connected to Oura.");
 
     QStringList skipped;
+    bool anyAnswered = false;
     for (const Endpoint &e : kEndpoints) {
         progress(tr("Fetching %1…").arg(QString::fromLatin1(e.kind)));
         QString next;
@@ -343,12 +344,16 @@ QString OuraCloudClient::fetch(const FetchRequest &request, Oura::CloudImport &o
             const QString error = getJson(url, reply, status);
             if (!error.isEmpty())
                 return error;
-            if (status == 403) {
-                // Refused for this collection: no membership, or the scope was
-                // unticked at sign-in. The others may still work.
+            // 403 is a refused collection (no membership, or the scope was unticked at
+            // sign-in). Oura answers 401 for a collection whose scope the sign-in
+            // does not cover, too, even though the token itself is good: getJson
+            // has already renewed it once, and other collections have answered.
+            if (status == 403 || (status == 401 && anyAnswered)) {
                 skipped << QString::fromLatin1(e.kind);
                 break;
             }
+            if (status == 401)
+                return tr("Oura did not accept the sign-in (HTTP 401). Disconnect and connect again.");
             if (status == 429)
                 return tr("Oura says too many requests were made. Try again in a few minutes.");
             if (status == 404) {
@@ -356,6 +361,7 @@ QString OuraCloudClient::fetch(const FetchRequest &request, Oura::CloudImport &o
             }
             if (status != 200)
                 return tr("Oura answered HTTP %1 for %2.").arg(status).arg(QString::fromLatin1(e.kind));
+            anyAnswered = true;
             next = QString::fromStdString(Oura::addApiPage(out, e.kind, reply));
         } while (!next.isEmpty() && ++pages < 500);
     }
@@ -383,7 +389,7 @@ QString OuraCloudClient::fetch(const FetchRequest &request, Oura::CloudImport &o
                 const QString error = getJson(url, reply, status);
                 if (!error.isEmpty())
                     return error;
-                if (status == 403) {
+                if (status == 403 || (status == 401 && anyAnswered)) {
                     skipped << QStringLiteral("heartrate");
                     from = end; // the whole series is refused
                     break;

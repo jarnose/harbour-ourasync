@@ -1300,28 +1300,33 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
         <translation>Ei yhteyttä Ouraan.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="329"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="330"/>
         <source>Fetching %1…</source>
         <translation>Haetaan: %1…</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="353"/>
-        <location filename="../src/cloud/ouraclient.cpp" line="392"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="356"/>
+        <source>Oura did not accept the sign-in (HTTP 401). Disconnect and connect again.</source>
+        <translation>Oura ei hyväksynyt kirjautumista (HTTP 401). Katkaise yhteys ja yhdistä uudelleen.</translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="358"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="398"/>
         <source>Oura says too many requests were made. Try again in a few minutes.</source>
         <translation>Oura ilmoittaa liian monesta pyynnöstä. Yritä muutaman minuutin kuluttua.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="358"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="363"/>
         <source>Oura answered HTTP %1 for %2.</source>
         <translation>Oura vastasi HTTP %1 kohteelle %2.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="370"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="376"/>
         <source>Fetching heart rate from %1…</source>
         <translation>Haetaan sykettä alkaen %1…</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="410"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="416"/>
         <source>Oura refused: %1 (no membership, or the permission was declined).</source>
         <translation>Oura kieltäytyi: %1 (ei jäsenyyttä tai lupa evättiin).</translation>
     </message>
