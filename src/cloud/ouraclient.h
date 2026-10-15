@@ -88,7 +88,7 @@ private slots:
 private:
     QString ensureAccessToken();
     QString refreshTokens();
-    QString storeTokenReply(const QByteArray &body);
+    QString storeTokenReply(const QByteArray &body, int status);
     // GET with the bearer token; 401 triggers one refresh and a retry.
     QString getJson(const QUrl &url, Oura::Json &out, int &status);
     QByteArray exchange(const QUrl &url, const QByteArray &post, int &status, QString &error, bool bearer);

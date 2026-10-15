@@ -12,6 +12,9 @@ Page {
     property bool importKey: false
     property string chosenPath: ""
     property string chosenName: ""
+    // The key field lives in the list's header, whose ids the delegates and the
+    // functions of this page cannot see: it reports into this property.
+    property string keyText: ""
 
     // Set when this run installed a fresh key: the user must then be shown it.
     property bool keyWasInstalled: false
@@ -37,7 +40,7 @@ Page {
     function begin(path) {
         AppController.clearError()
         if (importKey)
-            AppController.useExistingKey(path, keyField.text)
+            AppController.useExistingKey(path, page.keyText)
         else
             AppController.setUpNewRing(path)
     }
@@ -94,6 +97,7 @@ Page {
                 label: qsTr("Key, 32 hexadecimal characters")
                 placeholderText: label
                 font.family: "monospace"
+                onTextChanged: page.keyText = text
                 inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase | Qt.ImhSensitiveData
                 EnterKey.iconSource: "image://theme/icon-m-enter-close"
                 EnterKey.onClicked: focus = false
@@ -148,7 +152,7 @@ Page {
         delegate: ListItem {
             id: item
             contentHeight: Theme.itemSizeMedium
-            enabled: !page.importKey || keyField.text.length >= 32
+            enabled: !page.importKey || page.keyText.replace(/[^0-9a-fA-F]/g, "").length >= 32
 
             onClicked: {
                 page.chosenPath = modelData.path

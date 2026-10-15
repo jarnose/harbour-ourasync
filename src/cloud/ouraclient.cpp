@@ -5,6 +5,7 @@
 #include <QEventLoop>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QRegularExpression>
 #include <QTcpSocket>
 #include <QTimer>
 #include <QUrlQuery>
@@ -161,14 +162,19 @@ QString OuraCloudClient::completeAuthorization(const QString &codeOrUrl)
     if (status != 200)
         return tr("Oura did not accept the code (HTTP %1): %2").arg(status).arg(QString::fromUtf8(body.left(200)));
     endAuthorization();
-    return storeTokenReply(body);
+    return storeTokenReply(body, status);
 }
 
-QString OuraCloudClient::storeTokenReply(const QByteArray &body)
+QString OuraCloudClient::storeTokenReply(const QByteArray &body, int status)
 {
     const auto json = Oura::Json::parse(body.toStdString());
-    if (!json || json->str("access_token").empty())
-        return tr("Oura's reply did not contain a token.");
+    if (!json || json->str("access_token").empty()) {
+        // Say what did come back, with any token values blanked.
+        QString shown = QString::fromUtf8(body.left(300));
+        shown.replace(QRegularExpression(QStringLiteral("(\"[A-Za-z_]*token[A-Za-z_]*\"\\s*:\\s*\")[^\"]*")),
+                      QStringLiteral("\\1…"));
+        return tr("Oura's reply did not contain a token (HTTP %1): %2").arg(status).arg(shown.isEmpty() ? tr("(empty)") : shown);
+    }
     Tokens t;
     t.access = QString::fromStdString(json->str("access_token"));
     t.refresh = QString::fromStdString(json->str("refresh_token"));
@@ -197,7 +203,7 @@ QString OuraCloudClient::refreshTokens()
         return error;
     if (status != 200)
         return tr("Oura refused to renew the sign-in (HTTP %1). Connect again.").arg(status);
-    return storeTokenReply(body);
+    return storeTokenReply(body, status);
 }
 
 QString OuraCloudClient::ensureAccessToken()

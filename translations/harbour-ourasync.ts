@@ -1229,88 +1229,93 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
 <context>
     <name>OuraCloudClient</name>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="67"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="68"/>
         <source>Enter the client id and client secret of your Oura application first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="72"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="73"/>
         <source>Could not listen on port %1 for Oura&apos;s redirect: %2. You can still paste the address the browser ends up on.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="141"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="142"/>
         <source>That address belongs to a different sign-in. Start again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="144"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="145"/>
         <source>There is no authorization code in what was entered.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="162"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="163"/>
         <source>Oura did not accept the code (HTTP %1): %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="171"/>
-        <source>Oura&apos;s reply did not contain a token.</source>
+        <location filename="../src/cloud/ouraclient.cpp" line="176"/>
+        <source>Oura&apos;s reply did not contain a token (HTTP %1): %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="186"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="176"/>
+        <source>(empty)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/cloud/ouraclient.cpp" line="192"/>
         <source>Not connected to Oura. Connect again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="199"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="205"/>
         <source>Oura refused to renew the sign-in (HTTP %1). Connect again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="239"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="245"/>
         <source>Oura did not answer in time. Check the network connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="246"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="252"/>
         <source>Could not reach Oura: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="269"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="275"/>
         <source>Oura&apos;s reply could not be read.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="284"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="290"/>
         <source>Not connected to Oura.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="288"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="294"/>
         <source>Fetching %1…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="312"/>
-        <location filename="../src/cloud/ouraclient.cpp" line="351"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="318"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="357"/>
         <source>Oura says too many requests were made. Try again in a few minutes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="317"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="323"/>
         <source>Oura answered HTTP %1 for %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="329"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="335"/>
         <source>Fetching heart rate from %1…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="369"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="375"/>
         <source>Oura refused: %1 (no membership, or the permission was declined).</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1583,62 +1588,62 @@ If this keeps happening, pair the ring once in Settings &gt; Bluetooth, then set
 <context>
     <name>SetupPage</name>
     <message>
-        <location filename="../qml/pages/SetupPage.qml" line="56"/>
+        <location filename="../qml/pages/SetupPage.qml" line="59"/>
         <source>Set up ring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetupPage.qml" line="65"/>
+        <location filename="../qml/pages/SetupPage.qml" line="68"/>
         <source>A ring has one owner. To use it here it must be factory reset first: remove it from the Oura app, then reset it (on a Gen 3 or 4 dock: place the ring, wait two seconds, flip the dock upside down, up, down and up again, waiting for the light to turn blue, red, magenta and yellow). Do not finish the Oura app&apos;s set-up afterwards: that installs Oura&apos;s own key and locks this app out.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetupPage.qml" line="78"/>
+        <location filename="../qml/pages/SetupPage.qml" line="81"/>
         <source>After set-up the Oura app can no longer use this ring until it is reset again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetupPage.qml" line="83"/>
+        <location filename="../qml/pages/SetupPage.qml" line="86"/>
         <source>My ring already has a key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetupPage.qml" line="84"/>
+        <location filename="../qml/pages/SetupPage.qml" line="87"/>
         <source>Use this after reinstalling the app, with the key you saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetupPage.qml" line="94"/>
+        <location filename="../qml/pages/SetupPage.qml" line="97"/>
         <source>Key, 32 hexadecimal characters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetupPage.qml" line="103"/>
+        <location filename="../qml/pages/SetupPage.qml" line="107"/>
         <source>Looking for rings…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetupPage.qml" line="103"/>
+        <location filename="../qml/pages/SetupPage.qml" line="107"/>
         <source>Rings nearby</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetupPage.qml" line="113"/>
+        <location filename="../qml/pages/SetupPage.qml" line="117"/>
         <source>None yet. Keep the ring close to the phone and make sure no other phone is connected to it. A factory-reset ring starts advertising once the reset has finished.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetupPage.qml" line="159"/>
+        <location filename="../qml/pages/SetupPage.qml" line="163"/>
         <source>Setting up %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetupPage.qml" line="179"/>
+        <location filename="../qml/pages/SetupPage.qml" line="183"/>
         <source>paired</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SetupPage.qml" line="180"/>
+        <location filename="../qml/pages/SetupPage.qml" line="184"/>
         <source>this ring</source>
         <translation type="unfinished"></translation>
     </message>
