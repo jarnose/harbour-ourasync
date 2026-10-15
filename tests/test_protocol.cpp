@@ -38,6 +38,7 @@ static void requests()
     for (size_t i = 0; i < 16; ++i)
         key[i] = static_cast<uint8_t>(i);
     CHECK_EQ(toHex(req::setAuthKey(key)), std::string("241000" "0102030405060708090a0b0c0d0e0f"));
+    CHECK_EQ(toHex(req::factoryReset()), std::string("1a00"));
     AesBlock enc{};
     CHECK_EQ(toHex(req::authenticate(enc)), std::string("2f112d00000000000000000000000000000000"));
 }

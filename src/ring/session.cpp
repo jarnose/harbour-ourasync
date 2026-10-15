@@ -143,6 +143,18 @@ Outcome RingSession::setAuthKey(const AesKey &key)
     return {};
 }
 
+Outcome RingSession::factoryReset()
+{
+    std::vector<Packet> packets;
+    Outcome o = request(req::factoryReset(), [](const Packet &p) { return p.tag == 0x1b; }, packets, 3000);
+    if (!o.ok)
+        return o;
+    if (const Packet *p = findTag(packets, 0x1b))
+        if (!p->payload.empty() && p->payload[0] != 0x00)
+            return Outcome::failure("the ring refused the reset (status " + std::to_string(p->payload[0]) + ")");
+    return {};
+}
+
 Outcome RingSession::battery(Battery &out)
 {
     std::vector<Packet> packets;

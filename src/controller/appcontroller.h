@@ -97,6 +97,9 @@ public:
     Q_INVOKABLE bool useExistingKey(const QString &devicePath, const QString &hexKey);
     Q_INVOKABLE void syncNow();
     Q_INVOKABLE void forgetRing();
+    // Syncs the ring one last time, then erases its key, bonds and stored history, so that it can
+    // be set up here again or on another phone. The history already on this phone stays.
+    Q_INVOKABLE void factoryResetRing();
     // Hex of the stored key for the user's own backup; empty if there is none.
     Q_INVOKABLE QString keyHex();
 

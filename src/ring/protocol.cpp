@@ -84,6 +84,11 @@ Bytes setAuthKey(const AesKey &key)
     return encodePacket(0x24, Bytes(key.begin(), key.end()));
 }
 
+Bytes factoryReset()
+{
+    return encodePacket(0x1a, Bytes());
+}
+
 Bytes syncTime(uint64_t unixSeconds, int8_t timezoneHalfHours)
 {
     Bytes payload;

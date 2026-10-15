@@ -112,6 +112,27 @@ static void keyInstall()
     CHECK(o.error.find("factory reset") != std::string::npos);
 }
 
+static void factoryReset()
+{
+    // The ring drops the link before it answers: no answer is a success.
+    MockRing quiet;
+    quiet.script["1a00"] = {};
+    RingSession a(quiet);
+    CHECK(a.factoryReset().ok);
+
+    MockRing answered;
+    answered.script["1a00"] = { "1b0200" };
+    CHECK(RingSession(answered).factoryReset().ok);
+
+    MockRing refused;
+    refused.script["1a00"] = { "1b0201" };
+    CHECK(!RingSession(refused).factoryReset().ok);
+
+    MockRing dead;
+    dead.linkUp = false;
+    CHECK(!RingSession(dead).factoryReset().ok);
+}
+
 static void reads()
 {
     MockRing ring;
@@ -332,6 +353,7 @@ int main()
 {
     authentication();
     keyInstall();
+    factoryReset();
     reads();
     draining();
     legacyFallback();

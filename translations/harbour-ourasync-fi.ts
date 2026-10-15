@@ -56,7 +56,7 @@ Ei saatavilla: Ouran omat uni-, valmiusaste- ja aktiivisuuspisteet sekä askelee
     <name>AppController</name>
     <message>
         <location filename="../src/controller/appcontroller.cpp" line="285"/>
-        <location filename="../src/controller/appcontroller.cpp" line="1331"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1376"/>
         <source>Imported</source>
         <translation>Tuotu</translation>
     </message>
@@ -155,6 +155,7 @@ Ei saatavilla: Ouran omat uni-, valmiusaste- ja aktiivisuuspisteet sekä askelee
     </message>
     <message>
         <location filename="../src/controller/appcontroller.cpp" line="718"/>
+        <location filename="../src/controller/appcontroller.cpp" line="861"/>
         <source>No ring is set up yet.</source>
         <translation>Sormusta ei ole vielä otettu käyttöön.</translation>
     </message>
@@ -216,53 +217,68 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
         <translation>Tallennetaan avainta…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1200"/>
+        <location filename="../src/controller/appcontroller.cpp" line="864"/>
+        <source>Syncing before the reset…</source>
+        <translation>Synkronoidaan ennen nollausta…</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="871"/>
+        <source>Bluetooth does not know this ring any more. Reset it with the charger instead.</source>
+        <translation>Bluetooth ei enää tunne tätä sormusta. Nollaa se latauslaitteella.</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="882"/>
+        <source>Resetting the ring…</source>
+        <translation>Nollataan sormusta…</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1245"/>
         <source>Could not store the Oura sign-in in the secrets vault: %1</source>
         <translation>Oura-kirjautumista ei voitu tallentaa salaisuusholviin: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1214"/>
-        <location filename="../src/controller/appcontroller.cpp" line="1285"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1259"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1330"/>
         <source>Another import is still running.</source>
         <translation>Toinen tuonti on vielä käynnissä.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1219"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1264"/>
         <source>Reading the export…</source>
         <translation>Luetaan vientiä…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1270"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1315"/>
         <source>Signing in to Oura…</source>
         <translation>Kirjaudutaan Ouraan…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1279"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1324"/>
         <source>Connected to Oura</source>
         <translation>Yhdistetty Ouraan</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1289"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1334"/>
         <source>Not connected to Oura.</source>
         <translation>Ei yhteyttä Ouraan.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1294"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1339"/>
         <source>Connecting to Oura…</source>
         <translation>Yhdistetään Ouraan…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1319"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1364"/>
         <source>Saving…</source>
         <translation>Tallennetaan…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1322"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1367"/>
         <source>Could not save the import: %1</source>
         <translation>Tuontia ei voitu tallentaa: %1</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1324"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1369"/>
         <source>The import stopped early, and what was fetched so far was saved. %1</source>
         <translation>Tuonti keskeytyi aikaisin, ja tähän mennessä haettu tallennettiin. %1</translation>
     </message>
@@ -1366,12 +1382,12 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
         <translation>Oura-datatiedostoja ei löytynyt. Vienti on ZIP, jossa on CSV-tiedostoja kuten dailysleep.csv, osoitteesta membership.ouraring.com/data-export.</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1232"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1277"/>
         <source>Saving %1 documents and %2 heart rate samples…</source>
         <translation>Tallennetaan %1 dokumenttia ja %2 sykenäytettä…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1236"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1281"/>
         <source>Could not save the import: %1</source>
         <translation>Tuontia ei voitu tallentaa: %1</translation>
     </message>
@@ -1618,7 +1634,32 @@ Jos tämä toistuu, pariuta sormus kerran kohdassa Asetukset &gt; Bluetooth ja o
         <translation>Unohdetaan sormus ja sen historia</translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="149"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="144"/>
+        <source>Factory reset</source>
+        <translation>Tehdasasetukset</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="153"/>
+        <source>To move the ring to another phone, or to use it with the Oura app again, reset it. The app first reads what the ring holds, then erases the ring&apos;s key, its Bluetooth pairings and its stored history. What is already on this phone stays. Afterwards the ring can be set up here again, or on another phone; the Oura app will install its own key.</source>
+        <translation>Jos haluat siirtää sormuksen toiseen puhelimeen tai käyttää sitä taas Oura-sovelluksella, nollaa se. Sovellus lukee ensin sormuksen sisällön ja poistaa sitten sormuksen avaimen, Bluetooth-parit ja tallennetun historian. Se, mikä on jo tässä puhelimessa, säilyy. Sen jälkeen sormuksen voi asettaa uudelleen täällä tai toisessa puhelimessa; Oura-sovellus asentaa siihen oman avaimensa.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="164"/>
+        <source>Factory reset the ring</source>
+        <translation>Nollaa sormus tehdasasetuksille</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="165"/>
+        <source>Resetting the ring</source>
+        <translation>Nollataan sormusta</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="177"/>
+        <source>If the key is lost, or the ring will not connect, the app cannot reset it: lift the ring off its charger, put it back and wait two seconds. Then flip the charger with the ring on it upside down until the light turns blue, upside up until red, upside down until magenta and upside up until yellow. After a few minutes the light blinks blue: the ring is reset, and what it held is gone. Do not finish the Oura app&apos;s set-up afterwards unless you want its key.</source>
+        <translation>Jos avain on kadonnut tai sormus ei yhdisty, sovellus ei voi nollata sitä: nosta sormus pois latauslaitteesta, laita se takaisin ja odota kaksi sekuntia. Käännä sitten latauslaite sormus päällä ylösalaisin, kunnes valo muuttuu siniseksi, oikein päin, kunnes punaiseksi, ylösalaisin, kunnes magentaksi, ja oikein päin, kunnes keltaiseksi. Muutaman minuutin kuluttua valo vilkkuu sinisenä: sormus on nollattu ja sen sisältämä tieto on poissa. Älä päätä Oura-sovelluksen käyttöönottoa, ellet halua sen avainta.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="192"/>
         <source>Forgetting removes the stored history and the ring&apos;s key from this phone. The ring keeps its key, so back it up first if you may want to read the ring again.</source>
         <translation>Unohtaminen poistaa tallennetun historian ja sormuksen avaimen tästä puhelimesta. Sormus säilyttää avaimensa, joten varmuuskopioi se ensin, jos saatat haluta lukea sormuksen uudelleen.</translation>
     </message>

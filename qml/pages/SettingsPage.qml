@@ -139,6 +139,49 @@ Page {
             }
             RemorseItem { id: remorse }
 
+            SectionHeader {
+                visible: AppController.hasRing
+                text: qsTr("Factory reset")
+            }
+            Label {
+                visible: AppController.hasRing
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.Wrap
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeSmall
+                text: qsTr("To move the ring to another phone, or to use it with the Oura app again, reset it. "
+                           + "The app first reads what the ring holds, then erases the ring's key, its "
+                           + "Bluetooth pairings and its stored history. What is already on this phone stays. "
+                           + "Afterwards the ring can be set up here again, or on another phone; the Oura "
+                           + "app will install its own key.")
+            }
+            ButtonLayout {
+                visible: AppController.hasRing
+                Button {
+                    id: resetButton
+                    enabled: !AppController.busy
+                    text: qsTr("Factory reset the ring")
+                    onClicked: resetRemorse.execute(resetButton, qsTr("Resetting the ring"),
+                                                    function () { AppController.factoryResetRing() }, 8000)
+                }
+            }
+            RemorseItem { id: resetRemorse }
+            Label {
+                visible: AppController.hasRing
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.Wrap
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeSmall
+                text: qsTr("If the key is lost, or the ring will not connect, the app cannot reset it: "
+                           + "lift the ring off its charger, put it back and wait two seconds. Then flip "
+                           + "the charger with the ring on it upside down until the light turns blue, upside up "
+                           + "until red, upside down until magenta and upside up until yellow. After a few "
+                           + "minutes the light blinks blue: the ring is reset, and what it held is gone. "
+                           + "Do not finish the Oura app's set-up afterwards unless you want its key.")
+            }
+
             Label {
                 visible: AppController.hasRing
                 x: Theme.horizontalPageMargin

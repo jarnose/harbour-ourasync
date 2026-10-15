@@ -68,6 +68,11 @@ public:
     // Installs a key on a factory-reset ring.
     Outcome setAuthKey(const AesKey &key);
 
+    // Erases the ring: key, bonds and its stored history. Needs an authenticated session. The
+    // ring usually drops the link before it answers, so no answer is not a failure; a status
+    // other than zero in an answer is.
+    Outcome factoryReset();
+
     Outcome battery(Battery &out);
     Outcome syncTime(uint64_t unixSeconds, int8_t timezoneHalfHours);
     Outcome checkSleepAnalysis();

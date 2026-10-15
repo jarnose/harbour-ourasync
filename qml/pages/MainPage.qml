@@ -56,7 +56,7 @@ Page {
                 onClicked: pageStack.push(Qt.resolvedUrl("CloudPage.qml"))
             }
             MenuItem {
-                visible: !AppController.hasRing
+                visible: !AppController.hasRing || !AppController.keyStored
                 text: qsTr("Set up ring")
                 onClicked: pageStack.push(Qt.resolvedUrl("SetupPage.qml"))
             }

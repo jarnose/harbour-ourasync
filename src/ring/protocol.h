@@ -60,6 +60,8 @@ Bytes authNonce();
 Bytes authenticate(const AesBlock &encryptedNonce);
 // Installs the app-auth key. Only a factory-reset ring accepts it.
 Bytes setAuthKey(const AesKey &key);
+// Erases the key, every bond and the ring's own history (open_oura, docs/factory-reset.md).
+Bytes factoryReset();
 // `12 09 <u64 LE unix seconds> <timezone in half hours>`. This is the shape
 // SyncTime.generateRequestBytes builds in the Android app (7.27.0).
 Bytes syncTime(uint64_t unixSeconds, int8_t timezoneHalfHours);

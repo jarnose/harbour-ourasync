@@ -855,6 +855,51 @@ bool AppController::useExistingKey(const QString &devicePath, const QString &hex
     return error.isEmpty();
 }
 
+void AppController::factoryResetRing()
+{
+    if (!hasRing()) {
+        fail(tr("No ring is set up yet."));
+        return;
+    }
+    if (!beginOperation(tr("Syncing before the reset…")))
+        return;
+
+    const QString address = m_ring.address;
+    const QString path = m_scanner.devicePathForAddress(address);
+    QString error;
+    if (path.isEmpty()) {
+        endOperation(false, tr("Bluetooth does not know this ring any more. Reset it with the charger instead."));
+        return;
+    }
+    error = ensureOpen(path);
+    if (error.isEmpty()) {
+        Oura::RingSession session(m_link);
+        error = authenticated(address, session);
+        // What the ring holds goes with the reset, so it is drawn off first.
+        if (error.isEmpty())
+            error = runSync(address, session);
+        if (error.isEmpty()) {
+            setStatus(tr("Resetting the ring…"));
+            const Oura::Outcome o = session.factoryReset();
+            if (!o.ok)
+                error = QString::fromStdString(o.error);
+        }
+    }
+    m_link.close(true);
+    if (error.isEmpty()) {
+        // The ring has no key now, and no bond; its clock may restart, so the next sync reads
+        // from the beginning (what is already stored is skipped).
+        deleteKey(address);
+        m_keyStored = false;
+        m_store.setCursor(address, 0);
+        m_scanner.removeDevice(path);
+        m_devices.clear();
+        emit devicesChanged();
+        emit ringChanged();
+    }
+    endOperation(error.isEmpty(), error);
+}
+
 void AppController::forgetRing()
 {
     if (m_busy || !hasRing())
