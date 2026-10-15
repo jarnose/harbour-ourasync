@@ -36,9 +36,13 @@ struct OuraSleepInput
 
     // Midpoint of the sleep, minutes after midnight (negative before it).
     int midpointMinutes = 0;
-    // Centre of the ideal midpoint when the user's chronotype is known; Oura's
-    // default is 03:00 (180).
-    std::optional<int> chronotypeCenterMinutes;
+    // The chronotype byte the engine is given, and its centre in minutes. The
+    // native rule: 255 means "none": a fixed curve on the distance from 01:30; 1-6
+    // are real chronotypes and centre a narrower plateau on `chronotypeCenterMinutes`;
+    // anything else (0 included) is the default plateau around 03:00. Oura's
+    // own app sends the last of these when the user has no chronotype yet.
+    int chronotypeType = 0;
+    int chronotypeCenterMinutes = 0;
 
     // The native restfulness inputs, which need the motion state machine.
     std::optional<int> restfulA;

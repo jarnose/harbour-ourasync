@@ -106,6 +106,7 @@ static void timing()
     CHECK_EQ(at(180 + 45 + 280), 0);
     CHECK_EQ(at(-720), 0);         // noon: nowhere near
     // A known chronotype narrows the plateau to +-30 around its own centre.
+    in.chronotypeType = 3;
     in.chronotypeCenterMinutes = 120;
     in.midpointMinutes = 120 + 30;
     CHECK_EQ(ouraSleepScore(in).contributor[8], 100);

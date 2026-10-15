@@ -26,6 +26,9 @@ const std::array<std::array<int, 4>, 6> kStaticLimits = {{
     { 390, 240, 100, 90 },  // 8: timing, when no chronotype is known
 }};
 
+const float kDeepSlope = -1.13399994373321533203125f;    // 0xbf9126e9
+const float kDeepIntercept = 115.63999938964843750f;       // 0x42e747ae
+
 int roundHalfAway(float x)
 {
     return static_cast<int>(std::lround(x));
@@ -63,7 +66,9 @@ std::array<int, 4> ouraSleepLimits(int index, int ageYears)
     if (index == 1) {
         // Deep sleep target in minutes, from a single-precision fused
         // multiply-add exactly as the native code does it.
-        const float line = std::fma(static_cast<float>(age), -1.1334f, 115.64f);
+        // The two constants are the library's own single-precision values (bit patterns
+        // 0xbf9126e9 and 0x42e747ae), not the nearest short decimals.
+        const float line = std::fma(static_cast<float>(age), kDeepSlope, kDeepIntercept);
         const int target = std::max(roundHalfAway(line), 20);
         return { 0, roundHalfAway(static_cast<float>(target) / 4.0f), target,
                  roundHalfAway(static_cast<float>(target) * 1.25f) };
@@ -100,13 +105,19 @@ int ouraCurve(int v, const std::array<int, 4> &r)
 
 namespace {
 
-// Sleep timing: a trapezoid around the ideal midpoint. 100 inside +-45 minutes
-// of it (+-30 when the chronotype is known), 25 at 150 minutes beyond that and
-// 0 at 280. Read from sleep_timing_score_calculate; see the doc for its status.
-int timingScore(int midpoint, std::optional<int> chronotypeCenter)
+// Sleep timing. With a chronotype (type 1-6) a trapezoid around its centre: 100
+// within 30 minutes of it, 25 at 150 minutes beyond that, 0 at 280. With none of
+// the six (0 or 7-254: what the app sends before a chronotype is known) the same
+// trapezoid around 03:00, 45 minutes wide. With 255 the engine does not use this
+// function at all but the fixed row {390, 240, 100, 90} on |midpoint - 90|.
+// Read from sleep_timing_score_calculate; checked against the library itself by
+// tools/apk/diff_sleep_score.py.
+int timingScore(int midpoint, int type, int center)
 {
-    const bool known = chronotypeCenter.has_value();
-    const float c = known ? static_cast<float>(*chronotypeCenter) : 180.0f;
+    if (type == 255)
+        return ouraCurve(std::abs(midpoint - 90), kStaticLimits[5]);
+    const bool known = type >= 1 && type <= 6;
+    const float c = known ? static_cast<float>(center) : 180.0f;
     const float lo = known ? -30.0f : -45.0f;
     const float hi = known ? 30.0f : 45.0f;
     const float x[6] = { c + lo - 280, c + lo - 150, c + lo, c + hi, c + hi + 150, c + hi + 280 };
@@ -116,8 +127,10 @@ int timingScore(int midpoint, std::optional<int> chronotypeCenter)
         return 0;
     for (int i = 1; i < 6; ++i) {
         if (m <= x[i]) {
-            const float t = (m - x[i - 1]) / (x[i] - x[i - 1]);
-            return clampScore(roundHalfAway(y[i - 1] + t * (y[i] - y[i - 1])));
+            // Slope first, then one fused multiply-add, as the library does it.
+            const float slope = (y[i] - y[i - 1]) / (x[i] - x[i - 1]);
+            const float v = std::fma(m - x[i - 1], slope, y[i - 1]);
+            return clampScore(roundHalfAway(std::min(100.0f, std::max(0.0f, v))));
         }
     }
     return 0;
@@ -160,7 +173,7 @@ OuraSleepScore ouraSleepScore(const OuraSleepInput &in)
             out.contributor[static_cast<size_t>(i)] = -1;
             continue;
         }
-        const int c = i == 8 ? timingScore(in.midpointMinutes, in.chronotypeCenterMinutes)
+        const int c = i == 8 ? timingScore(in.midpointMinutes, in.chronotypeType, in.chronotypeCenterMinutes)
                              : ouraCurve(input[static_cast<size_t>(i)], ouraSleepLimits(i, in.ageYears));
         out.contributor[static_cast<size_t>(i)] = c;
         weighted += static_cast<long>(kWeights[static_cast<size_t>(i)]) * c;
