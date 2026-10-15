@@ -56,7 +56,7 @@ Ei saatavilla: Ouran omat uni-, valmiusaste- ja aktiivisuuspisteet sekä askelee
     <name>AppController</name>
     <message>
         <location filename="../src/controller/appcontroller.cpp" line="310"/>
-        <location filename="../src/controller/appcontroller.cpp" line="1301"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1306"/>
         <source>Imported</source>
         <translation>Tuotu</translation>
     </message>
@@ -252,14 +252,19 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
         <translation>Yhdistetään Ouraan…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1292"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1294"/>
         <source>Saving…</source>
         <translation>Tallennetaan…</translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1294"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1297"/>
         <source>Could not save the import: %1</source>
         <translation>Tuontia ei voitu tallentaa: %1</translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1299"/>
+        <source>The import stopped early, and what was fetched so far was saved. %1</source>
+        <translation>Tuonti keskeytyi aikaisin, ja tähän mennessä haettu tallennettiin. %1</translation>
     </message>
 </context>
 <context>

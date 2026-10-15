@@ -329,6 +329,7 @@ FI.update({
 "Oura did not accept the code (HTTP %1): %2": "Oura ei hyväksynyt koodia (HTTP %1): %2",
 "Oura's reply did not contain a token (HTTP %1, parse error at byte %2): %3": "Ouran vastauksessa ei ollut tunnistetta (HTTP %1, jäsennysvirhe tavussa %2): %3",
 "(empty)": "(tyhjä)",
+"The import stopped early, and what was fetched so far was saved. %1": "Tuonti keskeytyi aikaisin, ja tähän mennessä haettu tallennettiin. %1",
 "Oura did not accept the sign-in (HTTP 401). Disconnect and connect again.": "Oura ei hyväksynyt kirjautumista (HTTP 401). Katkaise yhteys ja yhdistä uudelleen.",
 "Not connected to Oura. Connect again.": "Ei yhteyttä Ouraan. Yhdistä uudelleen.",
 "Oura refused to renew the sign-in (HTTP %1). Connect again.": "Oura kieltäytyi uusimasta kirjautumista (HTTP %1). Yhdistä uudelleen.",

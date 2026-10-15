@@ -52,7 +52,7 @@ Not available: Oura&apos;s own Sleep, Readiness and Activity scores, and step co
     <name>AppController</name>
     <message>
         <location filename="../src/controller/appcontroller.cpp" line="310"/>
-        <location filename="../src/controller/appcontroller.cpp" line="1301"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1306"/>
         <source>Imported</source>
         <translation type="unfinished"></translation>
     </message>
@@ -246,13 +246,18 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1292"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1294"/>
         <source>Saving…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1294"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1297"/>
         <source>Could not save the import: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/controller/appcontroller.cpp" line="1299"/>
+        <source>The import stopped early, and what was fetched so far was saved. %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

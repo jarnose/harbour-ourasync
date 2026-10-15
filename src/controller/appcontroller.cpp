@@ -1288,10 +1288,15 @@ void AppController::cloudImport(int days)
 
     Oura::CloudImport data;
     QString error = m_cloud.fetch(request, data, [this](const QString &text) { setCloudStatus(text); });
-    if (error.isEmpty()) {
+    // A long import that stops half way (rate limit, network) keeps what it got:
+    // the rest can be fetched again, the hours already spent cannot.
+    if (error.isEmpty() || !data.docs.empty() || !data.hr.empty()) {
         setCloudStatus(tr("Saving…"));
-        if (!CloudStore::store(m_store.path(), data.docs, data.hr, &error))
-            error = tr("Could not save the import: %1").arg(error);
+        QString saveError;
+        if (!CloudStore::store(m_store.path(), data.docs, data.hr, &saveError))
+            error = tr("Could not save the import: %1").arg(saveError);
+        else if (!error.isEmpty())
+            error = tr("The import stopped early, and what was fetched so far was saved. %1").arg(error);
     }
     m_cloudBusy = false;
     setCloudStatus(QString());
