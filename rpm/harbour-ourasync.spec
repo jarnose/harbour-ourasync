@@ -1,7 +1,7 @@
 Name:       harbour-ourasync
 
 Summary:    Oura Sync
-Version:    0.2.0
+Version:    1.0.0
 Release:    1
 License:    MIT
 URL:        https://github.com/jarnose/harbour-ourasync

@@ -1,6 +1,8 @@
 # Changelog
 
-## 0.2.0
+## 1.0.0
+
+First release.
 
 - Sleep score computed the way Oura's own app does it (first limit set, minutes entry), checked
   against 871 real nights from the cloud and 12,000 fuzz cases against the library: total sleep,
