@@ -46,7 +46,7 @@ const std::array<int, 9> &ouraSleepWeights()
     return kWeights;
 }
 
-std::array<int, 4> ouraSleepLimits(int index, int ageYears)
+std::array<int, 4> ouraSleepLimits(int index, int ageYears, OuraLimitSet set)
 {
     // The native function takes the age as an unsigned byte.
     const int age = std::max(0, std::min(255, ageYears));
@@ -62,6 +62,17 @@ std::array<int, 4> ouraSleepLimits(int index, int ageYears)
         // 95, and 100 at nine hours (younger than 31: a little more).
         const int full = age < 31 ? (5 * need + 2) >> 2 : 540;
         return { 0, ((need << 7) + 128) >> 8, (302 * need + 128) >> 8, full };
+    }
+    if (set == OuraLimitSet::V1) {
+        // The first set: shorter ramps and a far longer top, 150 minutes. From
+        // ecore_sleep_score_init_limits: deep from 109 - 279 * age / 256, REM from
+        // the same 114 - 341 * age / 512 as the second set.
+        if (index == 1) {
+            const int target = std::max(109 - ((279 * age) >> 8), 20);
+            return { 0, (84 * target + 128) >> 8, (302 * target + 128) >> 8, 150 };
+        }
+        const int target = std::max(114 - ((341 * age) >> 9), 60);
+        return { 0, (84 * target + 128) >> 8, (305 * target + 128) >> 8, 150 };
     }
     if (index == 1) {
         // Deep sleep target in minutes, from a single-precision fused
@@ -138,6 +149,47 @@ int timingScore(int midpoint, int type, int center)
 
 } // namespace
 
+namespace {
+
+OuraSleepScore combine(const std::array<int, 9> &input, bool complete, int midpoint, int chronotypeType,
+                       int chronotypeCenter, int ageYears, OuraLimitSet limits)
+{
+    OuraSleepScore out;
+    out.complete = complete;
+    long weighted = 0;
+    int weights = 0;
+    for (int i = 0; i < 9; ++i) {
+        if (i >= 5 && i <= 7 && !out.complete) {
+            out.contributor[static_cast<size_t>(i)] = -1;
+            continue;
+        }
+        const int c = i == 8 ? timingScore(midpoint, chronotypeType, chronotypeCenter)
+                             : ouraCurve(input[static_cast<size_t>(i)], ouraSleepLimits(i, ageYears, limits));
+        out.contributor[static_cast<size_t>(i)] = c;
+        weighted += static_cast<long>(kWeights[static_cast<size_t>(i)]) * c;
+        weights += kWeights[static_cast<size_t>(i)];
+    }
+    out.weightUsed = weights;
+    // What the app displays: each clamped to 1-100, restfulness being the sum of
+    // its three parts after the engine's rescaling.
+    const auto shown = [](int c) { return std::max(1, std::min(100, c)); };
+    for (size_t i = 0; i < 5; ++i)
+        out.displayed[i] = shown(out.contributor[i]);
+    if (out.complete) {
+        int rest = 0;
+        for (size_t i = 5; i < 8; ++i)
+            rest += ((((2 * out.contributor[i] + 3) & 0xff) * 0xab) >> 10);
+        out.displayed[5] = shown(rest);
+    }
+    out.displayed[6] = shown(out.contributor[8]);
+    // The native combination is (sum + 50) / 100 over weights that add to 100;
+    // over fewer weights the same rounding is taken against their total.
+    out.score = weights > 0 ? static_cast<int>((weighted + weights / 2) / weights) : 0;
+    return out;
+}
+
+} // namespace
+
 OuraSleepScore ouraSleepScore(const OuraSleepInput &in)
 {
     // The native code counts epochs of 30 seconds and halves them to minutes
@@ -166,35 +218,31 @@ OuraSleepScore ouraSleepScore(const OuraSleepInput &in)
 
     OuraSleepScore out;
     out.complete = in.restfulA && in.restfulB && in.restfulC;
-    long weighted = 0;
-    int weights = 0;
-    for (int i = 0; i < 9; ++i) {
-        if (i >= 5 && i <= 7 && !out.complete) {
-            out.contributor[static_cast<size_t>(i)] = -1;
-            continue;
-        }
-        const int c = i == 8 ? timingScore(in.midpointMinutes, in.chronotypeType, in.chronotypeCenterMinutes)
-                             : ouraCurve(input[static_cast<size_t>(i)], ouraSleepLimits(i, in.ageYears));
-        out.contributor[static_cast<size_t>(i)] = c;
-        weighted += static_cast<long>(kWeights[static_cast<size_t>(i)]) * c;
-        weights += kWeights[static_cast<size_t>(i)];
-    }
-    out.weightUsed = weights;
-    // What the app displays: each clamped to 1-100, restfulness being the sum of
-    // its three parts after the engine's rescaling.
-    const auto shown = [](int c) { return std::max(1, std::min(100, c)); };
-    for (size_t i = 0; i < 5; ++i)
-        out.displayed[i] = shown(out.contributor[i]);
-    if (out.complete) {
-        int rest = 0;
-        for (size_t i = 5; i < 8; ++i)
-            rest += ((((2 * out.contributor[i] + 3) & 0xff) * 0xab) >> 10);
-        out.displayed[5] = shown(rest);
-    }
-    out.displayed[6] = shown(out.contributor[8]);
-    // The native combination is (sum + 50) / 100 over weights that add to 100;
-    // over fewer weights the same rounding is taken against their total.
-    out.score = weights > 0 ? static_cast<int>((weighted + weights / 2) / weights) : 0;
+    return combine(input, out.complete, in.midpointMinutes, in.chronotypeType, in.chronotypeCenterMinutes,
+                   in.ageYears, in.limits);
+}
+
+OuraSleepScore ouraSleepScoreApp(const OuraAppInput &in)
+{
+    // `ecore_sleep_score_calculate_minutes`: the inputs go to the mapper as they are
+    // except latency (the distance from 15 minutes, rounded half up), the second
+    // restfulness input (restless epochs as a share of the minutes asleep, x 0.5) and
+    // timing (handled with the midpoint). Wake-ups and motion events are not scaled.
+    const int total = std::max(0, in.totalMinutes);
+    std::array<int, 9> input{};
+    input[0] = total;
+    input[1] = in.deepMinutes;
+    input[2] = in.remMinutes;
+    input[3] = in.efficiencyPercent;
+    input[4] = (std::abs(in.latencyEpochs - 30) + 1) >> 1;
+    const int restless = in.restlessEpochs.value_or(0);
+    input[5] = in.wakeUps;
+    input[6] = total > 0 ? (restless * 50 + total / 2) / total : 0;
+    input[7] = in.motionEvents ? *in.motionEvents : kTypicalMotionEvents;
+
+    OuraSleepScore out = combine(input, in.restlessEpochs.has_value(), in.midpointMinutes, in.chronotypeType,
+                                 in.chronotypeCenterMinutes, in.ageYears, OuraLimitSet::V1);
+    out.restfulnessEstimated = out.complete && !in.motionEvents.has_value();
     return out;
 }
 

@@ -114,8 +114,65 @@ static void timing()
     CHECK(ouraSleepScore(in).contributor[8] < 100);
 }
 
+// The path the app takes to a night's score, against vectors read from Oura's library
+// (init_limits + calculate_minutes in the emulator, tools/apk/diff_sleep_app.py); the
+// fuzz comparison there covers 12,000 more.
+static void appPath()
+{
+    struct Case
+    {
+        int age, total, deep, rem, eff, lat, wake, restless, events, mid, type, centre;
+        int expect[7];
+    };
+    const Case cases[] = {
+        { 44, 409, 68, 112, 77, 45, 6, 279, 40, 0, 255, 0, { 77, 88, 96, 65, 78, 69, 99 } },
+        { 44, 444, 75, 120, 95, 30, 5, 200, 30, -60, 255, 0, { 85, 95, 97, 100, 99, 85, 69 } },
+        { 43, 300, 40, 60, 88, 2, 9, 300, 40, 200, 3, 164, { 49, 50, 55, 90, 62, 54, 97 } },
+        { 30, 520, 100, 150, 99, 28, 1, 50, 10, 100, 255, 0, { 97, 96, 100, 100, 97, 98, 100 } },
+        { 44, 190, 10, 20, 60, 255, 12, 400, 60, 300, 255, 0, { 23, 13, 18, 25, 1, 38, 39 } },
+    };
+    for (const Case &c : cases) {
+        OuraAppInput in;
+        in.ageYears = c.age;
+        in.totalMinutes = c.total;
+        in.deepMinutes = c.deep;
+        in.remMinutes = c.rem;
+        in.efficiencyPercent = c.eff;
+        in.latencyEpochs = c.lat;
+        in.wakeUps = c.wake;
+        in.restlessEpochs = c.restless;
+        in.motionEvents = c.events;
+        in.midpointMinutes = c.mid;
+        in.chronotypeType = c.type;
+        in.chronotypeCenterMinutes = c.centre;
+        const OuraSleepScore s = ouraSleepScoreApp(in);
+        for (size_t i = 0; i < 7; ++i)
+            CHECK_EQ(s.displayed[i], c.expect[i]);
+        CHECK(!s.restfulnessEstimated);
+    }
+    // Without the third restfulness input a typical value stands in, and says so.
+    OuraAppInput in;
+    in.ageYears = 44;
+    in.totalMinutes = 409;
+    in.restlessEpochs = 279;
+    in.wakeUps = 6;
+    const OuraSleepScore est = ouraSleepScoreApp(in);
+    CHECK(est.restfulnessEstimated);
+    in.motionEvents = kTypicalMotionEvents;
+    CHECK_EQ(ouraSleepScoreApp(in).displayed[5], est.displayed[5]);
+    // Without the restless count there is no restfulness at all.
+    in.restlessEpochs.reset();
+    CHECK(!ouraSleepScoreApp(in).complete);
+    // The first set of limits for deep and REM: 150 minutes at the top.
+    CHECK_EQ(ouraSleepLimits(1, 44, OuraLimitSet::V1)[3], 150);
+    CHECK_EQ(ouraSleepLimits(1, 44, OuraLimitSet::V1)[2], 73);
+    CHECK_EQ(ouraSleepLimits(2, 44, OuraLimitSet::V1)[2], 101);
+    CHECK_EQ(ouraSleepLimits(1, 44, OuraLimitSet::V2)[3], 83);
+}
+
 int main()
 {
+    appPath();
     weights();
     limits();
     curve();

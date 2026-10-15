@@ -202,3 +202,22 @@ The mapper is the unexported function at `0x7fc0c` (called from
   numbers, so the choice can be made independently.
 * Oura changes its algorithms: the app records an `algorithm_version` with each
   score. A tuned-to-7.27.0 formula can drift from what a newer app shows.
+
+## Checked against a real account (871 nights of one person, 2024-2026)
+
+`tools/cloudcheck/` runs the app's own code over a `ring.db` holding a cloud import and
+compares it with Oura's scores (`compare_pipeline.py`, `compare_sleep.py`). Findings:
+
+* The scores in Oura's cloud use the library's **first** set of limits
+  (`ecore_sleep_score_init_limits`: deep/REM top out at 150 min) and the minutes entry
+  `ecore_sleep_score_calculate_minutes`, not the numerical path the first port covered.
+  `OuraLimitSet::V1` and `ouraSleepScoreApp()` are that path (12,000 fuzz cases against the
+  library: `tools/apk/diff_sleep_app.py`).
+* Inputs: minutes are epochs/2 rounded half up; latency is `round(|minutes - 15|)`;
+  efficiency is asleep over time in bed; the age steps on the birthday.
+* Real nights: latency 871/871, total sleep 99 %, deep 99.5 %, REM 99.9 %, efficiency 96 %,
+  timing 88 % (type 255 until the app learns a chronotype, then a centre; unknown here),
+  restfulness not exact (third input is not recoverable from cloud data; an estimate).
+* The state machine reproduces Oura's `restless_periods` on 871/871 nights and the API's
+  latency on 871/871, from `sleep_phase_30_sec` and `movement_30_sec` (level >= 2 = motion).
+* A day's score counts its other periods too: naps of >= 15 min asleep add to total, deep, REM.

@@ -1,6 +1,7 @@
 #include "appcontroller.h"
 
 #include "analysis/cloudmerge.h"
+#include "analysis/oura_night_score.h"
 #include "analysis/oura_sleep_score.h"
 #include "cloud/exportimport.h"
 #include "ring/events.h"
@@ -125,39 +126,13 @@ QVariantList contributorList(const std::vector<std::pair<std::string, int>> &lis
 // Oura's own sleep-score arithmetic (docs/oura-score-extraction.md) applied to a
 // night, for comparison with the official score. Only where the night has
 // stages: without them the inputs are not known.
-QVariantMap ouraFormulaFor(const Night &n, int age)
+QVariantMap ouraFormulaFor(const Night &n, int age, const std::vector<Night> &all)
 {
     QVariantMap out;
-    if (!n.staged || n.asleepMin <= 0)
+    const auto computed = ouraScoreForNight(n, age, all);
+    if (!computed)
         return out;
-    OuraSleepInput in;
-    in.ageYears = age;
-    if (n.oura) {
-        // The engine's own counts from the night's 30-second stages (and motion).
-        in.inBedEpochs = n.oura->inBedEpochs;
-        in.deepEpochs = n.oura->deepEpochs;
-        in.lightEpochs = n.oura->lightEpochs;
-        in.remEpochs = n.oura->remEpochs;
-        in.latencyEpochs = n.oura->latencyEpochs;
-        in.midpointMinutes = n.oura->midpointMinutes;
-        if (n.ouraMotionKnown) {
-            in.restfulA = n.oura->wakeUps;
-            in.restfulB = n.oura->restlessEpochs;
-            in.restfulC = n.oura->motionEvents;
-        }
-    } else {
-        in.inBedEpochs = static_cast<int>(std::lround(n.inBedMin * 2.0));
-        in.deepEpochs = static_cast<int>(std::lround(n.deepMin * 2.0));
-        in.lightEpochs = static_cast<int>(std::lround(n.lightMin * 2.0));
-        in.remEpochs = static_cast<int>(std::lround(n.remMin * 2.0));
-        in.latencyEpochs = static_cast<int>(std::lround(n.latencyMin.value_or(0) * 2.0));
-        const int64_t mid = (n.startUnix + n.endUnix) / 2;
-        int minutes = static_cast<int>((((mid + localOffsetSeconds(mid)) % 86400) + 86400) % 86400 / 60);
-        if (minutes >= 720)
-            minutes -= 1440;
-        in.midpointMinutes = minutes;
-    }
-    const OuraSleepScore r = ouraSleepScore(in);
+    const OuraSleepScore &r = *computed;
 
     // Keys as Oura's own contributors are named, so the two can sit side by side.
     static const char *const names[7] = { "total_sleep", "deep_sleep", "rem_sleep", "efficiency", "latency",
@@ -168,9 +143,9 @@ QVariantMap ouraFormulaFor(const Night &n, int age)
             contributors.insert(QLatin1String(names[i]), r.displayed[i]);
     out.insert(QStringLiteral("score"), r.score);
     out.insert(QStringLiteral("complete"), r.complete);
+    out.insert(QStringLiteral("restfulnessEstimated"), r.restfulnessEstimated);
     out.insert(QStringLiteral("weightUsed"), r.weightUsed);
     out.insert(QStringLiteral("contributors"), contributors);
-    out.insert(QStringLiteral("fromEngineCounts"), n.oura.has_value());
     return out;
 }
 
@@ -203,11 +178,11 @@ QVariantMap nightCompact(const Night &n)
     return m;
 }
 
-QVariantMap nightFull(const Night &n, int age = 40)
+QVariantMap nightFull(const Night &n, int age, const std::vector<Night> &all)
 {
     QVariantMap m = nightCompact(n);
     m.insert(QStringLiteral("ouraContributors"), contributorList(n.ouraContributors));
-    m.insert(QStringLiteral("ouraFormula"), ouraFormulaFor(n, age));
+    m.insert(QStringLiteral("ouraFormula"), ouraFormulaFor(n, age, all));
     m.insert(QStringLiteral("latencyMin"), opt(n.latencyMin));
     m.insert(QStringLiteral("wasoMin"), opt(n.wasoMin));
     m.insert(QStringLiteral("awakenings"), n.awakenings ? QVariant(*n.awakenings) : QVariant());
@@ -1029,7 +1004,7 @@ QVariantMap AppController::night(const QString &date) const
     for (const Night &n : m_summary->nights)
         if (n.date == key && (!best || n.asleepMin > best->asleepMin))
             best = &n;
-    return best ? nightFull(*best, m_age) : QVariantMap();
+    return best ? nightFull(*best, m_age, m_summary->nights) : QVariantMap();
 }
 
 QVariantList AppController::days(int count) const

@@ -230,9 +230,12 @@ class Ecore:
                 return a
         raise KeyError(name_or_addr)
 
-    def call(self, target, args=(), fargs=(), max_instructions=50_000_000):
+    def call(self, target, args=(), fargs=(), max_instructions=50_000_000, stack=()):
+        """`stack`: arguments beyond the eighth, one 8-byte slot each."""
         uc = self.uc
         sp = STACK_TOP - 0x1000
+        for i, v in enumerate(stack):
+            uc.mem_write(sp + 8 * i, struct.pack('<Q', v & 0xffffffffffffffff))
         uc.reg_write(UC_ARM64_REG_SP, sp)
         for reg, v in zip(ARGS, args):
             uc.reg_write(reg, v & 0xffffffffffffffff)

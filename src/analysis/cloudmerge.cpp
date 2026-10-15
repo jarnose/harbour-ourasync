@@ -106,18 +106,28 @@ Night nightFromCloud(const Json &j, const AnalysisOptions &options, int64_t star
 
         // Oura's counts need 30-second epochs; five-minute phases are repeated.
         OuraNightEpochs epochsIn;
-        epochsIn.epochs = static_cast<int>((end - start) / 30);
         const size_t repeat = static_cast<size_t>(epochSeconds / 30);
         for (uint8_t code : n.hypnogram)
             for (size_t r = 0; r < repeat; ++r)
                 epochsIn.stages.push_back(code);
-        if (epochsIn.stages.size() > static_cast<size_t>(epochsIn.epochs))
-            epochsIn.stages.resize(static_cast<size_t>(epochsIn.epochs));
+        // One epoch per stage digit, as the app counts them (the bedtime window can be a few
+        // seconds longer or shorter).
+        epochsIn.epochs = static_cast<int>(epochsIn.stages.size());
         int tod = static_cast<int>((((start + options.utcOffset(start)) % 86400) + 86400) % 86400 / 60);
         if (tod >= 720)
             tod -= 1440;
         epochsIn.startMinutesOfDay = tod;
-        n.oura = summariseNight(epochsIn);   // motion unknown: no restfulness counts
+        // movement_30_sec: one digit per epoch, 1 for none, higher for more. Its size is not
+        // in the data, only whether there was movement, and that is exactly what the restless
+        // count is made of: it reproduces Oura's restless_periods for all of 871 nights. The
+        // events count, which also needs the size, is not recoverable.
+        const std::string movement = j.str("movement_30_sec");
+        if (epochSeconds == 30 && movement.size() >= epochsIn.stages.size()) {
+            for (size_t i = 0; i < epochsIn.stages.size(); ++i)
+                epochsIn.motion.push_back(movement[i] >= '2' && movement[i] <= '9' ? 1 : 0);
+            n.ouraMotionKnown = true;
+        }
+        n.oura = summariseNight(epochsIn);
     }
 
     n.hr = seriesOf(j.get("heart_rate"), start);
@@ -197,6 +207,10 @@ void mergeCloud(Summary &summary, const std::vector<CloudDoc> &docs, const std::
         const auto start = parseIso8601(d->json.str("bedtime_start"));
         const auto end = parseIso8601(d->json.str("bedtime_end"));
         if (!start || !end || *end <= *start)
+            continue;
+        // Periods the person rejected, and rest-mode periods, are not nights.
+        const std::string type = d->json.str("type");
+        if (type == "deleted" || type == "rest")
             continue;
         bool covered = false;
         for (const Night &n : summary.nights)
