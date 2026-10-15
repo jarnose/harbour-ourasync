@@ -45,10 +45,18 @@ jobs:
       - name: Build the RPM
         uses: coderus/github-sfos-build@sfos5
         with:
-          release:
+          release: 5.1.0.11
+          arch: ${{ matrix.arch }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rpm-${{ matrix.arch }}
+          path: RPMS/*.rpm
+          if-no-files-found: error
+
+  release:
     # A tag v<version> publishes the RPMs. One architecture failing does not stop the other
     # from being published, but nothing is published when both fail.
-    if: ${{ always() && startsWith(github.ref, 'refs/tags/v') && needs.rpm.result != 'cancelled' }}
+    if: ${{ always() && startsWith(github.ref, 'refs/tags/v') && needs.tests.result == 'success' && needs.rpm.result != 'cancelled' }}
     needs: [tests, rpm]
     runs-on: ubuntu-latest
     permissions:
