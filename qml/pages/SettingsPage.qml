@@ -5,6 +5,22 @@ import "../components/Format.js" as Format
 Page {
     id: page
 
+    // The reset's own progress and outcome are shown here, next to its button: the error
+    // banner is on the main page and would otherwise be seen only after leaving.
+    property bool resetting: false
+    property string resetResult: ""
+
+    Connections {
+        target: AppController
+        onOperationFinished: {
+            if (!page.resetting)
+                return
+            page.resetting = false
+            if (ok)
+                page.resetResult = qsTr("The ring has been reset. Set it up again from the main page's menu, or on another phone.")
+        }
+    }
+
     SilicaFlickable {
         anchors.fill: parent
         contentHeight: column.height + Theme.paddingLarge
@@ -169,10 +185,50 @@ Page {
                     enabled: !AppController.busy
                     text: qsTr("Factory reset the ring")
                     onClicked: resetRemorse.execute(resetButton, qsTr("Resetting the ring"),
-                                                    function () { AppController.factoryResetRing() }, 8000)
+                                                    function () {
+                                                        page.resetResult = ""
+                                                        AppController.clearError()
+                                                        page.resetting = true
+                                                        AppController.factoryResetRing()
+                                                    }, 8000)
                 }
             }
             RemorseItem { id: resetRemorse }
+            Column {
+                width: parent.width
+                visible: AppController.busy && page.resetting
+                spacing: Theme.paddingSmall
+                BusyIndicator {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    size: BusyIndicatorSize.Medium
+                    running: parent.visible
+                }
+                Label {
+                    x: Theme.horizontalPageMargin
+                    width: parent.width - 2 * Theme.horizontalPageMargin
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.Wrap
+                    color: Theme.secondaryHighlightColor
+                    text: AppController.status
+                }
+            }
+            Label {
+                visible: !AppController.busy && page.resetResult.length > 0
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.Wrap
+                color: Theme.highlightColor
+                text: page.resetResult
+            }
+            Label {
+                visible: !AppController.busy && AppController.lastError.length > 0
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.Wrap
+                color: Theme.errorColor
+                font.pixelSize: Theme.fontSizeSmall
+                text: AppController.lastError + "\n\n" + qsTr("If the ring could not be reached, nothing was reset: put it on its charger, close to the phone, and try again.")
+            }
             Label {
                 visible: AppController.hasRing
                 x: Theme.horizontalPageMargin

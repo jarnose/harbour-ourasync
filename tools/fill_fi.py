@@ -329,6 +329,8 @@ FI.update({
 "Oura did not accept the code (HTTP %1): %2": "Oura ei hyväksynyt koodia (HTTP %1): %2",
 "Oura's reply did not contain a token (HTTP %1, parse error at byte %2): %3": "Ouran vastauksessa ei ollut tunnistetta (HTTP %1, jäsennysvirhe tavussa %2): %3",
 "(empty)": "(tyhjä)",
+"The ring has been reset. Set it up again from the main page's menu, or on another phone.": "Sormus on nollattu. Aseta se uudelleen pääsivun valikosta tai toisessa puhelimessa.",
+"If the ring could not be reached, nothing was reset: put it on its charger, close to the phone, and try again.": "Jos sormukseen ei saatu yhteyttä, mitään ei nollattu: laita se laturiinsa lähelle puhelinta ja yritä uudelleen.",
 "Version": "Versio",
 "Could not create the folder %1.": "Kansiota %1 ei voitu luoda.",
 "Could not copy the database to %1.": "Tietokantaa ei voitu kopioida kohteeseen %1.",

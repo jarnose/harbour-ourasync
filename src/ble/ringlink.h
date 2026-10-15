@@ -24,6 +24,10 @@ class RingLink : public QObject, public Oura::Transport
 {
     Q_OBJECT
 public:
+    // True when the last request was written to the ring, whatever came back. A reset makes the
+    // ring drop the link at once, which is an answer of a kind.
+    bool lastWriteSucceeded() const { return m_lastWriteOk; }
+    bool connectedNow() const { return m_connected; }
     explicit RingLink(QObject *parent = nullptr);
     ~RingLink() override;
 
@@ -74,6 +78,7 @@ private:
 
     // The transaction in flight: frames land here, and `m_wake` ends the wait.
     bool m_collecting = false;
+    bool m_lastWriteOk = false;
     QList<QByteArray> m_frames;
     std::function<void()> m_wake;
 };

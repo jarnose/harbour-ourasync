@@ -57,7 +57,7 @@ Not available: Oura&apos;s own Sleep, Readiness and Activity scores, and step co
     <name>AppController</name>
     <message>
         <location filename="../src/controller/appcontroller.cpp" line="289"/>
-        <location filename="../src/controller/appcontroller.cpp" line="1498"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1500"/>
         <source>Imported</source>
         <translation type="unfinished"></translation>
     </message>
@@ -231,88 +231,88 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="988"/>
+        <location filename="../src/controller/appcontroller.cpp" line="990"/>
         <source>Could not create the folder %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1000"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1002"/>
         <source>Could not copy the database to %1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1007"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1009"/>
         <source>There is nothing to export yet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1017"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1019"/>
         <source>Could not write %1: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1026"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1028"/>
         <source>Could not write the files: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1056"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1058"/>
         <source>That is not a backup of this app&apos;s database.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1063"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1065"/>
         <source>Could not stage the backup.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1367"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1369"/>
         <source>Could not store the Oura sign-in in the secrets vault: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1381"/>
-        <location filename="../src/controller/appcontroller.cpp" line="1452"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1383"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1454"/>
         <source>Another import is still running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1386"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1388"/>
         <source>Reading the export…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1437"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1439"/>
         <source>Signing in to Oura…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1446"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1448"/>
         <source>Connected to Oura</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1456"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1458"/>
         <source>Not connected to Oura.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1461"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1463"/>
         <source>Connecting to Oura…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1486"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1488"/>
         <source>Saving…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1489"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1491"/>
         <source>Could not save the import: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1491"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1493"/>
         <source>The import stopped early, and what was fetched so far was saved. %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1484,12 +1484,12 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1399"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1401"/>
         <source>Saving %1 documents and %2 heart rate samples…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/controller/appcontroller.cpp" line="1403"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1405"/>
         <source>Could not save the import: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1559,12 +1559,12 @@ If this keeps happening, pair the ring once in Settings &gt; Bluetooth, then set
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="340"/>
+        <location filename="../src/ble/ringlink.cpp" line="341"/>
         <source>Could not write to the ring: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="385"/>
+        <location filename="../src/ble/ringlink.cpp" line="388"/>
         <source>Bluetooth link to the ring was lost</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1639,132 +1639,142 @@ If this keeps happening, pair the ring once in Settings &gt; Bluetooth, then set
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="16"/>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="18"/>
-        <source>About you</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="26"/>
-        <source>Used only for the sleep score&apos;s age bands and for the calorie estimate. It is not sent to the ring and does not leave the phone.</source>
+        <location filename="../qml/pages/SettingsPage.qml" line="20"/>
+        <source>The ring has been reset. Set it up again from the main page&apos;s menu, or on another phone.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/pages/SettingsPage.qml" line="32"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="34"/>
+        <source>About you</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="42"/>
+        <source>Used only for the sleep score&apos;s age bands and for the calorie estimate. It is not sent to the ring and does not leave the phone.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="48"/>
         <source>Birthday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="35"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="51"/>
         <source>Not set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="50"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="66"/>
         <source>Age</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="60"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="76"/>
         <source>Without a birthday the age is the figure Oura&apos;s profile gave, or 40. The score&apos;s limits step with the age, so set the birthday if you do not use Oura&apos;s cloud.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="66"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="82"/>
         <source>Weight, kg</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="77"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="93"/>
         <source>Oura cloud and data export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="83"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="99"/>
         <source>Export and backup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="89"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="105"/>
         <source>Ring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="93"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="109"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="98"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="114"/>
         <source>Serial</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="103"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="119"/>
         <source>Firmware</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="108"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="124"/>
         <source>Battery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="113"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="129"/>
         <source>Last sync</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="122"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="138"/>
         <source>Back up the key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="129"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="145"/>
         <source>Diagnostics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="138"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="154"/>
         <source>Forget this ring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="139"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="155"/>
         <source>Forgetting the ring and its history</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="150"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="166"/>
         <source>Factory reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="159"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="175"/>
         <source>To move the ring to another phone, or to use it with the Oura app again, reset it. The app first reads what the ring holds, then erases the ring&apos;s key, its Bluetooth pairings and its stored history. What is already on this phone stays. Afterwards the ring can be set up here again, or on another phone; the Oura app will install its own key.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="170"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="186"/>
         <source>Factory reset the ring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="171"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="187"/>
         <source>Resetting the ring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="183"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="230"/>
+        <source>If the ring could not be reached, nothing was reset: put it on its charger, close to the phone, and try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SettingsPage.qml" line="239"/>
         <source>If the key is lost, or the ring will not connect, the app cannot reset it: lift the ring off its charger, put it back and wait two seconds. Then flip the charger with the ring on it upside down until the light turns blue, upside up until red, upside down until magenta and upside up until yellow. After a few minutes the light blinks blue: the ring is reset, and what it held is gone. Do not finish the Oura app&apos;s set-up afterwards unless you want its key.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SettingsPage.qml" line="198"/>
+        <location filename="../qml/pages/SettingsPage.qml" line="254"/>
         <source>Forgetting removes the stored history and the ring&apos;s key from this phone. The ring keeps its key, so back it up first if you may want to read the ring again.</source>
         <translation type="unfinished"></translation>
     </message>

@@ -331,6 +331,7 @@ bool RingLink::transact(const Oura::Bytes &request, const std::function<bool(con
 
     m_frames.clear();
     m_collecting = true;
+    m_lastWriteOk = false;
 
     const QByteArray data(reinterpret_cast<const char *>(request.data()), static_cast<int>(request.size()));
     QDBusReply<void> written(BluezCall::call(m_writePath, kCharInterface, QStringLiteral("WriteValue"),
@@ -340,6 +341,8 @@ bool RingLink::transact(const Oura::Bytes &request, const std::function<bool(con
         error = tr("Could not write to the ring: %1").arg(written.error().message()).toStdString();
         return false;
     }
+
+    m_lastWriteOk = true;
 
     int consumed = 0;
     bool terminalSeen = false;

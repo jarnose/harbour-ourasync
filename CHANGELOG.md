@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1
+
+- Factory reset: its progress and result are shown on the Settings page, not only as a banner on
+  the main page; the ring dropping the link as it erases itself counts as success.
+
 ## 1.0.0
 
 First release.

@@ -899,7 +899,9 @@ void AppController::factoryResetRing()
         if (error.isEmpty()) {
             setStatus(tr("Resetting the ring…"));
             const Oura::Outcome o = session.factoryReset();
-            if (!o.ok)
+            // The ring drops the link as it erases itself: a request that was written and then
+            // lost the link is the reset taking effect, not a failure.
+            if (!o.ok && !(m_link.lastWriteSucceeded() && !m_link.connectedNow()))
                 error = QString::fromStdString(o.error);
         }
     }
