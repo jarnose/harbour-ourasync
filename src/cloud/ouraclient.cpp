@@ -318,6 +318,37 @@ QString OuraCloudClient::getJson(const QUrl &url, Oura::Json &out, int &status)
 
 // ---- fetching ---------------------------------------------------------------
 
+QString OuraCloudClient::fetchPersonal(Personal &out)
+{
+    Oura::Json reply;
+    int status = 0;
+    const QString error = getJson(QUrl(QString::fromLatin1(kApi) + QStringLiteral("/v2/usercollection/personal_info")),
+                                  reply, status);
+    if (!error.isEmpty())
+        return error;
+    if (status != 200)
+        return tr("Oura answered HTTP %1 for the profile.").arg(status);
+    if (auto age = reply.optNum("age"); age && *age >= 5 && *age <= 120)
+        out.age = static_cast<int>(*age);
+    if (auto weight = reply.optNum("weight"); weight && *weight >= 20 && *weight <= 400)
+        out.weightKg = *weight;
+    out.sex = QString::fromStdString(reply.str("biological_sex"));
+    return QString();
+}
+
+void OuraCloudClient::revokeAccess()
+{
+    if (m_tokens.access.isEmpty())
+        return;
+    QUrl url(QStringLiteral("https://api.ouraring.com/oauth/revoke"));
+    QUrlQuery q;
+    q.addQueryItem(QStringLiteral("access_token"), m_tokens.access);
+    url.setQuery(q);
+    int status = 0;
+    QString error;
+    exchange(url, QByteArray(""), status, error, false);
+}
+
 QString OuraCloudClient::fetch(const FetchRequest &request, Oura::CloudImport &out,
                                const std::function<void(const QString &)> &progress)
 {

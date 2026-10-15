@@ -1263,6 +1263,14 @@ void AppController::cloudImport(int days)
 
     Oura::CloudImport data;
     QString error = m_cloud.fetch(request, data, [this](const QString &text) { setCloudStatus(text); });
+    // Oura knows the person's age and weight: the score limits step with the age, so
+    // take it from there instead of leaving it to be kept up to date by hand.
+    if (error.isEmpty()) {
+        OuraCloudClient::Personal personal;
+        if (m_cloud.fetchPersonal(personal).isEmpty() && personal.age)
+            setProfile(*personal.age, personal.weightKg.value_or(m_weightKg));
+    }
+
     // A long import that stops half way (rate limit, network) keeps what it got:
     // the rest can be fetched again, the hours already spent cannot.
     if (error.isEmpty() || !data.docs.empty() || !data.hr.empty()) {
@@ -1286,6 +1294,7 @@ void AppController::cloudImport(int days)
 void AppController::cloudDisconnect()
 {
     m_cloud.endAuthorization();
+    m_cloud.revokeAccess();
     m_cloud.setTokens(OuraCloudClient::Tokens());
     OuraCloudClient::Config config = m_cloud.config();
     config.clientSecret.clear();

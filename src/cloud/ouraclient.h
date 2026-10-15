@@ -4,6 +4,7 @@
 
 #include <QNetworkAccessManager>
 #include <QObject>
+#include <optional>
 #include <QString>
 #include <QTcpServer>
 #include <QUrl>
@@ -74,6 +75,19 @@ public:
         bool heartRate = true;
     };
     // Empty on success, else a message for a person.
+    // The person's profile as Oura holds it: age (current), weight, biological sex. Needs the
+    // "personal" scope.
+    struct Personal
+    {
+        std::optional<int> age;
+        std::optional<double> weightKg;
+        QString sex;
+    };
+    QString fetchPersonal(Personal &out);
+    // Best effort: tells Oura to forget the access token, as Oura asks of an app that lets a
+    // person disconnect. Failure changes nothing for the person.
+    void revokeAccess();
+
     QString fetch(const FetchRequest &request, Oura::CloudImport &out,
                   const std::function<void(const QString &)> &progress);
 

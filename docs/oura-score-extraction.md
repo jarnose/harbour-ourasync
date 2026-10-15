@@ -221,3 +221,14 @@ compares it with Oura's scores (`compare_pipeline.py`, `compare_sleep.py`). Find
 * The state machine reproduces Oura's `restless_periods` on 871/871 nights and the API's
   latency on 871/871, from `sleep_phase_30_sec` and `movement_30_sec` (level >= 2 = motion).
 * A day's score counts its other periods too: naps of >= 15 min asleep add to total, deep, REM.
+
+### Open: the ring's own motion source is probably `0x6b`, not `0x47`
+
+Oura's cloud `movement_30_sec` uses the levels 1-4 that the ringverse notes list for the
+ring's `motion_period` event (`0x6b`: 0 none, 1 restless, 2 tossing and turning, 3 active),
+and that string reproduces Oura's `restless_periods` exactly through the state machine. So the
+restless count the app sends the engine most likely comes from `0x6b` symbols (2 bits each,
+format in ringverse/protocol `parse.js`: `p_motion_period`), one per 30 s epoch, and not from
+the `0x47` seconds the pipeline uses now. The symbol-to-time alignment is unknown without a
+real Ring 4 capture, so `daysummary.cpp` still reads `0x47`; switch it once a capture shows
+where the symbols fall.
