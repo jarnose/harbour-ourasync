@@ -6,6 +6,8 @@
 
 #include <zlib.h>
 
+#include <clocale>
+#include <cstdio>
 #include <cstring>
 
 using namespace Oura;
@@ -169,8 +171,49 @@ static void zip()
     CHECK(!listZip(z.substr(0, z.size() - 10), entries, err));
 }
 
+// A Qt application takes the process locale from the environment; with a comma
+// as the decimal separator strtod and printf misread and misprint JSON numbers.
+// This failed on a real Finnish phone with Oura's token reply.
+static void commaLocale()
+{
+    const char *names[] = { "fi_FI.UTF-8", "fi_FI.utf8", "fi_FI", "de_DE.UTF-8", "de_DE.utf8", "de_DE" };
+    bool set = false;
+    for (const char *name : names)
+        if (std::setlocale(LC_ALL, name)) {
+            set = true;
+            break;
+        }
+    if (!set) {
+        std::printf("(no comma locale installed here; the locale test is skipped)\n");
+        return;
+    }
+    const char *reply = R"({"access_token":"A","token_type":"bearer","expires_in":25919999,"id_token":null,"scope":"x","refresh_token":"R"})";
+    auto j = Json::parse(reply);
+    CHECK(j.has_value());
+    if (j) {
+        CHECK_EQ(j->str("access_token"), std::string("A"));
+        CHECK_EQ(j->num("expires_in"), 25919999.0);
+        CHECK_EQ(j->str("refresh_token"), std::string("R"));
+    }
+    auto k = Json::parse("[1,2.5,3,-4e2,0.25]");
+    CHECK(k.has_value());
+    if (k) {
+        CHECK_EQ(k->items().size(), size_t(5));
+        CHECK_EQ(k->items()[1].asNumber(), 2.5);
+        CHECK_EQ(k->items()[3].asNumber(), -400.0);
+        CHECK_EQ(k->items()[4].asNumber(), 0.25);
+        CHECK_EQ(k->dump(), std::string("[1,2.5,3,-400,0.25]"));
+    }
+    // CSV cells are text; their decimals use a point.
+    auto c = Json::parse(R"({"v":"12.5","w":"7"})");
+    CHECK_EQ(c->num("v"), 12.5);
+    CHECK_EQ(c->num("w"), 7.0);
+    std::setlocale(LC_ALL, "C");
+}
+
 int main()
 {
+    commaLocale();
     json();
     csv();
     zip();

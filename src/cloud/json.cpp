@@ -3,8 +3,71 @@
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
+#include <locale>
+#include <sstream>
 
 namespace Oura {
+
+namespace {
+
+// Numbers are read and written here with the classic locale on purpose. strtod
+// and printf follow the process locale, and a Qt application takes that from the
+// environment: on a Finnish phone the decimal separator is a comma, so
+// strtod("25919999,\"id_token\"") consumes the comma as a decimal point and a
+// JSON object ends up unparseable. Found that way on a real device.
+size_t numberLength(const char *p, size_t n)
+{
+    size_t i = 0;
+    if (i < n && (p[i] == '-' || p[i] == '+'))
+        ++i;
+    size_t digits = 0;
+    while (i < n && p[i] >= '0' && p[i] <= '9') {
+        ++i;
+        ++digits;
+    }
+    if (i < n && p[i] == '.') {
+        ++i;
+        while (i < n && p[i] >= '0' && p[i] <= '9') {
+            ++i;
+            ++digits;
+        }
+    }
+    if (digits == 0)
+        return 0;
+    if (i < n && (p[i] == 'e' || p[i] == 'E')) {
+        size_t j = i + 1;
+        if (j < n && (p[j] == '+' || p[j] == '-'))
+            ++j;
+        size_t exponent = 0;
+        while (j < n && p[j] >= '0' && p[j] <= '9') {
+            ++j;
+            ++exponent;
+        }
+        if (exponent > 0)
+            i = j;
+    }
+    return i;
+}
+
+std::string formatDouble(double v)
+{
+    std::ostringstream out;
+    out.imbue(std::locale::classic());
+    out.precision(15);
+    out << v;
+    return out.str();
+}
+
+double toDouble(const char *p, size_t length)
+{
+    std::istringstream in(std::string(p, length));
+    in.imbue(std::locale::classic());
+    double v = 0;
+    in >> v;
+    return in.fail() ? 0.0 : v;
+}
+
+} // namespace
 
 Json Json::boolean(bool v)
 {
@@ -76,9 +139,7 @@ bool Json::hasNumber() const
         return true;
     if (m_type != Type::String || m_string.empty())
         return false;
-    char *end = nullptr;
-    std::strtod(m_string.c_str(), &end);
-    return end && *end == '\0';
+    return numberLength(m_string.c_str(), m_string.size()) == m_string.size();
 }
 
 double Json::asNumber(double fallback) const
@@ -88,7 +149,7 @@ double Json::asNumber(double fallback) const
     if (m_type == Type::Bool)
         return m_bool ? 1 : 0;
     if (m_type == Type::String && hasNumber())
-        return std::strtod(m_string.c_str(), nullptr);
+        return toDouble(m_string.c_str(), m_string.size());
     return fallback;
 }
 
@@ -101,7 +162,7 @@ std::string Json::asString(const std::string &fallback) const
         if (m_number == std::floor(m_number) && std::fabs(m_number) < 1e15)
             std::snprintf(buf, sizeof buf, "%lld", static_cast<long long>(m_number));
         else
-            std::snprintf(buf, sizeof buf, "%.15g", m_number);
+            return formatDouble(m_number);
         return buf;
     }
     return fallback;
@@ -391,13 +452,11 @@ struct Parser
             if (ok)
                 out = Json();
         } else if (c == '-' || (c >= '0' && c <= '9')) {
-            char *end = nullptr;
-            const double v = std::strtod(s.c_str() + i, &end);
-            const size_t used = static_cast<size_t>(end - (s.c_str() + i));
+            const size_t used = numberLength(s.c_str() + i, s.size() - i);
             ok = used > 0;
             if (ok) {
+                out = Json::number(toDouble(s.c_str() + i, used));
                 i += used;
-                out = Json::number(v);
             }
         } else if (c == 'N' && literal("NaN")) {
             // Some exports write NaN for a missing number.

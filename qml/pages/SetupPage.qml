@@ -20,7 +20,7 @@ Page {
     property bool keyWasInstalled: false
 
     Component.onCompleted: AppController.startScan()
-    Component.onDestruction: AppController.stopScan()
+    Component.onDestruction: if (AppController) AppController.stopScan()
 
     Connections {
         target: AppController
