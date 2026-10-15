@@ -75,9 +75,14 @@ Json reference(const std::string &to)
 // An Observation with the parts every one of them shares.
 Json observation(const std::string &id, const char *cat, Json code, const std::string &note)
 {
+    // A FHIR id is letters, digits, '-' and '.': no underscores.
+    std::string clean = id;
+    for (char &c : clean)
+        if (c == '_')
+            c = '-';
     Json o = Json::object();
     o.set("resourceType", Json::string("Observation"));
-    o.set("id", Json::string(id));
+    o.set("id", Json::string(clean));
     o.set("status", Json::string("final"));
     o.set("category", category(cat));
     o.set("code", std::move(code));

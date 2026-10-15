@@ -86,6 +86,8 @@ int main()
             CHECK_EQ(r->get("valueQuantity")->num("value"), 9876.0);
         }
     }
+    for (const Json &e : entries->items())
+        CHECK(e.get("resource")->str("id").find('_') == std::string::npos);
     CHECK(sleep);
     CHECK(steps);
 
