@@ -132,30 +132,45 @@ QVariantMap ouraFormulaFor(const Night &n, int age)
         return out;
     OuraSleepInput in;
     in.ageYears = age;
-    in.inBedEpochs = static_cast<int>(std::lround(n.inBedMin * 2.0));
-    in.deepEpochs = static_cast<int>(std::lround(n.deepMin * 2.0));
-    in.lightEpochs = static_cast<int>(std::lround(n.lightMin * 2.0));
-    in.remEpochs = static_cast<int>(std::lround(n.remMin * 2.0));
-    in.latencyEpochs = static_cast<int>(std::lround(n.latencyMin.value_or(0) * 2.0));
-    // Midpoint of the night, in minutes after local midnight, wrapped to -12..+12 h.
-    const int64_t mid = (n.startUnix + n.endUnix) / 2;
-    const int off = localOffsetSeconds(mid);
-    int minutes = static_cast<int>((((mid + off) % 86400) + 86400) % 86400 / 60);
-    if (minutes >= 720)
-        minutes -= 1440;
-    in.midpointMinutes = minutes;
+    if (n.oura) {
+        // The engine's own counts from the night's 30-second stages (and motion).
+        in.inBedEpochs = n.oura->inBedEpochs;
+        in.deepEpochs = n.oura->deepEpochs;
+        in.lightEpochs = n.oura->lightEpochs;
+        in.remEpochs = n.oura->remEpochs;
+        in.latencyEpochs = n.oura->latencyEpochs;
+        in.midpointMinutes = n.oura->midpointMinutes;
+        if (n.ouraMotionKnown) {
+            in.restfulA = n.oura->wakeUps;
+            in.restfulB = n.oura->restlessEpochs;
+            in.restfulC = n.oura->motionEvents;
+        }
+    } else {
+        in.inBedEpochs = static_cast<int>(std::lround(n.inBedMin * 2.0));
+        in.deepEpochs = static_cast<int>(std::lround(n.deepMin * 2.0));
+        in.lightEpochs = static_cast<int>(std::lround(n.lightMin * 2.0));
+        in.remEpochs = static_cast<int>(std::lround(n.remMin * 2.0));
+        in.latencyEpochs = static_cast<int>(std::lround(n.latencyMin.value_or(0) * 2.0));
+        const int64_t mid = (n.startUnix + n.endUnix) / 2;
+        int minutes = static_cast<int>((((mid + localOffsetSeconds(mid)) % 86400) + 86400) % 86400 / 60);
+        if (minutes >= 720)
+            minutes -= 1440;
+        in.midpointMinutes = minutes;
+    }
     const OuraSleepScore r = ouraSleepScore(in);
 
-    static const char *const names[9] = { "total_sleep", "deep_sleep", "rem_sleep", "efficiency", "latency",
-                                          "restfulness_a", "restfulness_b", "restfulness_c", "timing" };
+    // Keys as Oura's own contributors are named, so the two can sit side by side.
+    static const char *const names[7] = { "total_sleep", "deep_sleep", "rem_sleep", "efficiency", "latency",
+                                          "restfulness", "timing" };
     QVariantMap contributors;
-    for (int i = 0; i < 9; ++i)
-        if (r.contributor[static_cast<size_t>(i)] >= 0)
-            contributors.insert(QLatin1String(names[i]), r.contributor[static_cast<size_t>(i)]);
+    for (size_t i = 0; i < 7; ++i)
+        if (i != 5 || r.complete)
+            contributors.insert(QLatin1String(names[i]), r.displayed[i]);
     out.insert(QStringLiteral("score"), r.score);
     out.insert(QStringLiteral("complete"), r.complete);
     out.insert(QStringLiteral("weightUsed"), r.weightUsed);
     out.insert(QStringLiteral("contributors"), contributors);
+    out.insert(QStringLiteral("fromEngineCounts"), n.oura.has_value());
     return out;
 }
 

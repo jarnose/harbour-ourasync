@@ -63,7 +63,8 @@ Page {
                 font.pixelSize: Theme.fontSizeSmall
                 text: qsTr("Oura's sleep score against this app's estimate, and against Oura's own arithmetic "
                            + "applied to your night (age from Settings). Contributor errors are the mean "
-                           + "difference in points; restfulness is not computed yet.")
+                           + "difference in points. Restfulness needs the ring's own movement data, so it "
+                           + "appears only for nights recorded on the ring, not for nights imported from Oura's cloud.")
             }
             Repeater {
                 model: page.contributorErrors()

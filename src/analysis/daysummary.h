@@ -1,5 +1,6 @@
 #pragma once
 
+#include "oura_sleep_state.h"
 #include "ringclock.h"
 #include "sleepscore.h"
 
@@ -76,6 +77,12 @@ struct Night
     std::optional<double> tempDeviation;
 
     SleepScore score;
+
+    // Oura's own counts for the night (how long falling asleep took, wake-ups,
+    // restlessness, midpoint), from the engine's state machine. The restful
+    // counts mean something only when the night's motion is known.
+    std::optional<OuraNightSummary> oura;
+    bool ouraMotionKnown = false;
 
     // From Oura's cloud, when an export or API import is present. The official
     // score is Oura's own; `score` above is this app's estimate.

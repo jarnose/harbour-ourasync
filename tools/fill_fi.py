@@ -345,8 +345,8 @@ FI.update({
     "Oura-datatiedostoja ei löytynyt. Vienti on ZIP, jossa on CSV-tiedostoja kuten dailysleep.csv, osoitteesta membership.ouraring.com/data-export.",
 "Saving %1 documents and %2 heart rate samples…": "Tallennetaan %1 dokumenttia ja %2 sykenäytettä…",
 "Score check": "Pisteiden vertailu",
-"Oura's sleep score against this app's estimate, and against Oura's own arithmetic applied to your night (age from Settings). Contributor errors are the mean difference in points; restfulness is not computed yet.":
-    "Ouran unipisteet verrattuna tämän sovelluksen arvioon ja Ouran omaan laskentaan sovellettuna yöhösi (ikä Asetuksista). Osatekijöiden virheet ovat pisteiden keskimääräinen ero; levollisuutta ei vielä lasketa.",
+"Oura's sleep score against this app's estimate, and against Oura's own arithmetic applied to your night (age from Settings). Contributor errors are the mean difference in points. Restfulness needs the ring's own movement data, so it appears only for nights recorded on the ring, not for nights imported from Oura's cloud.":
+    "Ouran unipisteet verrattuna tämän sovelluksen arvioon ja Ouran omaan laskentaan sovellettuna yöhösi (ikä Asetuksista). Osatekijöiden virheet ovat pisteiden keskimääräinen ero. Levollisuus tarvitsee sormuksen oman liiketiedon, joten se näkyy vain sormuksella tallennetuilta öiltä, ei Ouran pilvestä tuoduilta.",
 "Night by night": "Yö kerrallaan",
 "formula": "kaava",
 "estimate": "arvio",

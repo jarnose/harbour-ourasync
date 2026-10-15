@@ -226,6 +226,7 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
     std::vector<TimedValue> periodTemp;   // 0x69
     std::vector<TimedValue> probeTemp;    // 0x46, first probe
     std::vector<TimedValue> spo2;
+    std::vector<TimedValue> motionSeconds; // motion_event: seconds of motion
     std::unordered_map<int64_t, double> metByMinute;
     std::optional<std::pair<int64_t, int>> battery; // unix, percent
 
@@ -338,6 +339,11 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
                 spo2.push_back({ static_cast<int64_t>(t), mean(pct) });
             break;
         }
+        case Tag::Motion: {
+            if (auto m = decodeMotionSeconds(e.body))
+                motionSeconds.push_back({ static_cast<int64_t>(t), static_cast<double>(*m) });
+            break;
+        }
         case Tag::ActivityInfo: {
             if (auto a = decodeActivityMet(e.body)) {
                 for (size_t k = 0; k < a->met.size(); ++k) {
@@ -370,6 +376,7 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
     sortByTime(sleepBreath);
     sortByTime(sleepWindows);
     sortByTime(spo2);
+    sortByTime(motionSeconds);
 
     if (battery) {
         out.ringBatteryPercent = battery->second;
@@ -455,6 +462,31 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
                 stages[cell] = run.codes[k];
                 painted = true;
             }
+        }
+
+        // Oura's own counts from the engine's state machine, for a night staged in
+        // 30-second epochs.
+        if (painted) {
+            OuraNightEpochs epochsIn;
+            epochsIn.epochs = static_cast<int>(std::floor((w.end - w.start) / kEpochSeconds));
+            epochsIn.stages.assign(stages.begin(), stages.begin() + std::min<size_t>(stages.size(), static_cast<size_t>(epochsIn.epochs)));
+            const auto motion = slice(motionSeconds, w.start, w.end);
+            if (!motion.empty() && epochsIn.epochs > 0) {
+                epochsIn.motion.assign(static_cast<size_t>(epochsIn.epochs), 0);
+                for (const TimedValue &m : motion) {
+                    const int64_t k = static_cast<int64_t>((static_cast<double>(m.utc) - w.start) / kEpochSeconds);
+                    if (k >= 0 && k < epochsIn.epochs) {
+                        const int v = epochsIn.motion[static_cast<size_t>(k)] + static_cast<int>(m.value);
+                        epochsIn.motion[static_cast<size_t>(k)] = static_cast<uint8_t>(std::min(v, 255));
+                    }
+                }
+                n.ouraMotionKnown = true;
+            }
+            int tod = static_cast<int>((((static_cast<int64_t>(w.start) + offsetAt(w.start)) % 86400) + 86400) % 86400 / 60);
+            if (tod >= 720)
+                tod -= 1440;
+            epochsIn.startMinutesOfDay = tod;
+            n.oura = summariseNight(epochsIn);
         }
 
         const auto windowedHr = slice(hr5, w.start, w.end);

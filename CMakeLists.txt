@@ -31,6 +31,7 @@ set(CORE_SOURCES
     src/analysis/sleepscore.cpp
     src/analysis/daysummary.cpp
     src/analysis/oura_sleep_score.cpp
+    src/analysis/oura_sleep_state.cpp
     src/analysis/cloudmerge.cpp
     src/cloud/json.cpp
     src/cloud/csv.cpp

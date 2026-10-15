@@ -180,6 +180,18 @@ OuraSleepScore ouraSleepScore(const OuraSleepInput &in)
         weights += kWeights[static_cast<size_t>(i)];
     }
     out.weightUsed = weights;
+    // What the app displays: each clamped to 1-100, restfulness being the sum of
+    // its three parts after the engine's rescaling.
+    const auto shown = [](int c) { return std::max(1, std::min(100, c)); };
+    for (size_t i = 0; i < 5; ++i)
+        out.displayed[i] = shown(out.contributor[i]);
+    if (out.complete) {
+        int rest = 0;
+        for (size_t i = 5; i < 8; ++i)
+            rest += ((((2 * out.contributor[i] + 3) & 0xff) * 0xab) >> 10);
+        out.displayed[5] = shown(rest);
+    }
+    out.displayed[6] = shown(out.contributor[8]);
     // The native combination is (sum + 50) / 100 over weights that add to 100;
     // over fewer weights the same rounding is taken against their total.
     out.score = weights > 0 ? static_cast<int>((weighted + weights / 2) / weights) : 0;

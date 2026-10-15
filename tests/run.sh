@@ -12,7 +12,8 @@ set -e
 cd "$(dirname "$0")"
 
 CORE="../src/ring/aes128.cpp ../src/ring/protocol.cpp ../src/ring/events.cpp"
-ANALYSIS="../src/analysis/ringclock.cpp ../src/analysis/sleepscore.cpp ../src/analysis/daysummary.cpp"
+ANALYSIS="../src/analysis/ringclock.cpp ../src/analysis/sleepscore.cpp ../src/analysis/oura_sleep_state.cpp \
+         ../src/analysis/daysummary.cpp"
 
 run() {
     name=$1; shift
@@ -28,6 +29,7 @@ run protocol $CORE
 run session $CORE ../src/ring/session.cpp
 run daysummary $CORE $ANALYSIS
 run oura_sleep_score ../src/analysis/oura_sleep_score.cpp
+run oura_sleep_state ../src/analysis/oura_sleep_state.cpp
 run cloudparse ../src/cloud/json.cpp ../src/cloud/csv.cpp ../src/cloud/zip.cpp -lz
 run cloudmerge $CORE $ANALYSIS ../src/analysis/cloudmerge.cpp ../src/cloud/json.cpp ../src/cloud/csv.cpp \
     ../src/cloud/clouddoc.cpp

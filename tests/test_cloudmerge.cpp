@@ -98,6 +98,16 @@ static void cloudOnlyHistory()
     CHECK_EQ(int(n.hypnogram[2]), int(StageDeep));
     CHECK_EQ(int(n.hypnogram[4]), int(StageLight));
     CHECK_EQ(int(n.hypnogram[6]), int(StageRem));
+    // Five-minute phases become ten 30-second epochs each; there is no motion, so
+    // the restful counts are not known.
+    CHECK(n.oura.has_value());
+    CHECK(!n.ouraMotionKnown);
+    if (n.oura) {
+        CHECK_EQ(n.oura->deepEpochs, 20);
+        CHECK_EQ(n.oura->lightEpochs, 20);
+        CHECK_EQ(n.oura->remEpochs, 20);
+        CHECK_EQ(n.oura->latencyEpochs, 20);
+    }
     CHECK(n.hr.size() == 3);                          // the null sample is skipped
     CHECK(n.restingHr.has_value() && *n.restingHr == 49);
     CHECK(n.avgHrv.has_value() && *n.avgHrv == 48);

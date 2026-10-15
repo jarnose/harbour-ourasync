@@ -49,7 +49,8 @@ def main():
     for case, line in zip(cases, mine):
         m = list(map(int, line.split()))
         score, nat = native(e, out, case)
-        mc = m[1:]
+        mc = m[1:10]
+        shown = m[10:17]
         # native contributor bytes: 0-4 direct, 6 timing; 5 is the three restfulness parts rescaled
         parts = [((2 * min(100, max(0, c)) + 3) & 0xff) * 0xab >> 10 for c in mc[5:8]]
         nat_rest = sum(parts)
@@ -63,6 +64,9 @@ def main():
             problems.append('timing native %d mine %d' % (nat[6], mc[8]))
         if nat[5] != max(1, min(100, nat_rest)):
             problems.append('restful native %d mine %d' % (nat[5], nat_rest))
+        # the port's own "displayed" contributors must equal the library's bytes
+        if shown != nat:
+            problems.append('displayed native %s mine %s' % (nat, shown))
         if problems:
             bad += 1
             if bad <= 15:

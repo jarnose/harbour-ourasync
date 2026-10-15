@@ -195,6 +195,18 @@ double spo2PercentFromR(double r)
     return std::min(100.0, std::max(85.0, pct));
 }
 
+std::optional<int> decodeMotionSeconds(const Bytes &body)
+{
+    if (body.size() < 4)
+        return std::nullopt;
+    // The native parser rejects a body whose intensity bytes carry bit 0x40.
+    if (body.size() >= 5 && (body[4] & 0x40))
+        return std::nullopt;
+    if (body.size() >= 6 && (body[5] & 0x40))
+        return std::nullopt;
+    return body[0] & 0x1f;
+}
+
 std::optional<uint32_t> decodeTimeSync(const Bytes &body)
 {
     if (body.size() < 4)

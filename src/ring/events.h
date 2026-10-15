@@ -119,6 +119,11 @@ struct Spo2Sample
 std::vector<Spo2Sample> decodeSpo2RPi(const Bytes &body);
 double spo2PercentFromR(double r);
 
+// motion_event (0x47): the low five bits of the first byte are the seconds of
+// motion in the window, the top three the orientation. Oura's sleep analysis
+// takes the seconds, per 30-second epoch.
+std::optional<int> decodeMotionSeconds(const Bytes &body);
+
 // time_sync (0x42) and rtc_beacon (0x85): the ring's own record of the wall
 // clock at a given ring time. These anchor the ring's rebooting decisecond
 // counter to UTC.

@@ -90,13 +90,34 @@ Night nightFromCloud(const Json &j, const AnalysisOptions &options, int64_t star
 
     // Oura's phase string: one digit per five minutes, 1 deep, 2 light, 3 REM,
     // 4 awake: the same codes the rest of the app uses.
-    const std::string phases = j.str("sleep_phase_5_min");
+    // The export also carries a 30-second string; use it when there is one.
+    std::string phases = j.str("sleep_phase_30_sec");
+    int epochSeconds = 30;
+    if (phases.empty()) {
+        phases = j.str("sleep_phase_5_min");
+        epochSeconds = 300;
+    }
     if (!phases.empty()) {
         n.staged = true;
-        n.epochSeconds = 300;
+        n.epochSeconds = epochSeconds;
         n.hypnogramStart = start;
         for (char c : phases)
             n.hypnogram.push_back(c >= '1' && c <= '4' ? static_cast<uint8_t>(c - '0') : static_cast<uint8_t>(StageUnknown));
+
+        // Oura's counts need 30-second epochs; five-minute phases are repeated.
+        OuraNightEpochs epochsIn;
+        epochsIn.epochs = static_cast<int>((end - start) / 30);
+        const size_t repeat = static_cast<size_t>(epochSeconds / 30);
+        for (uint8_t code : n.hypnogram)
+            for (size_t r = 0; r < repeat; ++r)
+                epochsIn.stages.push_back(code);
+        if (epochsIn.stages.size() > static_cast<size_t>(epochsIn.epochs))
+            epochsIn.stages.resize(static_cast<size_t>(epochsIn.epochs));
+        int tod = static_cast<int>((((start + options.utcOffset(start)) % 86400) + 86400) % 86400 / 60);
+        if (tod >= 720)
+            tod -= 1440;
+        epochsIn.startMinutesOfDay = tod;
+        n.oura = summariseNight(epochsIn);   // motion unknown: no restfulness counts
     }
 
     n.hr = seriesOf(j.get("heart_rate"), start);

@@ -28,6 +28,8 @@ int main()
         std::cout << s.score;
         for (int c : s.contributor)
             std::cout << ' ' << c;
+        for (int c : s.displayed)
+            std::cout << ' ' << c;
         std::cout << '\n';
     }
 }

@@ -56,6 +56,10 @@ struct OuraSleepScore
     // efficiency, latency, restfulness A/B/C, timing. -1 where not computed.
     std::array<int, 9> contributor{};
     int score = 0;
+    // The seven contributors as Oura's app shows them, each 1-100: total sleep,
+    // deep, REM, efficiency, latency, restfulness (the three parts above, rescaled
+    // and added) and timing. 0 where not computed.
+    std::array<int, 7> displayed{};
     // False when restfulness was left out, so the score is over fewer than the
     // full 100 weight points.
     bool complete = false;

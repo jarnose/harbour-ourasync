@@ -109,6 +109,17 @@ static void clockAndNight()
             events.push_back(ev(Tag::ActivityInfo, at(kT0 + 60 * 12 * m), walk, downloaded));
     }
 
+    // Movement: ten consecutive 30-second windows of 10 s of motion, mid-night. The
+    // low five bits are the seconds; the top three are orientation.
+    for (int k = 0; k < 10; ++k)
+        events.push_back(ev(Tag::Motion, at(sleepStart + 4 * 3600 + 30 * k), { uint8_t(0x40 | 10), 0, 0, 0, 0, 0 }, downloaded));
+
+    // Six epochs of heavy movement after a calm stretch: the windowed total doubles past
+    // 24 s, which the engine counts as one motion event. The gentler build-up above
+    // never rises by 24 once past 24, so it is restlessness but not an event.
+    for (int k = 0; k < 6; ++k)
+        events.push_back(ev(Tag::Motion, at(sleepStart + 2 * 3600 + 30 * k), { uint8_t(0x40 | 28), 0, 0, 0, 0, 0 }, downloaded));
+
     // A ring serves its history in time order, and the clock relies on that: a
     // counter that steps back by hours is how it recognises a reset.
     std::stable_sort(events.begin(), events.end(),
@@ -143,6 +154,20 @@ static void clockAndNight()
     CHECK(n.efficiencyPct.has_value());
     CHECK(*n.efficiencyPct > 80 && *n.efficiencyPct <= 100);
     CHECK(std::fabs(n.asleepMin + n.awakeMin - 420.0) < 40.0);
+
+    // The engine's own counts: 30 awake epochs, then asleep to the end.
+    CHECK(n.oura.has_value());
+    if (n.oura) {
+        CHECK(n.ouraMotionKnown);
+        CHECK(std::abs(n.oura->latencyEpochs - 30) <= 1);
+        CHECK(n.oura->deepEpochs > 0 && n.oura->remEpochs > 0 && n.oura->lightEpochs > 0);
+        // Ten epochs of motion and six more, each windowed over four.
+        CHECK(n.oura->restlessEpochs >= 20 && n.oura->restlessEpochs <= 25);
+        CHECK_EQ(n.oura->motionEvents, 1);
+        // 02:53 local + 2 h offset + 1 h: the night starts at 11:53 UTC+2 -> wrapped time of day.
+        const int64_t startLocal = ((sleepStart + 2 * 3600) % 86400) / 60;
+        CHECK(n.oura->midpointMinutes > startLocal - 1440 && n.oura->midpointMinutes < startLocal + 1440);
+    }
 
     // Physiology.
     CHECK(n.restingHr.has_value());
@@ -280,8 +305,18 @@ static void scoring()
     CHECK(causalBaseline({ 50, 52, 54 }).has_value());
 }
 
+static void motionDecoding()
+{
+    CHECK_EQ(*decodeMotionSeconds({ 0x4a, 0, 0, 0, 0, 0 }), 10);   // orientation bits dropped
+    CHECK_EQ(*decodeMotionSeconds({ 0x1f, 0, 0, 0 }), 31);
+    CHECK(!decodeMotionSeconds({ 0x05, 0, 0 }));                    // too short
+    CHECK(!decodeMotionSeconds({ 0x05, 0, 0, 0, 0x40, 0 }));        // the library rejects bit 0x40 here
+    CHECK(!decodeMotionSeconds({ 0x05, 0, 0, 0, 0, 0x40 }));
+}
+
 int main()
 {
+    motionDecoding();
     clockAndNight();
     unanchoredFallsBackToDownloadTime();
     counterResetStartsANewEpoch();

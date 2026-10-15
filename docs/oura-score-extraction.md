@@ -81,17 +81,53 @@ are exactly these once the three 5-point restfulness inputs are added.
 * **Not validated**: the timing trapezoid (read from the binary, no published
   night exercises it) and the deep/REM rows (no published minutes to test them).
 
-### What is still missing for an exact sleep score
+### The night's state machine: ported
 
-The three restfulness inputs and the exact midpoint are produced by a state
-machine over the night's epochs (about 2.3 kB of arm64 at `0x7e7dc`, inside the
-function that calls `ecore_sleep_score_calculate`). From a first read: it
-tracks a per-epoch motion value, counts "restless" epochs in non-awake stages,
-counts long awakenings, and takes the midpoint as the mean position of the sleep
-epochs added to the start time of day. Porting it needs the per-epoch motion
-signal (`motion_event`, 0x47) laid out exactly as the engine reads it. Until
-then `ouraSleepScore()` leaves those contributors out and renormalises, and says
-so (`complete = false`).
+The mapper's inputs (latency, wake-ups, restless epochs, motion events,
+midpoint) are produced by a state machine over the night's 30-second epochs, in
+the function that calls `ecore_sleep_score_calculate`. `src/analysis/oura_sleep_state.cpp`
+is a port of it:
+
+* inputs: one stage code per 30 s epoch (1 deep, 2 light, 3 REM, 4 awake, 0 awake),
+  optionally one motion value per epoch, and the local start time of day
+  (wrapped to -720..719 minutes). With fewer motion values than epochs the engine
+  ignores motion altogether. The loop runs `count + 1` times, `count` capped at 1799.
+* latency: start of the first run of ten non-awake epochs (1 if that is within
+  the first ten epochs, 255 if it is after epoch 264);
+* wake-ups: awake streaks of two or more epochs while asleep, minus the last;
+* restless epochs: non-awake epochs where the motion summed over a four-epoch
+  window is non-zero;
+* motion events: a jump of 24 or more over `max(M[i-3], M[i-2])` where that
+  reference is itself 24 or more, re-armed after `min(i+1, 20)` calm epochs;
+* midpoint: the start time of day plus half the mean position of the non-awake
+  epochs.
+
+Motion per epoch is the sum of the `motion_event` (0x47) seconds (low five bits
+of the first body byte) that fall in the epoch. **That mapping is an assumption**
+about how the app feeds the engine: it is consistent with the field's range
+(0-31 s per 30 s) but has not been checked against a real night, so the
+restfulness contributor is the first thing to compare in *Score check* once a
+ring night and the matching cloud score are both present.
+
+Nights imported from Oura's cloud have staging (a 30 s string or the 5-minute
+one, repeated ten times) but no motion, so their restful counts are unknown and
+the score is renormalised and marked `complete = false`.
+
+### How the state machine was checked
+
+`tools/apk/ecore_sleep.py` runs `libecore.so` itself in the Unicorn emulator
+(libc calls stubbed) and builds the `s_ecore_sleep_score_input_t` the way the
+app does; `diff_sleep_state.py` feeds the same random nights to it and to
+`tools/apk/diff_state_cli.cpp` (a thin driver around the port): 750 nights, no
+mismatches. `diff_sleep_score.py` does the same for the mapper (3000 cases),
+including the seven displayed contributor values (restfulness shown is
+`sum(((2c+3)&0xff)*0xab>>10)` of its three parts).
+
+```
+python3 -m venv venv && venv/bin/pip install unicorn pyelftools capstone
+g++ -std=c++17 -O2 -I src tools/apk/diff_state_cli.cpp src/analysis/oura_sleep_state.cpp -o /tmp/diff_state_cli
+venv/bin/python tools/apk/diff_sleep_state.py lib/arm64-v8a/libecore.so 250 1   # cases, seed
+```
 
 ## Activity score: combiner recovered, inputs not
 
