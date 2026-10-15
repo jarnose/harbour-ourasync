@@ -547,6 +547,12 @@ bool AppController::loadBlob(const QString &name, QByteArray &out, QString *erro
 
 bool AppController::saveBlob(const QString &name, const QByteArray &data, QString *error)
 {
+    // Sailfish Secrets does not overwrite: storing a name that exists fails with
+    // "UNIQUE constraint failed". An earlier attempt, a re-run of set-up or a
+    // refreshed token all leave one behind, so the old value goes first. A
+    // missing one makes the delete fail, which is fine.
+    deleteBlob(name);
+
     auto state = std::make_shared<VaultWait>();
     m_vault.ensureCollection([this, state, name, data](bool ok, const QString &err) {
         if (!ok) {
