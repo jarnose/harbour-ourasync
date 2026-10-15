@@ -26,6 +26,7 @@
 class AppController : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString appVersion READ appVersion CONSTANT)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(QString status READ status NOTIFY statusChanged)
     Q_PROPERTY(QString lastError READ lastError NOTIFY lastErrorChanged)
@@ -55,6 +56,14 @@ class AppController : public QObject
 public:
     explicit AppController(QObject *parent = nullptr);
 
+    static QString appVersion()
+    {
+#ifdef APP_VERSION
+        return QStringLiteral(APP_VERSION);
+#else
+        return QStringLiteral("dev");
+#endif
+    }
     bool busy() const { return m_busy; }
     QString status() const { return m_status; }
     QString lastError() const { return m_lastError; }

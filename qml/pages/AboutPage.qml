@@ -57,6 +57,11 @@ Page {
                            + "it only fetches from Oura: nothing is uploaded anywhere.")
             }
 
+            DetailItem {
+                label: qsTr("Version")
+                value: AppController.appVersion
+            }
+
             SectionHeader { text: qsTr("Credits") }
 
             Label {

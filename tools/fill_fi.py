@@ -329,6 +329,7 @@ FI.update({
 "Oura did not accept the code (HTTP %1): %2": "Oura ei hyväksynyt koodia (HTTP %1): %2",
 "Oura's reply did not contain a token (HTTP %1, parse error at byte %2): %3": "Ouran vastauksessa ei ollut tunnistetta (HTTP %1, jäsennysvirhe tavussa %2): %3",
 "(empty)": "(tyhjä)",
+"Version": "Versio",
 "Could not create the folder %1.": "Kansiota %1 ei voitu luoda.",
 "Could not copy the database to %1.": "Tietokantaa ei voitu kopioida kohteeseen %1.",
 "There is nothing to export yet.": "Vietävää ei ole vielä.",

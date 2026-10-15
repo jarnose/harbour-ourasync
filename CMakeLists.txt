@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.19)
-project(harbour-ourasync CXX)
+# One version, in the spec: the RPM, the About page and the release tag all follow it
+# (tools/check_version.sh holds the tag to it).
+file(STRINGS rpm/harbour-ourasync.spec APP_VERSION_LINE REGEX "^Version:")
+string(REGEX REPLACE "^Version:[ \t]*" "" APP_VERSION "${APP_VERSION_LINE}")
+project(harbour-ourasync VERSION ${APP_VERSION} LANGUAGES CXX)
 
 # std::optional in the Qt-free core (src/ring, src/analysis) needs C++17. The
 # core is compiled and tested with plain g++ as well; see tests/README.md.
@@ -56,6 +60,7 @@ add_executable(harbour-ourasync
 )
 
 target_compile_definitions(harbour-ourasync PRIVATE
+    APP_VERSION="${APP_VERSION}"
     $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
 )
 
