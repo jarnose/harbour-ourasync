@@ -43,7 +43,7 @@ public:
     int epochOf(size_t index) const { return m_epochOf[index]; }
 
     // UTC seconds for a ring time within an epoch.
-    double unix(int epoch, int64_t ds) const;
+    double utc(int epoch, int64_t ds) const;
 
     // True when the epoch has a real time record rather than download-time
     // arithmetic.
@@ -53,7 +53,7 @@ private:
     struct Anchor
     {
         int64_t ds;
-        int64_t unix;
+        int64_t utc;
     };
     struct Epoch
     {

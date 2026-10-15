@@ -53,7 +53,7 @@ bool RingClock::anchored(int epoch) const
     return epoch >= 0 && epoch < epochCount() && !m_epochs[static_cast<size_t>(epoch)].anchors.empty();
 }
 
-double RingClock::unix(int epochIndex, int64_t ds) const
+double RingClock::utc(int epochIndex, int64_t ds) const
 {
     if (epochIndex < 0 || epochIndex >= epochCount())
         return std::nan("");
@@ -64,7 +64,7 @@ double RingClock::unix(int epochIndex, int64_t ds) const
         for (const Anchor &a : epoch.anchors)
             if (std::llabs(a.ds - ds) < std::llabs(best->ds - ds))
                 best = &a;
-        return static_cast<double>(best->unix) + static_cast<double>(ds - best->ds) / 10.0;
+        return static_cast<double>(best->utc) + static_cast<double>(ds - best->ds) / 10.0;
     }
     return static_cast<double>(epoch.capturedAtMax) - static_cast<double>(epoch.maxDs - ds) / 10.0;
 }

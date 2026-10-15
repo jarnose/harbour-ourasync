@@ -45,7 +45,7 @@ static void clockAndNight()
 {
     // Ring counter starts at 100000 ds when the phone tells it kT0.
     const int64_t base = 100000;
-    auto at = [&](int64_t unix) { return base + (unix - kT0) * 10; };
+    auto at = [&](int64_t utc) { return base + (utc - kT0) * 10; };
 
     std::vector<StoredEvent> events;
     const int64_t downloaded = kT0 + 86400;
@@ -206,8 +206,8 @@ static void counterResetStartsANewEpoch()
     RingClock clock(events);
     CHECK_EQ(clock.epochCount(), 2);
     CHECK(clock.anchored(0) && clock.anchored(1));
-    CHECK(std::fabs(clock.unix(clock.epochOf(1), 5001000) - (kT0 + 100.0)) < 1e-6);
-    CHECK(std::fabs(clock.unix(clock.epochOf(3), 1200) - (kT0 + 86400 + 100.0)) < 1e-6);
+    CHECK(std::fabs(clock.utc(clock.epochOf(1), 5001000) - (kT0 + 100.0)) < 1e-6);
+    CHECK(std::fabs(clock.utc(clock.epochOf(3), 1200) - (kT0 + 86400 + 100.0)) < 1e-6);
 }
 
 static void temperature()

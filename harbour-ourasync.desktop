@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=harbour-ourasync
+Exec=harbour-ourasync
+Name=Oura Sync
+
+[X-Sailjail]
+OrganizationName=io.github.jarnose
+ApplicationName=ourasync
+# Bluetooth: the ring, through BlueZ over the system bus.
+# Secrets: the ring's app-auth key lives in the Sailfish Secrets vault.
+# There is deliberately no Internet permission. The app talks to the ring and
+# to nothing else; the history never leaves the phone.
+Permissions=Bluetooth;Secrets

@@ -48,12 +48,12 @@ int64_t floorDiv(int64_t a, int64_t b)
 
 } // namespace
 
-std::string localDate(int64_t unix, int offsetSeconds)
+std::string localDate(int64_t utc, int offsetSeconds)
 {
     int64_t y;
     unsigned m, d;
-    civilFromDays(floorDiv(unix + offsetSeconds, 86400), y, m, d);
-    char buf[16];
+    civilFromDays(floorDiv(utc + offsetSeconds, 86400), y, m, d);
+    char buf[48];
     std::snprintf(buf, sizeof buf, "%04lld-%02u-%02u", static_cast<long long>(y), m, d);
     return buf;
 }
@@ -139,14 +139,14 @@ double mean(const std::vector<double> &v)
 
 void sortByTime(std::vector<TimedValue> &v)
 {
-    std::sort(v.begin(), v.end(), [](const TimedValue &a, const TimedValue &b) { return a.unix < b.unix; });
+    std::sort(v.begin(), v.end(), [](const TimedValue &a, const TimedValue &b) { return a.utc < b.utc; });
 }
 
 std::vector<TimedValue> slice(const std::vector<TimedValue> &v, double from, double to)
 {
     std::vector<TimedValue> out;
     for (const TimedValue &p : v)
-        if (p.unix >= from && p.unix <= to)
+        if (p.utc >= from && p.utc <= to)
             out.push_back(p);
     return out;
 }
@@ -195,7 +195,7 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
     Summary out;
     RingClock clock(events);
 
-    const auto offsetAt = [&](double unix) { return options.utcOffset(static_cast<int64_t>(unix)); };
+    const auto offsetAt = [&](double utc) { return options.utcOffset(static_cast<int64_t>(utc)); };
 
     // Pass 1: one pass over the events, collecting typed series with real times.
     std::vector<Window> windows;
@@ -219,7 +219,7 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
     for (size_t i = 0; i < events.size(); ++i) {
         const StoredEvent &e = events[i];
         const int epoch = clock.epochOf(i);
-        const double t = clock.unix(epoch, e.ds);
+        const double t = clock.utc(epoch, e.ds);
         if (std::isnan(t)) {
             ++out.unplacedEvents;
             continue;
@@ -230,8 +230,8 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
         case Tag::BedtimePeriod: {
             if (auto b = decodeBedtime(e.body)) {
                 Window w;
-                w.start = clock.unix(epoch, b->startDs);
-                w.end = clock.unix(epoch, b->endDs);
+                w.start = clock.utc(epoch, b->startDs);
+                w.end = clock.utc(epoch, b->endDs);
                 w.approx = approx;
                 const double len = w.end - w.start;
                 if (len >= kMinWindowSeconds && len <= kMaxWindowSeconds)
@@ -365,11 +365,11 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
         const TimedValue *newest = nullptr;
         if (!beats.empty())
             newest = &beats.back();
-        if (!hr5.empty() && (!newest || hr5.back().unix > newest->unix))
+        if (!hr5.empty() && (!newest || hr5.back().utc > newest->utc))
             newest = &hr5.back();
         if (newest) {
             out.latestHr = newest->value;
-            out.latestHrUnix = newest->unix;
+            out.latestHrUnix = newest->utc;
         }
     }
 
@@ -641,11 +641,11 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
         std::map<std::string, std::vector<HourAccumulator>> byDay;
         std::map<std::string, Day> days;
 
-        const auto dayOf = [&](double unix, int &hour) {
-            const int off = offsetAt(unix);
-            const int64_t local = static_cast<int64_t>(std::floor(unix)) + off;
+        const auto dayOf = [&](double utc, int &hour) {
+            const int off = offsetAt(utc);
+            const int64_t local = static_cast<int64_t>(std::floor(utc)) + off;
             hour = static_cast<int>(floorDiv(local, 3600) % 24 + 24) % 24;
-            return localDate(static_cast<int64_t>(unix), off);
+            return localDate(static_cast<int64_t>(utc), off);
         };
         const auto accumulatorsFor = [&](const std::string &date) -> std::vector<HourAccumulator> & {
             auto it = byDay.find(date);
@@ -657,7 +657,7 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
         for (const std::vector<TimedValue> *series : { &beats, &hr5, &sleepHr }) {
             for (const TimedValue &p : *series) {
                 int hour = 0;
-                const std::string date = dayOf(static_cast<double>(p.unix), hour);
+                const std::string date = dayOf(static_cast<double>(p.utc), hour);
                 accumulatorsFor(date)[static_cast<size_t>(hour)].values.push_back(p.value);
             }
         }
@@ -665,9 +665,9 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
         std::map<std::string, double> metTotals;
         std::map<std::string, int> metMinutes;
         for (const auto &entry : metByMinute) {
-            const double unix = static_cast<double>(entry.first) * 60.0;
+            const double utc = static_cast<double>(entry.first) * 60.0;
             int hour = 0;
-            const std::string date = dayOf(unix, hour);
+            const std::string date = dayOf(utc, hour);
             const double met = entry.second;
 
             auto &acc = accumulatorsFor(date)[static_cast<size_t>(hour)];

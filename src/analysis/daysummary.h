@@ -23,7 +23,7 @@ namespace Oura {
 
 struct TimedValue
 {
-    int64_t unix = 0;
+    int64_t utc = 0;
     double value = 0;
 };
 
@@ -111,7 +111,7 @@ struct Summary
 Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions &options);
 
 // "YYYY-MM-DD" for a unix time at a fixed offset.
-std::string localDate(int64_t unix, int offsetSeconds);
+std::string localDate(int64_t utc, int offsetSeconds);
 int64_t daysFromCivil(int64_t y, unsigned m, unsigned d);
 
 // ecore's nightly_temperature: a 7-sample running median, then 30-sample
