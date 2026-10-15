@@ -259,8 +259,8 @@ FI.update({
 "Open from Documents": "Avaa Asiakirjoista",
 "Or a file or folder path": "Tai tiedoston tai kansion polku",
 "Oura Cloud API": "Oura Cloud API",
-"Needs an active Oura Membership. Oura no longer issues personal tokens, so you register a small application of your own at cloud.ouraring.com/oauth/applications with the redirect address below, and enter its client id and secret here. They stay in this phone's secure vault.":
-    "Vaatii voimassa olevan Oura-jäsenyyden. Oura ei enää anna henkilökohtaisia tunnisteita, joten rekisteröit osoitteessa cloud.ouraring.com/oauth/applications oman pienen sovelluksen alla näkyvällä uudelleenohjausosoitteella ja annat sen client id:n ja salaisuuden tässä. Ne pysyvät tämän puhelimen suojatussa holvissa.",
+"Needs an active Oura Membership. Oura no longer issues personal tokens, so you register a small application of your own at developer.ouraring.com/applications with the redirect address below, and enter its client id and secret here. They stay in this phone's secure vault.":
+    "Vaatii voimassa olevan Oura-jäsenyyden. Oura ei enää anna henkilökohtaisia tunnisteita, joten rekisteröit osoitteessa developer.ouraring.com/applications oman pienen sovelluksen alla näkyvällä uudelleenohjausosoitteella ja annat sen client id:n ja salaisuuden tässä. Ne pysyvät tämän puhelimen suojatussa holvissa.",
 "Client id": "Client id",
 "Client secret": "Client secret",
 "Redirect address: http://localhost:%1/callback": "Uudelleenohjausosoite: http://localhost:%1/callback",

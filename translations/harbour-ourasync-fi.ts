@@ -311,8 +311,8 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
     </message>
     <message>
         <location filename="../qml/pages/CloudPage.qml" line="147"/>
-        <source>Needs an active Oura Membership. Oura no longer issues personal tokens, so you register a small application of your own at cloud.ouraring.com/oauth/applications with the redirect address below, and enter its client id and secret here. They stay in this phone&apos;s secure vault.</source>
-        <translation>Vaatii voimassa olevan Oura-jäsenyyden. Oura ei enää anna henkilökohtaisia tunnisteita, joten rekisteröit osoitteessa cloud.ouraring.com/oauth/applications oman pienen sovelluksen alla näkyvällä uudelleenohjausosoitteella ja annat sen client id:n ja salaisuuden tässä. Ne pysyvät tämän puhelimen suojatussa holvissa.</translation>
+        <source>Needs an active Oura Membership. Oura no longer issues personal tokens, so you register a small application of your own at developer.ouraring.com/applications with the redirect address below, and enter its client id and secret here. They stay in this phone&apos;s secure vault.</source>
+        <translation>Vaatii voimassa olevan Oura-jäsenyyden. Oura ei enää anna henkilökohtaisia tunnisteita, joten rekisteröit osoitteessa developer.ouraring.com/applications oman pienen sovelluksen alla näkyvällä uudelleenohjausosoitteella ja annat sen client id:n ja salaisuuden tässä. Ne pysyvät tämän puhelimen suojatussa holvissa.</translation>
     </message>
     <message>
         <location filename="../qml/pages/CloudPage.qml" line="156"/>
@@ -1235,88 +1235,88 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
 <context>
     <name>OuraCloudClient</name>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="66"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="67"/>
         <source>Enter the client id and client secret of your Oura application first.</source>
         <translation>Anna ensin Oura-sovelluksesi client id ja client secret.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="71"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="72"/>
         <source>Could not listen on port %1 for Oura&apos;s redirect: %2. You can still paste the address the browser ends up on.</source>
         <translation>Porttia %1 ei voitu kuunnella Ouran uudelleenohjausta varten: %2. Voit silti liittää osoitteen, johon selain päätyy.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="134"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="141"/>
         <source>That address belongs to a different sign-in. Start again.</source>
         <translation>Tuo osoite kuuluu toiseen kirjautumiseen. Aloita alusta.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="137"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="144"/>
         <source>There is no authorization code in what was entered.</source>
         <translation>Annetussa ei ole valtuutuskoodia.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="153"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="162"/>
         <source>Oura did not accept the code (HTTP %1): %2</source>
         <translation>Oura ei hyväksynyt koodia (HTTP %1): %2</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="162"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="171"/>
         <source>Oura&apos;s reply did not contain a token.</source>
         <translation>Ouran vastauksessa ei ollut tunnistetta.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="177"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="186"/>
         <source>Not connected to Oura. Connect again.</source>
         <translation>Ei yhteyttä Ouraan. Yhdistä uudelleen.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="190"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="199"/>
         <source>Oura refused to renew the sign-in (HTTP %1). Connect again.</source>
         <translation>Oura kieltäytyi uusimasta kirjautumista (HTTP %1). Yhdistä uudelleen.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="230"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="239"/>
         <source>Oura did not answer in time. Check the network connection.</source>
         <translation>Oura ei vastannut ajoissa. Tarkista verkkoyhteys.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="237"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="246"/>
         <source>Could not reach Oura: %1</source>
         <translation>Ouraan ei saatu yhteyttä: %1</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="260"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="269"/>
         <source>Oura&apos;s reply could not be read.</source>
         <translation>Ouran vastausta ei voitu lukea.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="275"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="284"/>
         <source>Not connected to Oura.</source>
         <translation>Ei yhteyttä Ouraan.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="279"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="288"/>
         <source>Fetching %1…</source>
         <translation>Haetaan: %1…</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="303"/>
-        <location filename="../src/cloud/ouraclient.cpp" line="342"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="312"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="351"/>
         <source>Oura says too many requests were made. Try again in a few minutes.</source>
         <translation>Oura ilmoittaa liian monesta pyynnöstä. Yritä muutaman minuutin kuluttua.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="308"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="317"/>
         <source>Oura answered HTTP %1 for %2.</source>
         <translation>Oura vastasi HTTP %1 kohteelle %2.</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="320"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="329"/>
         <source>Fetching heart rate from %1…</source>
         <translation>Haetaan sykettä alkaen %1…</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="360"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="369"/>
         <source>Oura refused: %1 (no membership, or the permission was declined).</source>
         <translation>Oura kieltäytyi: %1 (ei jäsenyyttä tai lupa evättiin).</translation>
     </message>
@@ -1359,17 +1359,17 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
 <context>
     <name>RingLink</name>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="123"/>
+        <location filename="../src/ble/ringlink.cpp" line="124"/>
         <source>Pairing timed out. Is the ring close to the phone and not connected to another device?</source>
         <translation>Pariutus aikakatkaistiin. Onko sormus lähellä puhelinta eikä yhdistettynä toiseen laitteeseen?</translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="129"/>
+        <location filename="../src/ble/ringlink.cpp" line="130"/>
         <source>The ring refused to pair (%1). A ring that is still set up with the Oura app must be factory reset first.</source>
         <translation>Sormus kieltäytyi pariutumasta (%1). Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palauttaa tehdasasetuksiin.</translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="131"/>
+        <location filename="../src/ble/ringlink.cpp" line="132"/>
         <source>Pairing failed: %1
 
 If this keeps happening, pair the ring once in Settings &gt; Bluetooth, then set it up here.</source>
@@ -1378,17 +1378,17 @@ If this keeps happening, pair the ring once in Settings &gt; Bluetooth, then set
 Jos tämä toistuu, pariuta sormus kerran kohdassa Asetukset &gt; Bluetooth ja ota se sitten käyttöön täällä.</translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="171"/>
+        <location filename="../src/ble/ringlink.cpp" line="172"/>
         <source>Could not reach the ring. Is it nearby, charged, and not connected to another phone?</source>
         <translation>Sormukseen ei saatu yhteyttä. Onko se lähellä, ladattu eikä yhdistettynä toiseen puhelimeen?</translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="175"/>
+        <location filename="../src/ble/ringlink.cpp" line="176"/>
         <source>Could not connect to the ring: %1</source>
         <translation>Sormukseen yhdistäminen epäonnistui: %1</translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="181"/>
+        <location filename="../src/ble/ringlink.cpp" line="182"/>
         <source>The ring connected but did not finish Bluetooth service discovery.</source>
         <translation>Sormus yhdistyi mutta ei suorittanut Bluetooth-palveluiden etsintää loppuun.</translation>
     </message>
@@ -1418,17 +1418,17 @@ Jos tämä toistuu, pariuta sormus kerran kohdassa Asetukset &gt; Bluetooth ja o
         <translation>Sormuspalvelusta puuttuu luku- tai kirjoitusominaisuus.</translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="330"/>
+        <location filename="../src/ble/ringlink.cpp" line="328"/>
         <source>The ring is not connected</source>
         <translation>Sormus ei ole yhdistettynä</translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="342"/>
+        <location filename="../src/ble/ringlink.cpp" line="340"/>
         <source>Could not write to the ring: %1</source>
         <translation>Sormukseen ei voitu kirjoittaa: %1</translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="387"/>
+        <location filename="../src/ble/ringlink.cpp" line="385"/>
         <source>Bluetooth link to the ring was lost</source>
         <translation>Bluetooth-yhteys sormukseen katkesi</translation>
     </message>
@@ -1436,23 +1436,23 @@ Jos tämä toistuu, pariuta sormus kerran kohdassa Asetukset &gt; Bluetooth ja o
 <context>
     <name>RingScanner</name>
     <message>
-        <location filename="../src/ble/ringscanner.cpp" line="54"/>
+        <location filename="../src/ble/ringscanner.cpp" line="55"/>
         <source>Could not reach Bluetooth (org.bluez): %1</source>
         <translation>Bluetoothiin ei saatu yhteyttä (org.bluez): %1</translation>
     </message>
     <message>
-        <location filename="../src/ble/ringscanner.cpp" line="65"/>
+        <location filename="../src/ble/ringscanner.cpp" line="66"/>
         <location filename="../src/ble/ringscanner.cpp" line="162"/>
         <source>No Bluetooth adapter found</source>
         <translation>Bluetooth-sovitinta ei löytynyt</translation>
     </message>
     <message>
-        <location filename="../src/ble/ringscanner.cpp" line="94"/>
+        <location filename="../src/ble/ringscanner.cpp" line="95"/>
         <source>Could not list Bluetooth devices: %1</source>
         <translation>Bluetooth-laitteita ei voitu listata: %1</translation>
     </message>
     <message>
-        <location filename="../src/ble/ringscanner.cpp" line="122"/>
+        <location filename="../src/ble/ringscanner.cpp" line="123"/>
         <source>Could not start scanning: %1</source>
         <translation>Skannausta ei voitu aloittaa: %1</translation>
     </message>

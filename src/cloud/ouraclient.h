@@ -15,7 +15,7 @@
 // What this needs, and why it is more than a token field: Oura retired personal
 // access tokens at the end of 2025. Every client now signs in with OAuth 2.0
 // through an *application the user registers themselves* at
-// cloud.ouraring.com/oauth/applications (a client id, a client secret and a
+// developer.ouraring.com/applications (a client id, a client secret and a
 // redirect URI), and Gen 3 and later rings need an active Oura Membership for the
 // API to serve their data. A ring owner without a membership can still use the
 // data export (see exportimport.h), which needs neither.
@@ -98,4 +98,5 @@ private:
     QNetworkAccessManager m_network;
     QTcpServer m_catcher;
     QString m_state;
+    QString m_verifier;   // PKCE code_verifier of the sign-in in progress
 };

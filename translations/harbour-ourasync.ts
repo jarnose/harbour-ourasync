@@ -305,7 +305,7 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
     </message>
     <message>
         <location filename="../qml/pages/CloudPage.qml" line="147"/>
-        <source>Needs an active Oura Membership. Oura no longer issues personal tokens, so you register a small application of your own at cloud.ouraring.com/oauth/applications with the redirect address below, and enter its client id and secret here. They stay in this phone&apos;s secure vault.</source>
+        <source>Needs an active Oura Membership. Oura no longer issues personal tokens, so you register a small application of your own at developer.ouraring.com/applications with the redirect address below, and enter its client id and secret here. They stay in this phone&apos;s secure vault.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1229,88 +1229,88 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
 <context>
     <name>OuraCloudClient</name>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="66"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="67"/>
         <source>Enter the client id and client secret of your Oura application first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="71"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="72"/>
         <source>Could not listen on port %1 for Oura&apos;s redirect: %2. You can still paste the address the browser ends up on.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="134"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="141"/>
         <source>That address belongs to a different sign-in. Start again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="137"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="144"/>
         <source>There is no authorization code in what was entered.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="153"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="162"/>
         <source>Oura did not accept the code (HTTP %1): %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="162"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="171"/>
         <source>Oura&apos;s reply did not contain a token.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="177"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="186"/>
         <source>Not connected to Oura. Connect again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="190"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="199"/>
         <source>Oura refused to renew the sign-in (HTTP %1). Connect again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="230"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="239"/>
         <source>Oura did not answer in time. Check the network connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="237"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="246"/>
         <source>Could not reach Oura: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="260"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="269"/>
         <source>Oura&apos;s reply could not be read.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="275"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="284"/>
         <source>Not connected to Oura.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="279"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="288"/>
         <source>Fetching %1…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="303"/>
-        <location filename="../src/cloud/ouraclient.cpp" line="342"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="312"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="351"/>
         <source>Oura says too many requests were made. Try again in a few minutes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="308"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="317"/>
         <source>Oura answered HTTP %1 for %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="320"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="329"/>
         <source>Fetching heart rate from %1…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="360"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="369"/>
         <source>Oura refused: %1 (no membership, or the permission was declined).</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1353,34 +1353,34 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
 <context>
     <name>RingLink</name>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="123"/>
+        <location filename="../src/ble/ringlink.cpp" line="124"/>
         <source>Pairing timed out. Is the ring close to the phone and not connected to another device?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="129"/>
+        <location filename="../src/ble/ringlink.cpp" line="130"/>
         <source>The ring refused to pair (%1). A ring that is still set up with the Oura app must be factory reset first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="131"/>
+        <location filename="../src/ble/ringlink.cpp" line="132"/>
         <source>Pairing failed: %1
 
 If this keeps happening, pair the ring once in Settings &gt; Bluetooth, then set it up here.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="171"/>
+        <location filename="../src/ble/ringlink.cpp" line="172"/>
         <source>Could not reach the ring. Is it nearby, charged, and not connected to another phone?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="175"/>
+        <location filename="../src/ble/ringlink.cpp" line="176"/>
         <source>Could not connect to the ring: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="181"/>
+        <location filename="../src/ble/ringlink.cpp" line="182"/>
         <source>The ring connected but did not finish Bluetooth service discovery.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1410,17 +1410,17 @@ If this keeps happening, pair the ring once in Settings &gt; Bluetooth, then set
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="330"/>
+        <location filename="../src/ble/ringlink.cpp" line="328"/>
         <source>The ring is not connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="342"/>
+        <location filename="../src/ble/ringlink.cpp" line="340"/>
         <source>Could not write to the ring: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ble/ringlink.cpp" line="387"/>
+        <location filename="../src/ble/ringlink.cpp" line="385"/>
         <source>Bluetooth link to the ring was lost</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1428,23 +1428,23 @@ If this keeps happening, pair the ring once in Settings &gt; Bluetooth, then set
 <context>
     <name>RingScanner</name>
     <message>
-        <location filename="../src/ble/ringscanner.cpp" line="54"/>
+        <location filename="../src/ble/ringscanner.cpp" line="55"/>
         <source>Could not reach Bluetooth (org.bluez): %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ble/ringscanner.cpp" line="65"/>
+        <location filename="../src/ble/ringscanner.cpp" line="66"/>
         <location filename="../src/ble/ringscanner.cpp" line="162"/>
         <source>No Bluetooth adapter found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ble/ringscanner.cpp" line="94"/>
+        <location filename="../src/ble/ringscanner.cpp" line="95"/>
         <source>Could not list Bluetooth devices: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ble/ringscanner.cpp" line="122"/>
+        <location filename="../src/ble/ringscanner.cpp" line="123"/>
         <source>Could not start scanning: %1</source>
         <translation type="unfinished"></translation>
     </message>

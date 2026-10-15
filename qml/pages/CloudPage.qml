@@ -145,7 +145,7 @@ Page {
                 color: Theme.secondaryColor
                 font.pixelSize: Theme.fontSizeSmall
                 text: qsTr("Needs an active Oura Membership. Oura no longer issues personal tokens, so you "
-                           + "register a small application of your own at cloud.ouraring.com/oauth/applications "
+                           + "register a small application of your own at developer.ouraring.com/applications "
                            + "with the redirect address below, and enter its client id and secret here. They "
                            + "stay in this phone's secure vault.")
             }

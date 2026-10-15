@@ -8,7 +8,7 @@ the ways Oura offers.
 | | data export | Cloud API |
 |---|---|---|
 | needs | an Oura account | an account **and** an active Oura Membership |
-| setup | none | register your own application at cloud.ouraring.com/oauth/applications |
+| setup | none | register your own application at developer.ouraring.com/applications |
 | network | none in the app (you download the ZIP in a browser) | the app talks to api.ouraring.com |
 | history | all of it | the span you choose |
 | permission | Downloads / Documents | Internet |
@@ -47,7 +47,7 @@ serve their data. So the sign-in here is:
 4. The tokens go into the Sailfish Secrets vault at once: a refresh token is
    single use, so the new pair is stored before anything else happens.
 
-Scopes asked: `personal daily heartrate workout session tag spo2Daily`. A
+Scopes asked: `personal daily heartrate workout session tag spo2` (the names in Oura's OpenAPI 1.41; `spo2Daily` is not one of them). The sign-in uses PKCE (S256), which Oura recommends. Applications are registered at developer.ouraring.com/applications (the old cloud.ouraring.com/oauth/applications now redirects there); an unapproved application is limited to 10 users. A
 collection that answers 403 (no membership, or its scope was declined) is skipped
 with a note; the rest are still imported. Heart rate is fetched a week at a time.
 

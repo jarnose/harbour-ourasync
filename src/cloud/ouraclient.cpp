@@ -1,5 +1,6 @@
 #include "ouraclient.h"
 
+#include <QCryptographicHash>
 #include <QDateTime>
 #include <QEventLoop>
 #include <QNetworkReply>
@@ -14,7 +15,7 @@ namespace {
 const char *const kAuthorize = "https://cloud.ouraring.com/oauth/authorize";
 const char *const kToken = "https://api.ouraring.com/oauth/token";
 const char *const kApi = "https://api.ouraring.com";
-const char *const kScopes = "personal daily heartrate workout session tag spo2Daily";
+const char *const kScopes = "personal daily heartrate workout session tag spo2";
 
 constexpr int kRequestTimeoutMs = 60000;
 
@@ -73,6 +74,10 @@ QUrl OuraCloudClient::beginAuthorization(QString *error)
         // The sign-in itself can still proceed with the paste fallback.
     }
     m_state = randomState();
+    // PKCE (RFC 7636): Oura recommends it, and it keeps a stolen code useless.
+    m_verifier = randomState() + randomState();   // 64 characters from [0-9a-f]
+    const QByteArray challenge = QCryptographicHash::hash(m_verifier.toLatin1(), QCryptographicHash::Sha256)
+                                         .toBase64(QByteArray::Base64UrlEncoding | QByteArray::OmitTrailingEquals);
 
     QUrl url{ QString::fromLatin1(kAuthorize) };
     QUrlQuery q;
@@ -81,6 +86,8 @@ QUrl OuraCloudClient::beginAuthorization(QString *error)
     q.addQueryItem(QStringLiteral("redirect_uri"), m_config.redirectUri());
     q.addQueryItem(QStringLiteral("scope"), QString::fromLatin1(kScopes));
     q.addQueryItem(QStringLiteral("state"), m_state);
+    q.addQueryItem(QStringLiteral("code_challenge"), QString::fromLatin1(challenge));
+    q.addQueryItem(QStringLiteral("code_challenge_method"), QStringLiteral("S256"));
     url.setQuery(q);
     return url;
 }
@@ -142,6 +149,8 @@ QString OuraCloudClient::completeAuthorization(const QString &codeOrUrl)
     form.addQueryItem(QStringLiteral("redirect_uri"), m_config.redirectUri());
     form.addQueryItem(QStringLiteral("client_id"), m_config.clientId);
     form.addQueryItem(QStringLiteral("client_secret"), m_config.clientSecret);
+    if (!m_verifier.isEmpty())
+        form.addQueryItem(QStringLiteral("code_verifier"), m_verifier);
 
     int status = 0;
     QString error;
