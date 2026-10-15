@@ -1,5 +1,6 @@
 #include "ringlink.h"
 
+#include "bluezcall.h"
 #include "bluezmanagedobjects.h"
 #include "ring/protocol.h"
 
@@ -105,8 +106,8 @@ QString RingLink::pair(const QString &devicePath, int timeoutMs)
         return QString();
 
     auto state = std::make_shared<CallState>();
-    QDBusInterface device(kBluezService, m_devicePath, kDeviceInterface, QDBusConnection::systemBus());
-    auto *watcher = new QDBusPendingCallWatcher(device.asyncCall(QStringLiteral("Pair")), this);
+    auto *watcher = new QDBusPendingCallWatcher(
+            BluezCall::async(m_devicePath, kDeviceInterface, QStringLiteral("Pair"), {}, timeoutMs), this);
     connect(watcher, &QDBusPendingCallWatcher::finished, this, [this, state](QDBusPendingCallWatcher *w) {
         const QDBusPendingReply<> reply = *w;
         state->finished = true;
@@ -154,8 +155,8 @@ QString RingLink::open(const QString &devicePath)
 
     if (!m_connected) {
         auto state = std::make_shared<CallState>();
-        QDBusInterface device(kBluezService, m_devicePath, kDeviceInterface, QDBusConnection::systemBus());
-        auto *watcher = new QDBusPendingCallWatcher(device.asyncCall(QStringLiteral("Connect")), this);
+        auto *watcher = new QDBusPendingCallWatcher(
+                BluezCall::async(m_devicePath, kDeviceInterface, QStringLiteral("Connect"), {}, kConnectTimeoutMs), this);
         connect(watcher, &QDBusPendingCallWatcher::finished, this, [this, state](QDBusPendingCallWatcher *w) {
             const QDBusPendingReply<> reply = *w;
             state->finished = true;
@@ -193,8 +194,7 @@ QString RingLink::open(const QString &devicePath)
                 SLOT(onNotifyPropertiesChanged(QString, QVariantMap, QStringList)));
         m_notifyHooked = true;
     }
-    QDBusInterface notifyChar(kBluezService, m_notifyPath, kCharInterface, QDBusConnection::systemBus());
-    QDBusReply<void> reply = notifyChar.call(QStringLiteral("StartNotify"));
+    QDBusReply<void> reply(BluezCall::call(m_notifyPath, kCharInterface, QStringLiteral("StartNotify")));
     if (!reply.isValid()) {
         if (reply.error().name() == QLatin1String("org.bluez.Error.NotPermitted")
             || reply.error().message().contains(QLatin1String("nsufficient"), Qt::CaseInsensitive))
@@ -263,8 +263,7 @@ void RingLink::close(bool disconnectDevice)
         m_notifyHooked = false;
     }
     if (m_notifySubscribed && !m_notifyPath.isEmpty()) {
-        QDBusInterface notifyChar(kBluezService, m_notifyPath, kCharInterface, QDBusConnection::systemBus());
-        notifyChar.call(QStringLiteral("StopNotify"));
+        BluezCall::call(m_notifyPath, kCharInterface, QStringLiteral("StopNotify"));
     }
     m_notifySubscribed = false;
 
@@ -275,8 +274,7 @@ void RingLink::close(bool disconnectDevice)
         m_deviceHooked = false;
     }
     if (disconnectDevice && !m_devicePath.isEmpty()) {
-        QDBusInterface device(kBluezService, m_devicePath, kDeviceInterface, QDBusConnection::systemBus());
-        device.asyncCall(QStringLiteral("Disconnect"));
+        BluezCall::async(m_devicePath, kDeviceInterface, QStringLiteral("Disconnect"));
     }
 
     m_writePath.clear();
@@ -335,8 +333,8 @@ bool RingLink::transact(const Oura::Bytes &request, const std::function<bool(con
     m_collecting = true;
 
     const QByteArray data(reinterpret_cast<const char *>(request.data()), static_cast<int>(request.size()));
-    QDBusInterface writeChar(kBluezService, m_writePath, kCharInterface, QDBusConnection::systemBus());
-    QDBusReply<void> written = writeChar.call(QStringLiteral("WriteValue"), data, QVariantMap());
+    QDBusReply<void> written(BluezCall::call(m_writePath, kCharInterface, QStringLiteral("WriteValue"),
+                                             { data, QVariantMap() }));
     if (!written.isValid()) {
         m_collecting = false;
         error = tr("Could not write to the ring: %1").arg(written.error().message()).toStdString();

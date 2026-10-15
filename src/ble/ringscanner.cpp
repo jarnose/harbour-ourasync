@@ -1,5 +1,6 @@
 #include "ringscanner.h"
 
+#include "bluezcall.h"
 #include "ring/protocol.h"
 
 #include <QDBusConnection>
@@ -112,8 +113,8 @@ void RingScanner::startDiscovery()
     m_discovering = true;
     m_poll.start();
 
-    QDBusInterface adapter(kBluezService, path, kAdapterInterface, QDBusConnection::systemBus());
-    auto *watcher = new QDBusPendingCallWatcher(adapter.asyncCall(QStringLiteral("StartDiscovery")), this);
+    auto *watcher = new QDBusPendingCallWatcher(
+            BluezCall::async(path, kAdapterInterface, QStringLiteral("StartDiscovery")), this);
     connect(watcher, &QDBusPendingCallWatcher::finished, this, [this](QDBusPendingCallWatcher *w) {
         const QDBusPendingReply<> reply = *w;
         // InProgress means someone else (Settings) is already scanning, which
@@ -133,8 +134,7 @@ void RingScanner::stopDiscovery()
     const QString path = adapterPath();
     if (path.isEmpty())
         return;
-    QDBusInterface adapter(kBluezService, path, kAdapterInterface, QDBusConnection::systemBus());
-    adapter.asyncCall(QStringLiteral("StopDiscovery"));
+    BluezCall::async(path, kAdapterInterface, QStringLiteral("StopDiscovery"));
 }
 
 QString RingScanner::devicePathForAddress(const QString &address)
@@ -162,8 +162,8 @@ bool RingScanner::removeDevice(const QString &objectPath, QString *error)
             *error = tr("No Bluetooth adapter found");
         return false;
     }
-    QDBusInterface adapter(kBluezService, path, kAdapterInterface, QDBusConnection::systemBus());
-    QDBusReply<void> reply = adapter.call(QStringLiteral("RemoveDevice"), QVariant::fromValue(QDBusObjectPath(objectPath)));
+    QDBusReply<void> reply(BluezCall::call(path, kAdapterInterface, QStringLiteral("RemoveDevice"),
+                                           { QVariant::fromValue(QDBusObjectPath(objectPath)) }));
     if (!reply.isValid()) {
         if (error)
             *error = reply.error().message();
