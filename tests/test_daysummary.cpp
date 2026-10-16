@@ -201,6 +201,46 @@ static void clockAndNight()
     CHECK(foundDay);
 }
 
+static void ringWithoutHypnogram()
+{
+    // A Ring 4 sends the night's window and its heart rate, HRV and movement but no stages:
+    // they are estimated, and said to be.
+    const int64_t base = 100000;
+    auto at = [&](int64_t utc) { return base + (utc - kT0) * 10; };
+    std::vector<StoredEvent> events;
+    const int64_t downloaded = kT0 + 86400;
+    events.push_back(ev(Tag::TimeSync, base, le32(uint32_t(kT0)), kT0));
+    const int64_t sleepStart = kT0 + 3600, sleepEnd = sleepStart + 7 * 3600;
+    events.push_back(ev(Tag::BedtimePeriod, at(sleepEnd) + 600,
+                        cat(le32(uint32_t(at(sleepStart))), le32(uint32_t(at(sleepEnd)))), downloaded));
+    for (int64_t t = sleepStart; t < sleepEnd; t += 1800) {
+        Bytes body;
+        for (int k = 0; k < 6; ++k) {
+            body.push_back(uint8_t(52 + (k % 4) + (t > sleepEnd - 3600 ? 6 : 0)));
+            body.push_back(uint8_t(30 + int((t - sleepStart) / 900)));
+        }
+        events.push_back(ev(Tag::Hrv, at(t), body, downloaded));
+    }
+    for (int64_t t = sleepStart; t < sleepStart + 600; t += 30)
+        events.push_back(ev(Tag::Motion, at(t), { uint8_t(0x40 | 12), 0, 0, 0 }, downloaded));
+    std::stable_sort(events.begin(), events.end(), [](const StoredEvent &a, const StoredEvent &b) { return a.ds < b.ds; });
+    int64_t id = 0;
+    for (StoredEvent &e : events)
+        e.id = ++id;
+
+    AnalysisOptions opt;
+    opt.utcOffset = [](int64_t) { return 0; };
+    const Summary s = summarize(events, opt);
+    CHECK_EQ(s.nights.size(), size_t(1));
+    if (s.nights.empty())
+        return;
+    const Night &n = s.nights[0];
+    CHECK(n.staged);
+    CHECK(n.stagesEstimated);
+    CHECK(n.asleepMin > 300 && n.asleepMin < 430);
+    CHECK(n.oura.has_value());
+}
+
 static void unanchoredFallsBackToDownloadTime()
 {
     // No time_sync at all: the epoch is placed from the download time and the
@@ -337,6 +377,7 @@ int main()
     motionDecoding();
     motionPeriodDecoding();
     clockAndNight();
+    ringWithoutHypnogram();
     unanchoredFallsBackToDownloadTime();
     counterResetStartsANewEpoch();
     temperature();

@@ -36,6 +36,7 @@ set(CORE_SOURCES
     src/analysis/daysummary.cpp
     src/analysis/oura_sleep_score.cpp
     src/analysis/oura_sleep_state.cpp
+    src/analysis/stager.cpp
     src/analysis/oura_night_score.cpp
     src/analysis/cloudmerge.cpp
     src/export/healthexport.cpp

@@ -174,6 +174,16 @@ Page {
                 startMs: page.n.hypnogramStartMs !== undefined ? page.n.hypnogramStartMs : 0
                 epochSeconds: page.n.epochSeconds !== undefined ? page.n.epochSeconds : 30
             }
+            Label {
+                visible: page.hasStages && page.n.stagesEstimated === true
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.Wrap
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeExtraSmall
+                text: qsTr("Estimated from heart rate, HRV and movement: this ring does not stage sleep itself. "
+                           + "Awake and asleep are reliable; deep sleep and REM are rough.")
+            }
             Flow {
                 id: stageFacts
                 visible: page.hasStages

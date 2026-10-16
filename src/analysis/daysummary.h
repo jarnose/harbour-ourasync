@@ -51,6 +51,9 @@ struct Night
     double asleepMin = 0;
     bool asleepEstimated = false; // not staged: derived from the per-window records
     bool staged = false;
+    // The stages were estimated from heart rate, HRV and movement (the ring did not stage the
+    // night itself), not read from the ring.
+    bool stagesEstimated = false;
 
     std::optional<double> efficiencyPct;
     std::optional<double> latencyMin;

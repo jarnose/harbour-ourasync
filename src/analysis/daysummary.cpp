@@ -1,4 +1,5 @@
 #include "daysummary.h"
+#include "stager.h"
 
 #include "ring/events.h"
 
@@ -227,6 +228,7 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
     std::vector<TimedValue> probeTemp;    // 0x46, first probe
     std::vector<TimedValue> spo2;
     std::vector<TimedValue> motionSeconds; // motion_event: seconds of motion
+    std::vector<TimedValue> motionCounts;  // sleep_period_information_2: motion per window, a stager input
     std::vector<TimedValue> motionStates;  // motion_period: one state per 30 s epoch, at the epoch's end
     std::unordered_map<int64_t, double> metByMinute;
     std::optional<std::pair<int64_t, int>> battery; // unix, percent
@@ -299,6 +301,7 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
         case Tag::SleepPeriodInfo2: {
             if (auto p = decodeSleepPeriod(e.body)) {
                 sleepWindows.push_back({ static_cast<int64_t>(t), static_cast<double>(p->sleepState) });
+                motionCounts.push_back({ static_cast<int64_t>(t), static_cast<double>(std::min(30, p->motionCount)) });
                 if (p->sleepState >= 1) {
                     if (plausibleBpm(p->averageHr))
                         sleepHr.push_back({ static_cast<int64_t>(t), p->averageHr });
@@ -389,6 +392,7 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
     sortByTime(spo2);
     sortByTime(motionSeconds);
     sortByTime(motionStates);
+    sortByTime(motionCounts);
 
     if (battery) {
         out.ringBatteryPercent = battery->second;
@@ -473,6 +477,25 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
                 const size_t cell = std::min(cells - 1, static_cast<size_t>((at - w.start) / kEpochSeconds));
                 stages[cell] = run.codes[k];
                 painted = true;
+            }
+        }
+
+        // A ring that does not stage sleep itself (Ring 4 and 5) sends the signals the stages
+        // can be estimated from.
+        if (!painted) {
+            std::vector<TimedValue> hrFor = slice(hr5, w.start - 600, w.end + 600);
+            if (hrFor.size() < 12)
+                hrFor = slice(sleepHr, w.start - 600, w.end + 600);
+            std::vector<TimedValue> motionFor = slice(motionSeconds, w.start, w.end);
+            if (motionFor.empty())
+                motionFor = slice(motionCounts, w.start, w.end);
+            const std::vector<uint8_t> estimate =
+                    stageFromSignals(w.start, w.end, hrFor, slice(hrvSeries, w.start - 600, w.end + 600), motionFor);
+            if (!estimate.empty()) {
+                for (size_t k = 0; k < estimate.size() && k < stages.size(); ++k)
+                    stages[k] = estimate[k];
+                painted = true;
+                n.stagesEstimated = true;
             }
         }
 

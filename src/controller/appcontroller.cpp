@@ -163,6 +163,7 @@ QVariantMap nightCompact(const Night &n)
     m.insert(QStringLiteral("endMs"), static_cast<double>(n.endUnix) * 1000.0);
     m.insert(QStringLiteral("main"), n.main);
     m.insert(QStringLiteral("staged"), n.staged);
+    m.insert(QStringLiteral("stagesEstimated"), n.stagesEstimated);
     m.insert(QStringLiteral("asleepEstimated"), n.asleepEstimated);
     m.insert(QStringLiteral("approximateClock"), n.approximateClock);
     m.insert(QStringLiteral("inBedMin"), n.inBedMin);

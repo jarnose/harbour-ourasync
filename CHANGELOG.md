@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0
+
+- Ring 4 and 5 do not stage sleep themselves: their nights now get stages estimated from heart
+  rate, HRV and movement (a port of open_health's model-free stager), labelled as estimates.
+  Awake and asleep are reliable; deep sleep and REM are rough.
+
 ## 1.0.2
 
 - The ring's own motion states (`0x6b`, the source of Oura's restless periods) are decoded and

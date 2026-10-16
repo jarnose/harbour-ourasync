@@ -329,6 +329,7 @@ FI.update({
 "Oura did not accept the code (HTTP %1): %2": "Oura ei hyväksynyt koodia (HTTP %1): %2",
 "Oura's reply did not contain a token (HTTP %1, parse error at byte %2): %3": "Ouran vastauksessa ei ollut tunnistetta (HTTP %1, jäsennysvirhe tavussa %2): %3",
 "(empty)": "(tyhjä)",
+"Estimated from heart rate, HRV and movement: this ring does not stage sleep itself. Awake and asleep are reliable; deep sleep and REM are rough.": "Arvioitu sykkeestä, HRV:stä ja liikkeestä: tämä sormus ei vaiheista unta itse. Hereillä ja unessa -jaot ovat luotettavia, syvä uni ja REM karkeita.",
 "The ring has been reset. Set it up again from the main page's menu, or on another phone.": "Sormus on nollattu. Aseta se uudelleen pääsivun valikosta tai toisessa puhelimessa.",
 "If the ring could not be reached, nothing was reset: put it on its charger, close to the phone, and try again.": "Jos sormukseen ei saatu yhteyttä, mitään ei nollattu: laita se laturiinsa lähelle puhelinta ja yritä uudelleen.",
 "Version": "Versio",
