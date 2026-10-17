@@ -62,5 +62,20 @@ Decoded and used (`src/ring/events.cpp`):
 | 0x50 | activity_information | state, then MET per minute (b<128: ×0.1, else 12.8+(b−128)×0.2) |
 | 0x61 | debug_data | subtype 0x24: battery % and mV |
 
+Seen on a Ring 4 and named from the enums and parsers in `libringeventparser.so` (app 7.27); the
+layouts below were read from the parser's disassembly, and not otherwise validated:
+
+| tag | event | body |
+|---|---|---|
+| 0x56 | alert_event | one byte, the alert type: 0 unknown, 1 **sitting** (the inactivity alert), 2 low battery, 3 shutdown out of power, 4 shutdown factory reset, 5 shutdown production mode. Comes straight after the `0x50` record of the minute it fires in; the one seen came after about 55 minutes of 1.2-1.3 MET that followed a walk |
+| 0x82 | scan_start | feature, then reason (low nibble) and metric (high nibble) of byte 1, then up to six candidate slots. Feature 1 resting HR, 2 on demand, 3 daytime HR, 4 workout HR, 5 SpO2, 6 FDET, 7 DYSE, 8 CVA, 9 RDATA, 10 data reliability index, 11 tap-to-tag, 12 real steps, 13 flip-to-factory. Reason 0 none, 1 DC level too close to saturation, 2 too long since last scan, 3 long motion has ended, 4 start of measurement, 5 feature disabled, 6 feature requested. Metric 0 SNR, 1 coupling index |
+| 0x83 | scan_end | byte 0: bits 7-6 format, low nibble the success code (0 successful, 1 saturation, 2 periodic, 3 motion abort, 4 feature enabled, 5 feature disabled, 6 feature requested, 7 global measurement disabled); byte 1 the scan's length (seconds when the format is 1, else tenths); then three-byte records (slot, channel, photodiode mask). Channels 0-2 temperature ACM/CPU/digital, 3 ACM, 4 PPG ambient, 5-6 IR LED 1-2, 7-8 green LED 1-2, 9-10 red LED 1-2, 11 NTC, 255 unspecified; mask bit 0-2 = photodiode 1-3 |
+| 0x5b | ble_connection_ind | byte 0 a subtype 0-5 (connected, disconnected, their extended and link-quality forms), then link-timing bytes; not decoded |
+
+So a "scan" is the ring choosing which LED and photodiode to measure heart rate with: it tries the
+candidate slots, scores them by SNR or coupling index and keeps the best. (Related: `0x45`
+state_change bodies are a state byte and then ASCII, `05 "hr enable"` and `03 "fea off"` in the capture;
+what they switch is not established.)
+
 What the ring does **not** send: Oura's 0–100 scores, readiness, stress,
 resilience, cardiovascular age and step counts. Oura computes those on the phone.

@@ -42,8 +42,10 @@ const char *eventName(uint8_t tag)
     case 0x53: return "wear_event";
     case 0x54: return "recovery_summary";
     case 0x55: return "sleep_heart_rate";
+    case 0x56: return "alert_event";
     case 0x58: return "sleep_summary_4";
     case 0x5a: return "sleep_phase_data";
+    case 0x5b: return "ble_connection_ind";
     case 0x5c: return "user_information";
     case 0x5d: return "hrv_event";
     case 0x60: return "ibi_and_amplitude_event";
@@ -62,6 +64,8 @@ const char *eventName(uint8_t tag)
     case 0x7f: return "real_step_event_feature_2";
     case 0x80: return "green_ibi_quality_event";
     case 0x81: return "cva_raw_ppg_data";
+    case 0x82: return "scan_start";
+    case 0x83: return "scan_end";
     case 0x85: return "rtc_beacon";
     case 0x8b: return "spo2_r_pi_event";
     default: return "unknown";
