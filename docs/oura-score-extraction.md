@@ -273,3 +273,32 @@ high at 1.1, 1.7, 3.7 and 7.7; 90 % of windows agree with Oura's classes), and t
 recovery time dropped). Active calories are weight x the sum of (MET - 1) / 60 over minutes of 2 MET
 and over (11 kcal mean error against the cloud). The calorie goal is the person's, set in Settings:
 Oura adapts it, the cloud showed 450-650.
+
+## Readiness, fitted from real days (1.3.0)
+
+`readiness_calculate` was not read: like the activity score it works on a long history. Instead
+`tools/cloudcheck/readiness_fit.py` fits each of the nine contributors, from the 859 days of a cloud
+import, to the quantity that reproduces it best:
+
+| contributor | quantity | mean abs error (points) |
+| --- | --- | --- |
+| previous_night | the night's sleep score | 2.0 |
+| resting_heart_rate | lowest heart rate minus its median over the 60 days before | 2.9 |
+| hrv_balance | the last 7 nights' HRV over the 60 nights before | 2.9 |
+| sleep_balance | mean sleep of the last 7 nights | 3.4 |
+| body_temperature | size of the night's temperature deviation | 3.2 |
+| activity_balance | the last week's active calories over the 60 days before | 3.2 |
+| sleep_regularity | spread of the last 14 nights' midpoints | 1.3 |
+| previous_day_activity | yesterday's activity score (barely moves it; taken as 84) | 7.0 |
+| recovery_index | minutes from the lowest heart rate to waking | 12.8 |
+
+The score is `0.092 activity_balance + 0.102 body_temperature + 0.142 hrv_balance + 0.094
+previous_day_activity + 0.148 previous_night + 0.096 recovery_index + 0.146 resting_heart_rate +
+0.138 sleep_balance + 0.032 sleep_regularity`, minus 0.292 per point body temperature is under 50 and
+0.101 per point resting heart rate is under 50. With Oura's own contributors this reproduces the
+score to 0.6 points on average; with the fitted contributors the whole chain (the app's C++ over the
+same cloud import, `compare_readiness.py`) is 2.4 points on average, 70 % of days within 2, 93 % within
+5, worst 35 where recovery index or heart rate dropped. The curves are one person's, in sample, so
+for anyone else this is a rougher guide than the activity rules.
+
+Stress (`stress_high`, `recovery_high`) is a neural network's output and is not estimated.

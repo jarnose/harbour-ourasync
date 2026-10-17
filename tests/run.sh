@@ -31,6 +31,7 @@ run daysummary $CORE $ANALYSIS
 run oura_sleep_score ../src/analysis/oura_sleep_score.cpp
 run oura_sleep_state ../src/analysis/oura_sleep_state.cpp
 run healthexport $CORE $ANALYSIS ../src/export/healthexport.cpp ../src/cloud/json.cpp
+run readiness_estimate $CORE $ANALYSIS ../src/analysis/readiness_estimate.cpp ../src/analysis/oura_night_score.cpp ../src/analysis/oura_sleep_score.cpp
 run activity_score ../src/analysis/activity_score.cpp
 run stager $CORE $ANALYSIS
 run oura_night_score $CORE $ANALYSIS ../src/analysis/oura_night_score.cpp ../src/analysis/oura_sleep_score.cpp

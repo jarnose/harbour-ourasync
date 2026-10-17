@@ -137,6 +137,34 @@ Page {
                            + "your goal in Settings. Recovery time is taken as full. It is close to Oura's "
                            + "score but not the same.")
             }
+            readonly property bool hasReadinessEstimate: page.d.estimatedReadinessScore !== null
+                    && page.d.estimatedReadinessScore !== undefined
+                    && (page.d.readinessScore === null || page.d.readinessScore === undefined)
+            StatTile {
+                visible: parent.hasReadinessEstimate
+                width: parent.width / 3
+                value: "~" + Format.number(page.d.estimatedReadinessScore)
+                caption: qsTr("Readiness (estimate)")
+            }
+            SectionHeader {
+                visible: parent.hasReadinessEstimate
+                text: qsTr("Readiness, estimated contributors")
+            }
+            ContributorBars {
+                visible: parent.hasReadinessEstimate
+                items: page.d.estimatedReadinessContributors !== undefined ? page.d.estimatedReadinessContributors : []
+            }
+            Label {
+                visible: parent.hasReadinessEstimate
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.Wrap
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeExtraSmall
+                text: qsTr("Fitted to one person's two years of Oura scores, not Oura's own arithmetic: "
+                           + "about 6 days in 10 within 2 points of Oura's, 9 in 10 within 5, and less sure for "
+                           + "anyone else. It needs about two weeks of nights, and is best with two months.")
+            }
             SectionHeader {
                 visible: page.d.readinessContributors !== undefined && page.d.readinessContributors.length > 0
                 text: qsTr("Readiness, Oura's contributors")

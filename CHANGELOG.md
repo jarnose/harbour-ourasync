@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.0
+
+- An estimated readiness score, with its nine contributors, for days Oura's cloud has none for,
+  from the nights and days the app holds. Fitted to 859 real days (mean error 2.4 points, 70 % of
+  days within 2, 93 % within 5, for the person it was fitted to); shown with a "~" on the day page.
+
 ## 1.2.0
 
 - An estimated activity score for every day the ring has the six before it, with its contributors,

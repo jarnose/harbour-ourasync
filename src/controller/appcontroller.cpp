@@ -2,6 +2,7 @@
 
 #include "analysis/cloudmerge.h"
 #include "analysis/oura_night_score.h"
+#include "analysis/readiness_estimate.h"
 #include "export/healthexport.h"
 #include "analysis/oura_sleep_score.h"
 #include "cloud/exportimport.h"
@@ -225,6 +226,8 @@ QVariantMap dayCompact(const Day &d)
     m.insert(QStringLiteral("totalKcal"), d.totalKcal ? QVariant(*d.totalKcal) : QVariant());
     m.insert(QStringLiteral("activityScore"), d.ouraActivityScore ? QVariant(*d.ouraActivityScore) : QVariant());
     m.insert(QStringLiteral("readinessScore"), d.readinessScore ? QVariant(*d.readinessScore) : QVariant());
+    m.insert(QStringLiteral("estimatedReadinessScore"),
+             d.estimatedReadinessScore ? QVariant(*d.estimatedReadinessScore) : QVariant());
     m.insert(QStringLiteral("estimatedActivityScore"),
              d.estimatedActivityScore ? QVariant(*d.estimatedActivityScore) : QVariant());
     m.insert(QStringLiteral("temperatureDeviation"), opt(d.temperatureDeviation));
@@ -262,6 +265,13 @@ QVariantMap dayFull(const Day &d)
         for (size_t i = 0; i < d.estimatedActivityContributors.size() && i < 6; ++i)
             estimated.emplace_back(names[i], d.estimatedActivityContributors[i]);
         m.insert(QStringLiteral("estimatedActivityContributors"), contributorList(estimated));
+        static const char *const readiness[9] = { "activity_balance", "body_temperature", "hrv_balance",
+                                                  "previous_day_activity", "previous_night", "recovery_index",
+                                                  "resting_heart_rate", "sleep_balance", "sleep_regularity" };
+        std::vector<std::pair<std::string, int>> estimatedReadiness;
+        for (size_t i = 0; i < d.estimatedReadinessContributors.size() && i < 9; ++i)
+            estimatedReadiness.emplace_back(readiness[i], d.estimatedReadinessContributors[i]);
+        m.insert(QStringLiteral("estimatedReadinessContributors"), contributorList(estimatedReadiness));
     }
     m.insert(QStringLiteral("stressHighMin"), d.stressHighMin ? QVariant(*d.stressHighMin) : QVariant());
     m.insert(QStringLiteral("recoveryHighMin"), d.recoveryHighMin ? QVariant(*d.recoveryHighMin) : QVariant());
@@ -1157,6 +1167,7 @@ void AppController::refreshSummary()
         const CloudStore::Loaded cloud = CloudStore::load(path, QStringLiteral("0000-00-00"),
                                                           nowUnix() - 400LL * 86400);
         mergeCloud(*summary, cloud.docs, cloud.hr, options);
+        estimateReadiness(*summary, options);
         return std::shared_ptr<const Summary>(summary);
     }));
 }

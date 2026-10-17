@@ -120,6 +120,9 @@ struct Day
     // Needs the day and the six before it, each with a day's worth of data.
     std::optional<int> estimatedActivityScore;
     std::vector<int> estimatedActivityContributors;   // Oura's order
+    // A readiness score estimated from the nights and days held (readiness_estimate.h).
+    std::optional<int> estimatedReadinessScore;
+    std::vector<int> estimatedReadinessContributors;
 
     // From Oura's cloud.
     bool fromCloud = false;
