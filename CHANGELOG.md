@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.0
+
+- Breathing rate for rings that do not send it (Ring 4 and 5): worked out from the night's
+  beat-to-beat intervals the way Oura's app does, and shown with the night's other numbers. On a
+  real night it lands within 0.11 breaths a minute of Oura's own library on average (0.33 at worst).
+
 ## 1.3.1
 
 - HRV and heart-rate buckets of the ring (`0x5d`) are placed correctly in time: the first pair is

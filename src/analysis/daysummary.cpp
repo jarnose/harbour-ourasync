@@ -1,4 +1,5 @@
 #include "daysummary.h"
+#include "breathing.h"
 #include "stager.h"
 
 #include "ring/events.h"
@@ -230,6 +231,7 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
     std::vector<TimedValue> motionSeconds; // motion_event: seconds of motion
     std::vector<TimedValue> motionCounts;  // sleep_period_information_2: motion per window, a stager input
     std::vector<TimedValue> motionStates;  // motion_period: one state per 30 s epoch, at the epoch's end
+    std::vector<BreathBeat> ibiBeats;      // ibi_and_amplitude_event: every beat with its end time
     std::unordered_map<int64_t, double> metByMinute;
     std::optional<std::pair<int64_t, int>> battery; // unix, percent
 
@@ -364,6 +366,16 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
             }
             break;
         }
+        case Tag::IbiAmplitude: {
+            // The last interval ends at the event's time, each earlier one a beat before.
+            const std::vector<int> ibis = decodeIbi(e.body);
+            double end = t;
+            for (size_t k = ibis.size(); k-- > 0;) {
+                ibiBeats.push_back({ end, ibis[k] });
+                end -= ibis[k] / 1000.0;
+            }
+            break;
+        }
         case Tag::ActivityInfo: {
             if (auto a = decodeActivityMet(e.body)) {
                 for (size_t k = 0; k < a->met.size(); ++k) {
@@ -398,6 +410,8 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
     sortByTime(spo2);
     sortByTime(motionSeconds);
     sortByTime(motionStates);
+    std::sort(ibiBeats.begin(), ibiBeats.end(),
+              [](const BreathBeat &a, const BreathBeat &b) { return a.utcSeconds < b.utcSeconds; });
     sortByTime(motionCounts);
 
     if (battery) {
@@ -628,6 +642,9 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
             for (const TimedValue &p : n.breath)
                 v.push_back(p.value);
             n.avgBreath = median(v);
+        } else if (!ibiBeats.empty()) {
+            // Rings that send no breathing records (the 4 and 5): from the night's beats.
+            n.avgBreath = breathingRate(ibiBeats, w.start, w.end);
         }
         if (!n.spo2.empty()) {
             std::vector<double> v;

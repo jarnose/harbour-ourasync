@@ -55,6 +55,12 @@ struct HrvSamples
 };
 std::optional<HrvSamples> decodeHrv(const Bytes &body);
 
+// ibi_and_amplitude_event (0x60): six beat-to-beat intervals in 14 bytes. Interval i is
+// (p[i] << 3) | its middle two bits from p[12] and p[13] | (p[6 + i] & 1); the rest of p[6..11]
+// is pulse amplitude, not decoded. The first interval is the oldest and the last one ends at the
+// event's timestamp. (Layout from open_ring, checked against ringverse's reading of the event.)
+std::vector<int> decodeIbi(const Bytes &body);
+
 // temp_event / temp_period / sleep_temp_event: int16 LE centi-degrees Celsius.
 // Rejected wholesale if any value is outside a physical sensor range.
 std::vector<double> decodeTemperatures(const Bytes &body);

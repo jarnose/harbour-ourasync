@@ -302,3 +302,26 @@ same cloud import, `compare_readiness.py`) is 2.4 points on average, 70 % of day
 for anyone else this is a rougher guide than the activity rules.
 
 Stress (`stress_high`, `recovery_high`) is a neural network's output and is not estimated.
+
+## Breathing rate from the beats (1.4.0)
+
+Ring 4 and 5 send no `0x6a` records, so no breathing rate; Oura's app works it out from the beat-to-beat
+intervals (`0x60`, six per event; layout from open_ring and ringverse). `breathing_rate_calculate_averages`
+in libecore takes the intervals, their timestamps and a sleep-state per 30 s epoch and returns the
+night's mean rate, its variability and the mean heart rate. It was run in the emulator
+(`tools/apk/ecore_emu.py`) to learn what it does, then reimplemented in floating point as
+`src/analysis/breathing.cpp` instead of ported instruction by instruction:
+
+1. keep intervals of 300-2000 ms, drop those 25 % or more away from a 9-beat median (zero-padded, as scipy);
+2. interpolate linearly to 4 Hz and remove the mean;
+3. band-pass 0.15-0.45 Hz, third-order Butterworth, forwards and backwards;
+4. per 30 s epoch, take the two minutes around it, find the peaks (at least 2 s apart, prominence at
+   least 0.3 of the signal's standard deviation) and rate = 60 x (peaks - 1) / span;
+5. the night's rate is the mean of the epochs, leaving out the first and last hour of a night over
+   five hours; at least three hours and 600 beats are needed.
+
+`tools/cloudcheck/breathing_check.py` compares it with the library on eight stretches (four to nine
+hours) of one real Ring 4 night: mean difference 0.11 breaths a minute, worst 0.33 (the library gave
+13.25-13.75). That is one person's night, so the tuning is one night deep; there is no cloud value to
+compare with, since this ring's data is read here and never reaches Oura. The library's variability
+and its use of the ring's sleep stages were not reproduced: every epoch was passed as asleep.

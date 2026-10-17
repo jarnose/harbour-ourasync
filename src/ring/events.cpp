@@ -94,6 +94,18 @@ std::vector<double> decodeTemperatures(const Bytes &body)
     return out;
 }
 
+std::vector<int> decodeIbi(const Bytes &body)
+{
+    if (body.size() != 14)
+        return {};
+    const int mid[6] = { (body[12] >> 5) & 6, (body[12] >> 3) & 6, (body[12] >> 1) & 6,
+                         (body[12] << 1) & 6, (body[13] >> 5) & 6, (body[13] >> 3) & 6 };
+    std::vector<int> out;
+    for (int i = 0; i < 6; ++i)
+        out.push_back((body[i] << 3) | mid[i] | (body[6 + i] & 1));
+    return out;
+}
+
 std::vector<GreenBeat> decodeGreenIbi(const Bytes &body)
 {
     std::vector<GreenBeat> out;

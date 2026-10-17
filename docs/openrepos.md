@@ -26,6 +26,9 @@ phone and nothing is sent anywhere. The app is unofficial and not affiliated wit
   timing are estimates. A Score check page compares the app's numbers with Oura's.
 * Ring 4 and 5 do not stage sleep themselves; their nights get stages estimated from heart rate,
   HRV and movement. Awake and asleep are reliable, deep sleep and REM are rough, and the app says so.
+  Their breathing rate is worked out from the beat-to-beat intervals the way Oura's app does.
+* Activity and readiness scores are estimated for days Oura's cloud has none for (fitted to one
+  person's history, shown with a "~").
 * Your history from before: import Oura's data export (a ZIP or CSV files, no account needed), or,
   if you have a membership, pull it from the Oura Cloud API with an application of your own
   (OAuth2; sign-in kept in the Sailfish Secrets vault). Oura's own scores are shown beside the
@@ -45,9 +48,9 @@ in the repository say what has and has not been verified on real hardware.
 
 **What it does not do**
 
-Oura's activity and readiness scores, steps, stress and the like are produced by Oura's closed
-software and are shown only for days imported from Oura's cloud. Breathing rate is not sent by
-Ring 4. This is not a medical device.
+Oura's own activity and readiness scores, steps and stress are produced by Oura's closed
+software and are shown only for days imported from Oura's cloud; the app's activity and readiness
+numbers are estimates, and stress is not estimated. This is not a medical device.
 
 **Permissions**
 
