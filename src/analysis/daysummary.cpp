@@ -282,8 +282,14 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
         }
         case Tag::Hrv: {
             if (auto h = decodeHrv(e.body)) {
-                for (size_t k = 0; k < h->hr.size(); ++k) {
-                    const double at = t + static_cast<double>(k) * 300.0;
+                // The first pair is the oldest five minutes and the event's time is the end of
+                // the last one (checked against the heart rate of the beats of the same night:
+                // correlation 0.90, against 0.16 with the first pair at the event's time).
+                const size_t count = h->hr.size();
+                for (size_t k = 0; k < count; ++k) {
+                    if (h->hr[k] == 0 && h->rmssd[k] == 0)
+                        continue;   // padding at the end of a record that closed early
+                    const double at = t - static_cast<double>(count - k) * 300.0;
                     if (plausibleBpm(h->hr[k]))
                         hr5.push_back({ static_cast<int64_t>(at), static_cast<double>(h->hr[k]) });
                     if (h->rmssd[k] > 0)

@@ -44,8 +44,9 @@ constexpr uint8_t Spo2RPi = 0x8b;
 
 const char *eventName(uint8_t tag);
 
-// hrv_event: pairs of (average heart rate bpm, average RMSSD ms), one pair per
-// five minutes, the first pair belonging to the event's timestamp.
+// hrv_event: pairs of (average heart rate bpm, average RMSSD ms), one pair per five minutes.
+// The first pair is the oldest and the event's timestamp is the end of the last one; a closing
+// record pads its tail with a 0/0 pair.
 struct HrvSamples
 {
     std::vector<int> hr;

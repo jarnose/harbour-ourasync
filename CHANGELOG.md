@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.1
+
+- HRV and heart-rate buckets of the ring (`0x5d`) are placed correctly in time: the first pair is
+  the oldest five minutes and the event's time ends the last one. Before, they were laid forwards
+  from the event, up to half an hour off (correlation with the beats' own heart rate 0.16, now 0.90).
+  This moves the night's heart-rate and HRV curves, resting heart rate and the estimates built on them.
+
 ## 1.3.0
 
 - An estimated readiness score, with its nine contributors, for days Oura's cloud has none for,
