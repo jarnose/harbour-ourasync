@@ -237,3 +237,28 @@ Not verified on a real Ring 4: the time axis. The event carries no start, so its
 to end at its timestamp, 30 s each. The restless count is little affected by a shift (it counts
 epochs with movement, not where they are), but a capture compared with the cloud's
 `movement_30_sec` of the same night would settle it.
+
+## Activity score, fitted from real days (not the library)
+
+`get_activity_score_raw` reads global history state, so it was not ported. Instead the 878 days of
+one cloud import were used as ground truth (`tools/cloudcheck/activity_fit.py`). The score is
+`25 meet_daily_targets + 10 move_every_hour + 25 recovery_time + 15 stay_active +
+10 training_frequency + 15 training_volume`, over 100 (757 of 878 days exact from Oura's own
+contributors; the rest are one point off from rounding). The contributors:
+
+| contributor | rule | fit |
+| --- | --- | --- |
+| move_every_hour | table of the day's inactivity alerts: 100, 95, 78, 60, 43, 25, 1 | 100 % exact |
+| meet_daily_targets | days of the last 7 (today included) with active calories at or over the target: 1, 25, 43, 60, 78, 95, 100, 100 | 99 % exact |
+| training_frequency | days of the last 7 with medium + high activity of 150 MET-minutes or more: 1, 40, 71, 96, 100 | 99 % exact |
+| stay_active | falling curve of sedentary hours | about +-3 of noise, 53 % exact |
+| training_volume | rising curve of the week's medium + high MET-minutes | rough, 35 % exact |
+| recovery_time | 100 on 81 % of days; what lowers it is not found | 81 % exact as "100" |
+
+With these rules and the cloud's own daily figures as input the score is within 2 points on 81 % of
+days (mean error 1.2). What is not done: producing those daily figures (inactivity alerts, the
+sedentary, medium and high minutes, the MET-minutes) from a ring's own data. The cloud's per-minute
+MET series reproduces the high minutes (74 % exact) but not the medium ones, so the ring-side
+classification is something else, probably the activity class the ring writes with its `0x50`
+events. That mapping, the user's calorie target and the missing last contributors are what stands
+between this and an activity score in the app.
