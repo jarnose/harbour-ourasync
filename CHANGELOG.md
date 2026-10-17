@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2
+
+- The main page's "Synced … ago" updates while the page is open instead of only at start-up.
+
 ## 1.1.1
 
 - Blood oxygen (and daytime heart rate) are switched on in the ring at sync if they are off,

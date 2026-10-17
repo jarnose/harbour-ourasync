@@ -21,6 +21,16 @@ Page {
     // The score shown for last night: Oura's own when the cloud has it.
     readonly property bool officialNight: night !== undefined && night.ouraScore !== null && night.ouraScore !== undefined
 
+    // Bumped to make what depends on the time of day look again.
+    property int clock: 0
+    Timer {
+        interval: 30000
+        repeat: true
+        running: page.status === PageStatus.Active
+        onTriggered: page.clock++
+    }
+    onStatusChanged: if (status === PageStatus.Active) clock++
+
     function reload() {
         overview = AppController.overview()
     }
@@ -80,7 +90,9 @@ Page {
 
             PageHeader {
                 title: qsTr("Oura Sync")
-                description: page.syncedText()
+                // The age of the last sync is a clock reading, so it is read again every half minute
+                // and whenever the page is shown: a binding would not notice time passing.
+                description: { page.clock; return page.syncedText() }
             }
 
             // ---- activity of the conversation with the ring ----
