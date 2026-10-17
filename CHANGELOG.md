@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.1
+
+- Blood oxygen (and daytime heart rate) are switched on in the ring at sync if they are off,
+  as the Oura app does at set-up; a freshly reset Ring 4 recorded no SpO2 until then.
+- The main page shows Oura's scores from the last cloud import with their date, and hides
+  them once they are more than three days old.
+
 ## 1.1.0
 
 - Ring 4 and 5 do not stage sleep themselves: their nights now get stages estimated from heart

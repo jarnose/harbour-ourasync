@@ -13,6 +13,11 @@ Page {
     readonly property var night: overview.night
     readonly property var today: overview.today
     readonly property var oura: overview.oura
+    // Oura's scores are those of the last cloud import. Once the ring is read here they are
+    // old news: shown with their date, and left out when more than three days old.
+    readonly property string ouraDate: oura === undefined ? "" : (oura.sleepDate || oura.readinessDate || oura.activityDate || "")
+    readonly property bool ouraFresh: ouraDate.length === 10
+        && (new Date().getTime() - new Date(ouraDate + "T12:00:00").getTime()) < 4 * 86400000
     // The score shown for last night: Oura's own when the cloud has it.
     readonly property bool officialNight: night !== undefined && night.ouraScore !== null && night.ouraScore !== undefined
 
@@ -286,8 +291,10 @@ Page {
             // ---- Oura's own scores, from the cloud ----
             Column {
                 width: parent.width
-                visible: oura !== undefined
-                SectionHeader { text: qsTr("Oura's scores") }
+                visible: oura !== undefined && page.ouraFresh
+                SectionHeader {
+                    text: qsTr("Oura's scores") + " · " + Qt.formatDate(new Date(page.ouraDate + "T12:00:00"), "d.M.")
+                }
                 Row {
                     x: Theme.horizontalPageMargin
                     width: parent.width - 2 * Theme.horizontalPageMargin

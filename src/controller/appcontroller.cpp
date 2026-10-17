@@ -672,6 +672,18 @@ QString AppController::runSync(const QString &address, Oura::RingSession &sessio
     // this morning is in this download.
     session.checkSleepAnalysis();
 
+    // The measurements the ring only makes when asked: a freshly reset ring has blood oxygen and
+    // daytime heart rate off until a phone switches them on, as the Oura app does at set-up. A
+    // feature the ring does not have simply declines.
+    for (const uint8_t feature : { uint8_t(0x02), uint8_t(0x04) }) {   // daytime HR, SpO2
+        uint8_t mode = 0;
+        if (session.featureMode(feature, mode).ok && mode == 0) {
+            const Outcome set = session.setFeatureMode(feature, 1);   // 1: automatic
+            qInfo("ourasync: feature 0x%02x switched on: %s", feature,
+                  set.ok ? "ok" : set.error.c_str());
+        }
+    }
+
     Battery battery;
     if (session.battery(battery).ok) {
         m_store.addReading(address, QStringLiteral("battery"), battery.percent, nowUnix());
