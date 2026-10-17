@@ -225,6 +225,8 @@ QVariantMap dayCompact(const Day &d)
     m.insert(QStringLiteral("totalKcal"), d.totalKcal ? QVariant(*d.totalKcal) : QVariant());
     m.insert(QStringLiteral("activityScore"), d.ouraActivityScore ? QVariant(*d.ouraActivityScore) : QVariant());
     m.insert(QStringLiteral("readinessScore"), d.readinessScore ? QVariant(*d.readinessScore) : QVariant());
+    m.insert(QStringLiteral("estimatedActivityScore"),
+             d.estimatedActivityScore ? QVariant(*d.estimatedActivityScore) : QVariant());
     m.insert(QStringLiteral("temperatureDeviation"), opt(d.temperatureDeviation));
     m.insert(QStringLiteral("date"), QString::fromStdString(d.date));
     m.insert(QStringLiteral("activeKcal"), d.activeKcal);
@@ -253,6 +255,14 @@ QVariantMap dayFull(const Day &d)
     QVariantMap m = dayCompact(d);
     m.insert(QStringLiteral("activityContributors"), contributorList(d.activityContributors));
     m.insert(QStringLiteral("readinessContributors"), contributorList(d.readinessContributors));
+    {
+        static const char *const names[6] = { "meet_daily_targets", "move_every_hour", "recovery_time",
+                                              "stay_active", "training_frequency", "training_volume" };
+        std::vector<std::pair<std::string, int>> estimated;
+        for (size_t i = 0; i < d.estimatedActivityContributors.size() && i < 6; ++i)
+            estimated.emplace_back(names[i], d.estimatedActivityContributors[i]);
+        m.insert(QStringLiteral("estimatedActivityContributors"), contributorList(estimated));
+    }
     m.insert(QStringLiteral("stressHighMin"), d.stressHighMin ? QVariant(*d.stressHighMin) : QVariant());
     m.insert(QStringLiteral("recoveryHighMin"), d.recoveryHighMin ? QVariant(*d.recoveryHighMin) : QVariant());
     m.insert(QStringLiteral("stressSummary"), QString::fromStdString(d.stressSummary));
@@ -324,6 +334,7 @@ AppController::AppController(QObject *parent)
     }
     m_age = m_store.setting(QStringLiteral("age"), QStringLiteral("40")).toInt();
     m_birthDate = QDate::fromString(m_store.setting(QStringLiteral("birthdate"), QString()), Qt::ISODate);
+    m_calorieGoal = m_store.setting(QStringLiteral("calorie_goal"), QStringLiteral("550")).toInt();
     m_weightKg = m_store.setting(QStringLiteral("weight"), QStringLiteral("75")).toDouble();
 
     CloudStore::ensureSchema(m_store.path());
@@ -1081,6 +1092,14 @@ bool AppController::stageRestore(const QString &path)
     return true;
 }
 
+void AppController::setCalorieGoal(int kcal)
+{
+    m_calorieGoal = std::max(100, std::min(2000, kcal));
+    m_store.setSetting(QStringLiteral("calorie_goal"), QString::number(m_calorieGoal));
+    emit profileChanged();
+    refreshSummary();
+}
+
 void AppController::setBirthDate(const QString &isoDate)
 {
     const QDate date = QDate::fromString(isoDate, Qt::ISODate);
@@ -1118,16 +1137,18 @@ void AppController::refreshSummary()
     const QString address = m_ring.address;
     const double age = profileAge();
     const double weight = m_weightKg;
+    const double calorieGoal = m_calorieGoal;
     // About three months. The history is read by when it was downloaded, which
     // is a safe bound on when it happened.
     const qint64 since = nowUnix() - 100LL * 86400;
 
-    m_summaryWatcher.setFuture(QtConcurrent::run([path, address, age, weight, since]() {
+    m_summaryWatcher.setFuture(QtConcurrent::run([path, address, age, weight, calorieGoal, since]() {
         const std::vector<StoredEvent> events = address.isEmpty()
                 ? std::vector<StoredEvent>() : RingStore::readEvents(path, address, since);
         AnalysisOptions options;
         options.ageYears = age;
         options.weightKg = weight;
+        options.activeKcalGoal = calorieGoal;
         options.utcOffset = [](int64_t t) { return localOffsetSeconds(t); };
         auto summary = std::make_shared<Summary>(summarize(events, options));
 

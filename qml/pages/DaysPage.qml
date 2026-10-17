@@ -65,6 +65,8 @@ Page {
                 }
                 color: Theme.highlightColor
                 text: modelData.activityScore !== null && modelData.activityScore !== undefined ? modelData.activityScore
+                      : modelData.estimatedActivityScore !== null && modelData.estimatedActivityScore !== undefined
+                        ? "~" + modelData.estimatedActivityScore
                       : (modelData.activeKcal > 0 ? qsTr("%1 kcal").arg(Format.number(modelData.activeKcal)) : "")
             }
         }

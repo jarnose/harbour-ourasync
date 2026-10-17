@@ -755,6 +755,7 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
 
         std::map<std::string, double> metTotals;
         std::map<std::string, int> metMinutes;
+        std::map<std::string, std::vector<double>> minuteMet;   // per local minute of the day, NaN where none
         for (const auto &entry : metByMinute) {
             const double utc = static_cast<double>(entry.first) * 60.0;
             int hour = 0;
@@ -776,8 +777,17 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
                 ++day.lightMin;
             else
                 ++day.sedentaryMin;
-            if (met > 1.0)
+            // Minutes below 2 MET are not counted: the cloud's active calories fit best that way.
+            if (met >= 2.0)
                 day.activeKcal += (met - 1.0) * options.weightKg / 60.0;
+            {
+                const int64_t local = static_cast<int64_t>(std::floor(utc)) + offsetAt(utc);
+                const size_t minute = static_cast<size_t>(((local % 86400) + 86400) % 86400 / 60);
+                auto &m = minuteMet[date];
+                if (m.empty())
+                    m.assign(1440, std::nan(""));
+                m[minute] = met;
+            }
             metTotals[date] += met;
             ++metMinutes[date];
         }
@@ -798,6 +808,35 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
             if (metMinutes[entry.first] > 0)
                 day.avgMet = metTotals[entry.first] / metMinutes[entry.first];
             day.activeKcal = std::round(day.activeKcal);
+        }
+        // An activity score for every day that has the six before it.
+        {
+            const auto dateBack = [](const std::string &date, int back) {
+                const int y = std::atoi(date.substr(0, 4).c_str());
+                const unsigned m = static_cast<unsigned>(std::atoi(date.substr(5, 2).c_str()));
+                const unsigned d = static_cast<unsigned>(std::atoi(date.substr(8, 2).c_str()));
+                return localDate((daysFromCivil(y, m, d) - back) * 86400, 0);
+            };
+            std::map<std::string, Day>::iterator it = days.begin();
+            for (; it != days.end(); ++it) {
+                Day &day = it->second;
+                const auto mm = minuteMet.find(day.date);
+                if (day.coveredMin < 720 || mm == minuteMet.end())
+                    continue;
+                std::vector<ActivityDay> week;
+                for (int back = 6; back >= 0; --back) {
+                    const std::string date = dateBack(day.date, back);
+                    const auto dm = days.find(date);
+                    const auto mv = minuteMet.find(date);
+                    if (dm == days.end() || mv == minuteMet.end() || dm->second.coveredMin < 300)
+                        break;
+                    week.push_back(activityDayFromMinutes(mv->second, dm->second.activeKcal, options.activeKcalGoal));
+                }
+                if (const auto score = activityScore(week)) {
+                    day.estimatedActivityScore = score->score;
+                    day.estimatedActivityContributors.assign(score->contributors.begin(), score->contributors.end());
+                }
+            }
         }
         for (auto &entry : days)
             out.days.push_back(std::move(entry.second));

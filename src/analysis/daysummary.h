@@ -1,5 +1,6 @@
 #pragma once
 
+#include "activity_score.h"
 #include "oura_sleep_state.h"
 #include "ringclock.h"
 #include "sleepscore.h"
@@ -35,6 +36,8 @@ struct AnalysisOptions
     std::function<int(int64_t)> utcOffset = [](int64_t) { return 0; };
     double ageYears = 40;
     double weightKg = 75;
+    // The person's daily goal for active calories; Oura adapts it, the app takes it from Settings.
+    double activeKcalGoal = 550;
 };
 
 enum StageCode : uint8_t { StageUnknown = 0, StageDeep = 1, StageLight = 2, StageRem = 3, StageAwake = 4 };
@@ -112,6 +115,11 @@ struct Day
     int sedentaryMin = 0;              // MET < 1.5, awake-ish minutes the ring recorded
     int coveredMin = 0;                // minutes the ring has any MET for
     std::optional<double> avgMet;
+
+    // An activity score worked out from the ring's MET series (an estimate: see activity_score.h).
+    // Needs the day and the six before it, each with a day's worth of data.
+    std::optional<int> estimatedActivityScore;
+    std::vector<int> estimatedActivityContributors;   // Oura's order
 
     // From Oura's cloud.
     bool fromCloud = false;

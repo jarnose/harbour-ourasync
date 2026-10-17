@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0
+
+- An estimated activity score for every day the ring has the six before it, with its contributors,
+  worked out from the ring's movement and a daily calorie goal set in Settings. Fitted to 878 real
+  days (mean error 2 points; recovery time is taken as full); labelled as an estimate with a "~".
+- Active calories now count minutes of 2 MET and over, which matches Oura's much better.
+
 ## 1.1.2
 
 - The main page's "Synced … ago" updates while the page is open instead of only at start-up.

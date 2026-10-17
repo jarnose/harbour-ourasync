@@ -77,6 +77,16 @@ Page {
                            + "limits step with the age, so set the birthday if you do not use Oura's cloud.")
             }
             TextField {
+                id: goalField
+                width: parent.width
+                label: qsTr("Daily activity goal, kcal")
+                text: AppController.calorieGoal
+                inputMethodHints: Qt.ImhDigitsOnly
+                EnterKey.iconSource: "image://theme/icon-m-enter-next"
+                EnterKey.onClicked: weightField.focus = true
+                onActiveFocusChanged: if (!activeFocus) page.saveGoal()
+            }
+            TextField {
                 id: weightField
                 width: parent.width
                 label: qsTr("Weight, kg")
@@ -257,6 +267,12 @@ Page {
         }
 
         VerticalScrollDecorator {}
+    }
+
+    function saveGoal() {
+        var kcal = parseInt(goalField.text, 10)
+        if (!isNaN(kcal) && kcal !== AppController.calorieGoal)
+            AppController.setCalorieGoal(kcal)
     }
 
     function saveProfile() {

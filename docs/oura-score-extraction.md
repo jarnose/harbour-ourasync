@@ -262,3 +262,14 @@ MET series reproduces the high minutes (74 % exact) but not the medium ones, so 
 classification is something else, probably the activity class the ring writes with its `0x50`
 events. That mapping, the user's calorie target and the missing last contributors are what stands
 between this and an activity score in the app.
+
+### In the app (1.2.0)
+
+`activity_score.cpp` carries these rules. Fed with the cloud's own per-minute MET series
+(`tools/cloudcheck/compare_activity.py`), the day's sedentary time, training MET-minutes and
+inactivity alerts come from five-minute windows classed by mean MET (rest, inactive, low, medium and
+high at 1.1, 1.7, 3.7 and 7.7; 90 % of windows agree with Oura's classes), and the score ends up
+2 points from Oura's on average (72 % of days within 2, 94 % within 5, worst 23 points where
+recovery time dropped). Active calories are weight x the sum of (MET - 1) / 60 over minutes of 2 MET
+and over (11 kcal mean error against the cloud). The calorie goal is the person's, set in Settings:
+Oura adapts it, the cloud showed 450-650.

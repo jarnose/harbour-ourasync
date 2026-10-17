@@ -109,6 +109,34 @@ Page {
                 }
             }
 
+            // The app's own estimate, for a day Oura's cloud has no score for.
+            readonly property bool hasEstimate: page.d.estimatedActivityScore !== null && page.d.estimatedActivityScore !== undefined
+                                                && (page.d.activityScore === null || page.d.activityScore === undefined)
+            StatTile {
+                visible: parent.hasEstimate
+                width: parent.width / 3
+                value: "~" + Format.number(page.d.estimatedActivityScore)
+                caption: qsTr("Activity (estimate)")
+            }
+            SectionHeader {
+                visible: parent.hasEstimate
+                text: qsTr("Activity, estimated contributors")
+            }
+            ContributorBars {
+                visible: parent.hasEstimate
+                items: page.d.estimatedActivityContributors !== undefined ? page.d.estimatedActivityContributors : []
+            }
+            Label {
+                visible: parent.hasEstimate
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.Wrap
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeExtraSmall
+                text: qsTr("Worked out from the ring's movement over this and the six days before, against "
+                           + "your goal in Settings. Recovery time is taken as full. It is close to Oura's "
+                           + "score but not the same.")
+            }
             SectionHeader {
                 visible: page.d.readinessContributors !== undefined && page.d.readinessContributors.length > 0
                 text: qsTr("Readiness, Oura's contributors")

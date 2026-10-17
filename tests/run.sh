@@ -13,7 +13,7 @@ cd "$(dirname "$0")"
 
 CORE="../src/ring/aes128.cpp ../src/ring/protocol.cpp ../src/ring/events.cpp"
 ANALYSIS="../src/analysis/ringclock.cpp ../src/analysis/sleepscore.cpp ../src/analysis/oura_sleep_state.cpp \
-         ../src/analysis/stager.cpp ../src/analysis/daysummary.cpp"
+         ../src/analysis/stager.cpp ../src/analysis/activity_score.cpp ../src/analysis/daysummary.cpp"
 
 run() {
     name=$1; shift
@@ -31,6 +31,7 @@ run daysummary $CORE $ANALYSIS
 run oura_sleep_score ../src/analysis/oura_sleep_score.cpp
 run oura_sleep_state ../src/analysis/oura_sleep_state.cpp
 run healthexport $CORE $ANALYSIS ../src/export/healthexport.cpp ../src/cloud/json.cpp
+run activity_score ../src/analysis/activity_score.cpp
 run stager $CORE $ANALYSIS
 run oura_night_score $CORE $ANALYSIS ../src/analysis/oura_night_score.cpp ../src/analysis/oura_sleep_score.cpp
 run cloudparse ../src/cloud/json.cpp ../src/cloud/csv.cpp ../src/cloud/zip.cpp -lz
