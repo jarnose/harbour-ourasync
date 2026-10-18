@@ -254,6 +254,9 @@ FI.update({
 "Nothing imported yet.": "Ei vielä tuotua dataa.",
 "%1 heart rate samples.": "%1 sykenäytettä.",
 "No heart rate samples.": "Ei sykenäytteitä.",
+"High stress": "Korkea stressi",
+"High stress (estimate)": "Korkea stressi (arvio)",
+"Worked out from your heart rate while awake and still, against your own usual over the 14 days before, and the night's HRV. Fitted to one person's two years of Oura data: about half an hour out on a typical day, and a rough guide for anyone else. It needs about four days of data.": "Laskettu sykkeestäsi hereillä ja levossa verrattuna omaan tavalliseen tasoosi edellisen 14 päivän ajalta sekä yön HRV:stä. Sovitettu yhden ihmisen kahden vuoden Oura-dataan: tyypillisenä päivänä noin puoli tuntia pielessä, ja muille vain suuntaa-antava. Tarvitsee noin neljän päivän datan.",
 "Data export (no account needed)": "Datavienti (ei tiliä tarvita)",
 "Every Oura user can download their own data from membership.ouraring.com/data-export (sign in with the email code, choose Request export, wait for the email). Save the ZIP on the phone and open it here: the scores, sleep stages, heart rate and activity of all your history are read, and nothing leaves the phone.":
     "Jokainen Oura-käyttäjä voi ladata oman datansa osoitteesta membership.ouraring.com/data-export (kirjaudu sähköpostikoodilla, valitse Request export ja odota sähköpostia). Tallenna ZIP puhelimeen ja avaa se tässä: koko historiasi pisteet, unen vaiheet, syke ja aktiivisuus luetaan, eikä mikään poistu puhelimesta.",

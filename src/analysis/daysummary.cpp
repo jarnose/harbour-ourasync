@@ -1,6 +1,7 @@
 #include "daysummary.h"
 #include "breathing.h"
 #include "stager.h"
+#include "stress_estimate.h"
 
 #include "ring/events.h"
 
@@ -859,6 +860,97 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
                     day.estimatedActivityScore = score->score;
                     day.estimatedActivityContributors.assign(score->contributors.begin(), score->contributors.end());
                 }
+            }
+        }
+        // Stress: the five-minute slots of each day (from 04:00 local, as Oura's activity day), awake
+        // and still, with the heart rate of the beats in them.
+        {
+            constexpr int kSlots = 288;
+            struct SlotBeats { int n = 0; double inverse = 0; };
+            std::map<std::string, std::vector<SlotBeats>> beatSlots;
+            const auto activityDayOf = [&](double utc, int &slot) {
+                const int64_t local = static_cast<int64_t>(std::floor(utc)) + offsetAt(utc) - 4 * 3600;
+                slot = static_cast<int>(((local % 86400) + 86400) % 86400 / 300);
+                return localDate(local, 0);
+            };
+            for (const TimedValue &b : beats) {
+                int slot = 0;
+                auto &v = beatSlots[activityDayOf(static_cast<double>(b.utc), slot)];
+                if (v.empty())
+                    v.resize(kSlots);
+                ++v[static_cast<size_t>(slot)].n;
+                v[static_cast<size_t>(slot)].inverse += 1.0 / b.value;
+            }
+
+            std::map<std::string, std::vector<double>> stillSlots;
+            for (const auto &entry : beatSlots) {
+                const std::string &date = entry.first;
+                const int y = std::atoi(date.substr(0, 4).c_str());
+                const unsigned m = static_cast<unsigned>(std::atoi(date.substr(5, 2).c_str()));
+                const unsigned d = static_cast<unsigned>(std::atoi(date.substr(8, 2).c_str()));
+                const int64_t base = daysFromCivil(y, m, d) * 86400 + 4 * 3600;
+                const int64_t t0 = base - offsetAt(static_cast<double>(base));
+                std::vector<double> slots;
+                for (int k = 0; k < kSlots; ++k) {
+                    const SlotBeats &sb = entry.second[static_cast<size_t>(k)];
+                    if (sb.n < 10)
+                        continue;
+                    const int64_t from = t0 + 300 * k, to = from + 300;
+                    bool asleep = false;
+                    for (const Night &n : out.nights)
+                        if (n.startUnix < to && n.endUnix > from) {
+                            asleep = true;
+                            break;
+                        }
+                    if (asleep)
+                        continue;
+                    double met = 0;
+                    int known = 0;
+                    for (int j = 0; j < 5; ++j) {
+                        const auto it = metByMinute.find(from / 60 + j);
+                        if (it != metByMinute.end()) {
+                            met += it->second;
+                            ++known;
+                        }
+                    }
+                    if (known < 3 || met / known > 1.8)
+                        continue;
+                    slots.push_back(sb.n / sb.inverse);   // the harmonic mean: beats per time
+                }
+                stillSlots[date] = std::move(slots);
+            }
+
+            std::map<std::string, double> hrvOf;
+            for (const Night &n : out.nights)
+                if (n.main && n.avgHrv)
+                    hrvOf[n.date] = *n.avgHrv;
+            const auto dateBack = [](const std::string &date, int back) {
+                const int y = std::atoi(date.substr(0, 4).c_str());
+                const unsigned m = static_cast<unsigned>(std::atoi(date.substr(5, 2).c_str()));
+                const unsigned d = static_cast<unsigned>(std::atoi(date.substr(8, 2).c_str()));
+                return localDate((daysFromCivil(y, m, d) - back) * 86400, 0);
+            };
+            for (auto &entry : days) {
+                Day &day = entry.second;
+                const auto today = stillSlots.find(day.date);
+                if (today == stillSlots.end())
+                    continue;
+                StressInput in;
+                in.today = today->second;
+                for (int back = 1; back <= 14; ++back) {
+                    const auto h = stillSlots.find(dateBack(day.date, back));
+                    if (h != stillSlots.end())
+                        in.history.insert(in.history.end(), h->second.begin(), h->second.end());
+                }
+                const auto night = hrvOf.find(day.date);
+                if (night != hrvOf.end())
+                    in.nightHrv = night->second;
+                for (int back = 1; back <= 30; ++back) {
+                    const auto h = hrvOf.find(dateBack(day.date, back));
+                    if (h != hrvOf.end())
+                        in.priorHrv.push_back(h->second);
+                }
+                day.estimatedStressMinutes = estimateStressMinutes(in);
             }
         }
         for (auto &entry : days)

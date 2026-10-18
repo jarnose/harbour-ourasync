@@ -165,6 +165,30 @@ Page {
                            + "about 6 days in 10 within 2 points of Oura's, 9 in 10 within 5, and less sure for "
                            + "anyone else. It needs about two weeks of nights, and is best with two months.")
             }
+            // Time in high stress: Oura's own figure from the cloud, else the app's estimate.
+            readonly property bool hasStress: page.d.stressHighMin !== null && page.d.stressHighMin !== undefined
+            readonly property bool hasStressEstimate: !hasStress && page.d.estimatedStressMinutes !== null
+                    && page.d.estimatedStressMinutes !== undefined
+            StatTile {
+                visible: parent.hasStress || parent.hasStressEstimate
+                width: parent.width / 3
+                value: parent.hasStress ? Format.number(page.d.stressHighMin)
+                                        : "~" + Format.number(page.d.estimatedStressMinutes)
+                unit: "min"
+                caption: parent.hasStress ? qsTr("High stress") : qsTr("High stress (estimate)")
+            }
+            Label {
+                visible: parent.hasStressEstimate
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.Wrap
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeExtraSmall
+                text: qsTr("Worked out from your heart rate while awake and still, against your own usual over "
+                           + "the 14 days before, and the night's HRV. Fitted to one person's two years of Oura "
+                           + "data: about half an hour out on a typical day, and a rough guide for anyone else. "
+                           + "It needs about four days of data.")
+            }
             SectionHeader {
                 visible: page.d.readinessContributors !== undefined && page.d.readinessContributors.length > 0
                 text: qsTr("Readiness, Oura's contributors")

@@ -301,7 +301,7 @@ same cloud import, `compare_readiness.py`) is 2.4 points on average, 70 % of day
 5, worst 35 where recovery index or heart rate dropped. The curves are one person's, in sample, so
 for anyone else this is a rougher guide than the activity rules.
 
-Stress (`stress_high`, `recovery_high`) is a neural network's output and is not estimated.
+Stress is treated in its own section below.
 
 ## Breathing rate from the beats (1.4.0)
 
@@ -325,3 +325,32 @@ hours) of one real Ring 4 night: mean difference 0.11 breaths a minute, worst 0.
 13.25-13.75). That is one person's night, so the tuning is one night deep; there is no cloud value to
 compare with, since this ring's data is read here and never reaches Oura. The library's variability
 and its use of the ring's sleep stages were not reproduced: every epoch was passed as asleep.
+
+## Stress, estimated from heart rate (1.5.0)
+
+Oura's daytime stress is a small model (`stress_daytime_sensing`; open_oura's `run_stress_model.py` describes
+it): the daytime HRV of a five-minute slot against the person's daytime HRV baseline, with a dead zone of
+2-4 ms by the night's HRV. Its tables are not published and the ring sends no HRV for the day, so it is not
+reproduced. What the cloud holds of it was fitted instead (`tools/cloudcheck/stress_fit.py`, on the 872 days
+of one person, 2024-05 to 2026-10, with the heart rate from the cloud's heartrate endpoint):
+
+- `stress_high` is a count of five-minute slots (every value is a multiple of 300 s): 19 a day on average,
+  96 at most. In 99 % of the days it is no more than the slots that have a heart rate while awake and still,
+  so Oura classifies the very slots the cloud holds the heart rate of.
+- `day_summary` "stressful" goes with about 36 slots (3 hours): that threshold on Oura's own numbers classes
+  824 of 861 days right. From the estimate the flag is weak (at 36 slots precision 0.81 but recall 0.37), so
+  the app does not show one.
+- `recovery_high` is not explained by heart rate (test correlation 0.5) and is not estimated.
+
+The estimate is the slots' mean heart rate (awake, MET 1.8 or under) against the person's own median over the
+14 days before, counted at +4, +8, +12, +16, +20 and +26 bpm and at -4, -8 and -12, the slot count and the
+median's distance, and the night's HRV against its last 30 nights, combined linearly (ridge, weights in
+`src/analysis/stress_estimate.cpp`). Fitted on the first 70 % of days and scored on the last 30 %: mean error
+6.2 slots (31 minutes), against 9.6 for guessing the average; correlation 0.79. A single threshold count gets
+0.70 at best, NOOP's heart-rate-only stress (+15 bpm over the pooled 10th percentile, r about 0.6 against Oura)
+less. The C++ over the same days (`stress_check.py`) reproduces the fit: 34 minutes mean error in sample.
+
+On the ring the slots come from the quality-gated green beats (`0x80`): at least ten beats in the slot, the
+harmonic mean of their rates. A Ring 4 gave about 90 such slots a day, the cloud 68. The estimate needs 200
+slots in the 14 days before, a few days of use; the weights are one person's, so for anyone else it is a rough
+guide, and no day of the ring's own has a cloud figure to compare with.

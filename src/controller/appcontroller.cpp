@@ -274,6 +274,8 @@ QVariantMap dayFull(const Day &d)
         m.insert(QStringLiteral("estimatedReadinessContributors"), contributorList(estimatedReadiness));
     }
     m.insert(QStringLiteral("stressHighMin"), d.stressHighMin ? QVariant(*d.stressHighMin) : QVariant());
+    m.insert(QStringLiteral("estimatedStressMinutes"),
+             d.estimatedStressMinutes ? QVariant(*d.estimatedStressMinutes) : QVariant());
     m.insert(QStringLiteral("recoveryHighMin"), d.recoveryHighMin ? QVariant(*d.recoveryHighMin) : QVariant());
     m.insert(QStringLiteral("stressSummary"), QString::fromStdString(d.stressSummary));
     QVariantList hours;

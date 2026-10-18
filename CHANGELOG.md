@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.0
+
+- Estimated time in high stress for each day, from the day's heart rate while awake and still, your own
+  usual over the 14 days before and the night's HRV. Fitted to 868 real days (mean error 31 minutes out
+  of sample, correlation 0.79); shown with a "~" on the day page, and Oura's own figure where the cloud
+  has one. Recovery time is not estimated. Needs about four days of the ring's data.
+
 ## 1.4.2
 
 - Heart rate from Oura's cloud: the times asked for are sent with a "Z" instead of "+00:00", whose

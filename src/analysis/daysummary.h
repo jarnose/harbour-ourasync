@@ -123,6 +123,8 @@ struct Day
     // A readiness score estimated from the nights and days held (readiness_estimate.h).
     std::optional<int> estimatedReadinessScore;
     std::vector<int> estimatedReadinessContributors;
+    // Minutes of high stress estimated from the day's heart rate (stress_estimate.h).
+    std::optional<int> estimatedStressMinutes;
 
     // From Oura's cloud.
     bool fromCloud = false;

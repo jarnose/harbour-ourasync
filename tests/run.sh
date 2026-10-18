@@ -13,7 +13,7 @@ cd "$(dirname "$0")"
 
 CORE="../src/ring/aes128.cpp ../src/ring/protocol.cpp ../src/ring/events.cpp"
 ANALYSIS="../src/analysis/ringclock.cpp ../src/analysis/sleepscore.cpp ../src/analysis/oura_sleep_state.cpp \
-         ../src/analysis/stager.cpp ../src/analysis/activity_score.cpp ../src/analysis/breathing.cpp \
+         ../src/analysis/stager.cpp ../src/analysis/activity_score.cpp ../src/analysis/breathing.cpp ../src/analysis/stress_estimate.cpp \
          ../src/analysis/daysummary.cpp"
 
 run() {
@@ -36,6 +36,7 @@ run readiness_estimate $CORE $ANALYSIS ../src/analysis/readiness_estimate.cpp ..
 run activity_score ../src/analysis/activity_score.cpp
 run stager $CORE $ANALYSIS
 run breathing $CORE ../src/analysis/breathing.cpp
+run stress_estimate ../src/analysis/stress_estimate.cpp
 run oura_night_score $CORE $ANALYSIS ../src/analysis/oura_night_score.cpp ../src/analysis/oura_sleep_score.cpp
 run cloudparse ../src/cloud/json.cpp ../src/cloud/csv.cpp ../src/cloud/zip.cpp -lz
 run cloudmerge $CORE $ANALYSIS ../src/analysis/cloudmerge.cpp ../src/cloud/json.cpp ../src/cloud/csv.cpp \
