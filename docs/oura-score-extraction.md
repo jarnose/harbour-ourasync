@@ -354,3 +354,21 @@ On the ring the slots come from the quality-gated green beats (`0x80`): at least
 harmonic mean of their rates. A Ring 4 gave about 90 such slots a day, the cloud 68. The estimate needs 200
 slots in the 14 days before, a few days of use; the weights are one person's, so for anyone else it is a rough
 guide, and no day of the ring's own has a cloud figure to compare with.
+
+### Recovery (`recovery_high`): tried again, not explained
+
+Tried on the same 868 days, time-split (fitted on the first 70 %, scored on the last 30 %), against the
+mean-only error of 5.1 slots (`tools/cloudcheck/recovery_probe.py`):
+
+| model | mean error (slots) | correlation |
+| --- | --- | --- |
+| ridge on the heart-rate features of the stress estimate | 4.5 | 0.51 |
+| ridge adding the night (HRV, resting heart rate, sleep, efficiency, restlessness, temperature) and the day (steps, calories, sedentary time, MET, inactivity alerts, weekend) | 4.5 | 0.52 |
+| gradient boosting on all of those | 4.6 | 0.46 |
+| gradient boosting on the heart-rate features only | 4.8 | 0.45 |
+| per slot logistic on margin over the 14-day median and over the day's own, time of day and MET | 4.8 | 0.42 |
+
+The best is 12 % better than guessing the average, and a non-linear model on everything the cloud holds
+does no better. What matters most is the slots well under the usual heart rate, which is what recovery is
+at its simplest; the rest of what Oura bases it on, the slots' HRV, is not in the cloud for the day and the
+ring does not send it, so there is nothing to fit it to. It is not estimated.
