@@ -56,6 +56,18 @@ Page {
                       : qsTr("Nothing imported yet.")
             }
 
+            Label {
+                visible: page.count("daily_sleep") + page.count("sleep") + page.count("daily_activity") > 0
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.Wrap
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeSmall
+                text: page.stats.hrSamples > 0
+                      ? qsTr("%1 heart rate samples.").arg(page.stats.hrSamples)
+                      : qsTr("No heart rate samples.")
+            }
+
             // ---- busy / result ----
             Column {
                 width: parent.width

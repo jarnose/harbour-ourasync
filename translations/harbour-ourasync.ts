@@ -57,7 +57,7 @@ Not available: Oura&apos;s own Sleep, Readiness and Activity scores, and step co
     <name>AppController</name>
     <message>
         <location filename="../src/controller/appcontroller.cpp" line="310"/>
-        <location filename="../src/controller/appcontroller.cpp" line="1545"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1546"/>
         <source>Imported</source>
         <translation type="unfinished"></translation>
     </message>
@@ -335,143 +335,153 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="96"/>
+        <location filename="../qml/pages/CloudPage.qml" line="67"/>
+        <source>%1 heart rate samples.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="68"/>
+        <source>No heart rate samples.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="108"/>
         <source>Data export (no account needed)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="104"/>
+        <location filename="../qml/pages/CloudPage.qml" line="116"/>
         <source>Every Oura user can download their own data from membership.ouraring.com/data-export (sign in with the email code, choose Request export, wait for the email). Save the ZIP on the phone and open it here: the scores, sleep stages, heart rate and activity of all your history are read, and nothing leaves the phone.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="113"/>
+        <location filename="../qml/pages/CloudPage.qml" line="125"/>
         <source>Open from Downloads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="120"/>
+        <location filename="../qml/pages/CloudPage.qml" line="132"/>
         <source>Open from Documents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="127"/>
+        <location filename="../qml/pages/CloudPage.qml" line="139"/>
         <source>Or a file or folder path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="139"/>
+        <location filename="../qml/pages/CloudPage.qml" line="151"/>
         <source>Oura Cloud API</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="147"/>
+        <location filename="../qml/pages/CloudPage.qml" line="159"/>
         <source>Needs an active Oura Membership. Oura no longer issues personal tokens, so you register a small application of your own at developer.ouraring.com/applications with the redirect address below, and enter its client id and secret here. They stay in this phone&apos;s secure vault.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="156"/>
+        <location filename="../qml/pages/CloudPage.qml" line="168"/>
         <source>Client id</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="166"/>
+        <location filename="../qml/pages/CloudPage.qml" line="178"/>
         <source>Client secret</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="174"/>
+        <location filename="../qml/pages/CloudPage.qml" line="186"/>
         <source>Redirect address: http://localhost:%1/callback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="185"/>
+        <location filename="../qml/pages/CloudPage.qml" line="197"/>
         <source>Sign in again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="185"/>
+        <location filename="../qml/pages/CloudPage.qml" line="197"/>
         <source>Sign in with Oura</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="197"/>
+        <location filename="../qml/pages/CloudPage.qml" line="209"/>
         <source>If the browser could not reach the app: paste the address or code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="198"/>
+        <location filename="../qml/pages/CloudPage.qml" line="210"/>
         <source>Address or code</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="214"/>
+        <location filename="../qml/pages/CloudPage.qml" line="226"/>
         <source>Connected to Oura.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="220"/>
+        <location filename="../qml/pages/CloudPage.qml" line="232"/>
         <source>Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="222"/>
+        <location filename="../qml/pages/CloudPage.qml" line="234"/>
         <source>the last 30 days</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="223"/>
+        <location filename="../qml/pages/CloudPage.qml" line="235"/>
         <source>the last 90 days</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="224"/>
+        <location filename="../qml/pages/CloudPage.qml" line="236"/>
         <source>the last year</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="225"/>
+        <location filename="../qml/pages/CloudPage.qml" line="237"/>
         <source>everything (up to 10 years)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="232"/>
+        <location filename="../qml/pages/CloudPage.qml" line="244"/>
         <source>Import now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="243"/>
+        <location filename="../qml/pages/CloudPage.qml" line="255"/>
         <source>Disconnect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="250"/>
+        <location filename="../qml/pages/CloudPage.qml" line="262"/>
         <source>Imported data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="255"/>
+        <location filename="../qml/pages/CloudPage.qml" line="267"/>
         <source>Check my scores against Oura&apos;s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="263"/>
+        <location filename="../qml/pages/CloudPage.qml" line="275"/>
         <source>Remove imported data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="264"/>
+        <location filename="../qml/pages/CloudPage.qml" line="276"/>
         <source>Removing imported data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="274"/>
+        <location filename="../qml/pages/CloudPage.qml" line="286"/>
         <source>Removing leaves the history read from the ring untouched.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="285"/>
-        <location filename="../qml/pages/CloudPage.qml" line="295"/>
+        <location filename="../qml/pages/CloudPage.qml" line="297"/>
+        <location filename="../qml/pages/CloudPage.qml" line="307"/>
         <source>Choose the export</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1489,7 +1499,7 @@ A ring that is still set up with the Oura app must first be factory reset.</sour
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="447"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="451"/>
         <source>Oura refused: %1 (no membership, or the permission was declined).</source>
         <translation type="unfinished"></translation>
     </message>

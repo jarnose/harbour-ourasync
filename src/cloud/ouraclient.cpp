@@ -427,8 +427,12 @@ QString OuraCloudClient::fetch(const FetchRequest &request, Oura::CloudImport &o
                 }
                 if (status == 429)
                     return tr("Oura says too many requests were made. Try again in a few minutes.");
-                if (status != 200)
+                if (status != 200) {
+                    // Not silent: without the series nothing downstream can use heart rate.
+                    skipped << QStringLiteral("heartrate (HTTP %1)").arg(status);
+                    from = end;
                     break;
+                }
                 if (const Oura::Json *data = reply.get("data")) {
                     for (const Oura::Json &p : data->items()) {
                         const auto t = Oura::parseIso8601(p.str("timestamp"));

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.1
+
+- The Oura cloud page says how many heart rate samples are held, and an import tells when Oura
+  refused or failed the heart rate series (it used to skip it without a word).
+- The scan, alert and connection events of the ring have names in the diagnostics.
+
 ## 1.4.0
 
 - Breathing rate for rings that do not send it (Ring 4 and 5): worked out from the night's

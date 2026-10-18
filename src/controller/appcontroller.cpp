@@ -1542,7 +1542,11 @@ void AppController::cloudImport(int days)
     reloadCloudStats();
     if (!error.isEmpty())
         fail(error);
-    emit cloudFinished(error.isEmpty(), error.isEmpty() ? tr("Imported") : error);
+    // What Oura refused is worth saying: an import that quietly lacks the heart rate looks complete.
+    QString outcome = tr("Imported");
+    for (const std::string &note : data.notes)
+        outcome += QStringLiteral(" ") + QString::fromStdString(note);
+    emit cloudFinished(error.isEmpty(), error.isEmpty() ? outcome : error);
     if (error.isEmpty())
         refreshSummary();
 }

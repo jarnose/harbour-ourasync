@@ -61,7 +61,7 @@ Ei saatavilla: Ouran omat uni-, valmiusaste- ja aktiivisuuspisteet sekä askelee
     <name>AppController</name>
     <message>
         <location filename="../src/controller/appcontroller.cpp" line="310"/>
-        <location filename="../src/controller/appcontroller.cpp" line="1545"/>
+        <location filename="../src/controller/appcontroller.cpp" line="1546"/>
         <source>Imported</source>
         <translation>Tuotu</translation>
     </message>
@@ -341,143 +341,153 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
         <translation>Ei vielä tuotua dataa.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="96"/>
+        <location filename="../qml/pages/CloudPage.qml" line="67"/>
+        <source>%1 heart rate samples.</source>
+        <translation>%1 sykenäytettä.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="68"/>
+        <source>No heart rate samples.</source>
+        <translation>Ei sykenäytteitä.</translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/CloudPage.qml" line="108"/>
         <source>Data export (no account needed)</source>
         <translation>Datavienti (ei tiliä tarvita)</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="104"/>
+        <location filename="../qml/pages/CloudPage.qml" line="116"/>
         <source>Every Oura user can download their own data from membership.ouraring.com/data-export (sign in with the email code, choose Request export, wait for the email). Save the ZIP on the phone and open it here: the scores, sleep stages, heart rate and activity of all your history are read, and nothing leaves the phone.</source>
         <translation>Jokainen Oura-käyttäjä voi ladata oman datansa osoitteesta membership.ouraring.com/data-export (kirjaudu sähköpostikoodilla, valitse Request export ja odota sähköpostia). Tallenna ZIP puhelimeen ja avaa se tässä: koko historiasi pisteet, unen vaiheet, syke ja aktiivisuus luetaan, eikä mikään poistu puhelimesta.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="113"/>
+        <location filename="../qml/pages/CloudPage.qml" line="125"/>
         <source>Open from Downloads</source>
         <translation>Avaa Latauksista</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="120"/>
+        <location filename="../qml/pages/CloudPage.qml" line="132"/>
         <source>Open from Documents</source>
         <translation>Avaa Asiakirjoista</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="127"/>
+        <location filename="../qml/pages/CloudPage.qml" line="139"/>
         <source>Or a file or folder path</source>
         <translation>Tai tiedoston tai kansion polku</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="139"/>
+        <location filename="../qml/pages/CloudPage.qml" line="151"/>
         <source>Oura Cloud API</source>
         <translation>Oura Cloud API</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="147"/>
+        <location filename="../qml/pages/CloudPage.qml" line="159"/>
         <source>Needs an active Oura Membership. Oura no longer issues personal tokens, so you register a small application of your own at developer.ouraring.com/applications with the redirect address below, and enter its client id and secret here. They stay in this phone&apos;s secure vault.</source>
         <translation>Vaatii voimassa olevan Oura-jäsenyyden. Oura ei enää anna henkilökohtaisia tunnisteita, joten rekisteröit osoitteessa developer.ouraring.com/applications oman pienen sovelluksen alla näkyvällä uudelleenohjausosoitteella ja annat sen client id:n ja salaisuuden tässä. Ne pysyvät tämän puhelimen suojatussa holvissa.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="156"/>
+        <location filename="../qml/pages/CloudPage.qml" line="168"/>
         <source>Client id</source>
         <translation>Client id</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="166"/>
+        <location filename="../qml/pages/CloudPage.qml" line="178"/>
         <source>Client secret</source>
         <translation>Client secret</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="174"/>
+        <location filename="../qml/pages/CloudPage.qml" line="186"/>
         <source>Redirect address: http://localhost:%1/callback</source>
         <translation>Uudelleenohjausosoite: http://localhost:%1/callback</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="185"/>
+        <location filename="../qml/pages/CloudPage.qml" line="197"/>
         <source>Sign in again</source>
         <translation>Kirjaudu uudelleen</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="185"/>
+        <location filename="../qml/pages/CloudPage.qml" line="197"/>
         <source>Sign in with Oura</source>
         <translation>Kirjaudu Ouralla</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="197"/>
+        <location filename="../qml/pages/CloudPage.qml" line="209"/>
         <source>If the browser could not reach the app: paste the address or code</source>
         <translation>Jos selain ei tavoittanut sovellusta: liitä osoite tai koodi</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="198"/>
+        <location filename="../qml/pages/CloudPage.qml" line="210"/>
         <source>Address or code</source>
         <translation>Osoite tai koodi</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="214"/>
+        <location filename="../qml/pages/CloudPage.qml" line="226"/>
         <source>Connected to Oura.</source>
         <translation>Yhdistetty Ouraan.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="220"/>
+        <location filename="../qml/pages/CloudPage.qml" line="232"/>
         <source>Import</source>
         <translation>Tuo</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="222"/>
+        <location filename="../qml/pages/CloudPage.qml" line="234"/>
         <source>the last 30 days</source>
         <translation>viimeiset 30 päivää</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="223"/>
+        <location filename="../qml/pages/CloudPage.qml" line="235"/>
         <source>the last 90 days</source>
         <translation>viimeiset 90 päivää</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="224"/>
+        <location filename="../qml/pages/CloudPage.qml" line="236"/>
         <source>the last year</source>
         <translation>viimeisin vuosi</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="225"/>
+        <location filename="../qml/pages/CloudPage.qml" line="237"/>
         <source>everything (up to 10 years)</source>
         <translation>kaikki (enintään 10 vuotta)</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="232"/>
+        <location filename="../qml/pages/CloudPage.qml" line="244"/>
         <source>Import now</source>
         <translation>Tuo nyt</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="243"/>
+        <location filename="../qml/pages/CloudPage.qml" line="255"/>
         <source>Disconnect</source>
         <translation>Katkaise yhteys</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="250"/>
+        <location filename="../qml/pages/CloudPage.qml" line="262"/>
         <source>Imported data</source>
         <translation>Tuotu data</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="255"/>
+        <location filename="../qml/pages/CloudPage.qml" line="267"/>
         <source>Check my scores against Oura&apos;s</source>
         <translation>Vertaa pisteitäni Ouran pisteisiin</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="263"/>
+        <location filename="../qml/pages/CloudPage.qml" line="275"/>
         <source>Remove imported data</source>
         <translation>Poista tuotu data</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="264"/>
+        <location filename="../qml/pages/CloudPage.qml" line="276"/>
         <source>Removing imported data</source>
         <translation>Poistetaan tuotua dataa</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="274"/>
+        <location filename="../qml/pages/CloudPage.qml" line="286"/>
         <source>Removing leaves the history read from the ring untouched.</source>
         <translation>Poisto ei koske sormuksesta luettuun historiaan.</translation>
     </message>
     <message>
-        <location filename="../qml/pages/CloudPage.qml" line="285"/>
-        <location filename="../qml/pages/CloudPage.qml" line="295"/>
+        <location filename="../qml/pages/CloudPage.qml" line="297"/>
+        <location filename="../qml/pages/CloudPage.qml" line="307"/>
         <source>Choose the export</source>
         <translation>Valitse vienti</translation>
     </message>
@@ -1495,7 +1505,7 @@ Sormus, joka on yhä otettu käyttöön Oura-sovelluksella, täytyy ensin palaut
         <translation>Haetaan sykettä alkaen %1…</translation>
     </message>
     <message>
-        <location filename="../src/cloud/ouraclient.cpp" line="447"/>
+        <location filename="../src/cloud/ouraclient.cpp" line="451"/>
         <source>Oura refused: %1 (no membership, or the permission was declined).</source>
         <translation>Oura kieltäytyi: %1 (ei jäsenyyttä tai lupa evättiin).</translation>
     </message>
