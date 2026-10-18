@@ -400,8 +400,8 @@ QString OuraCloudClient::fetch(const FetchRequest &request, Oura::CloudImport &o
     if (request.heartRate) {
         // Heart rate comes in windows: a day of five-minute samples is small, a
         // year is not. One week at a time.
-        const QDateTime start = QDateTime::fromString(request.startDay, Qt::ISODate);
-        const QDateTime end = QDateTime::fromString(request.endDay, Qt::ISODate).addDays(1);
+        const QDateTime start(QDate::fromString(request.startDay, Qt::ISODate), QTime(0, 0), Qt::UTC);
+        const QDateTime end = QDateTime(QDate::fromString(request.endDay, Qt::ISODate), QTime(0, 0), Qt::UTC).addDays(1);
         for (QDateTime from = start; from < end; from = from.addDays(7)) {
             const QDateTime to = qMin(from.addDays(7), end);
             progress(tr("Fetching heart rate from %1…").arg(from.toString(Qt::ISODate).left(10)));
@@ -410,8 +410,10 @@ QString OuraCloudClient::fetch(const FetchRequest &request, Oura::CloudImport &o
             do {
                 QUrl url(QString::fromLatin1(kApi) + QStringLiteral("/v2/usercollection/heartrate"));
                 QUrlQuery q;
-                q.addQueryItem(QStringLiteral("start_datetime"), from.toUTC().toString(QStringLiteral("yyyy-MM-ddT00:00:00+00:00")));
-                q.addQueryItem(QStringLiteral("end_datetime"), to.toUTC().toString(QStringLiteral("yyyy-MM-ddT00:00:00+00:00")));
+                // "Z", not "+00:00": a plus sign in a query string reaches the server as a space,
+                // and Oura answers HTTP 422 for a time it cannot read.
+                q.addQueryItem(QStringLiteral("start_datetime"), from.toString(QStringLiteral("yyyy-MM-dd'T'00:00:00'Z'")));
+                q.addQueryItem(QStringLiteral("end_datetime"), to.toString(QStringLiteral("yyyy-MM-dd'T'00:00:00'Z'")));
                 if (!next.isEmpty())
                     q.addQueryItem(QStringLiteral("next_token"), next);
                 url.setQuery(q);
@@ -429,7 +431,8 @@ QString OuraCloudClient::fetch(const FetchRequest &request, Oura::CloudImport &o
                     return tr("Oura says too many requests were made. Try again in a few minutes.");
                 if (status != 200) {
                     // Not silent: without the series nothing downstream can use heart rate.
-                    skipped << QStringLiteral("heartrate (HTTP %1)").arg(status);
+                    skipped << QStringLiteral("heartrate (HTTP %1: %2)").arg(status)
+                                       .arg(QString::fromStdString(reply.dump()).left(160));
                     from = end;
                     break;
                 }

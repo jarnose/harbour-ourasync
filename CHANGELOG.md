@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.2
+
+- Heart rate from Oura's cloud: the times asked for are sent with a "Z" instead of "+00:00", whose
+  plus sign reached Oura as a space and made it answer HTTP 422. A failed heart rate request now
+  also shows what Oura said.
+
 ## 1.4.1
 
 - The Oura cloud page says how many heart rate samples are held, and an import tells when Oura
