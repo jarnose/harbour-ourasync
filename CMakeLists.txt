@@ -39,6 +39,7 @@ set(CORE_SOURCES
     src/analysis/stager.cpp
     src/analysis/breathing.cpp
     src/analysis/stress_estimate.cpp
+    src/analysis/sleep_debt.cpp
     src/analysis/activity_score.cpp
     src/analysis/readiness_estimate.cpp
     src/analysis/oura_night_score.cpp

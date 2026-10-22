@@ -125,6 +125,10 @@ struct Day
     std::vector<int> estimatedReadinessContributors;
     // Minutes of high stress estimated from the day's heart rate (stress_estimate.h).
     std::optional<int> estimatedStressMinutes;
+    // Sleep debt as of this morning and the sleep need it was measured against, in minutes
+    // (sleep_debt.h).
+    std::optional<int> estimatedSleepDebtMin;
+    std::optional<int> estimatedSleepNeedMin;
 
     // From Oura's cloud.
     bool fromCloud = false;

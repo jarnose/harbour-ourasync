@@ -189,6 +189,31 @@ Page {
                            + "data: about half an hour out on a typical day, and a rough guide for anyone else. "
                            + "It needs about four days of data.")
             }
+            // Sleep debt over the last two weeks against the sleep need, as of this morning.
+            readonly property bool hasSleepDebt: page.d.estimatedSleepDebtMin !== null
+                    && page.d.estimatedSleepDebtMin !== undefined
+            StatTile {
+                visible: parent.hasSleepDebt
+                width: parent.width / 3
+                value: parent.hasSleepDebt ? "~" + Format.hoursMinutes(page.d.estimatedSleepDebtMin) : "–"
+                unit: "h"
+                caption: qsTr("Sleep debt (estimate)")
+            }
+            Label {
+                visible: parent.hasSleepDebt
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.Wrap
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeExtraSmall
+                text: !parent.hasSleepDebt ? "" : (page.d.estimatedSleepDebtMin === 0 ? qsTr("None")
+                      : page.d.estimatedSleepDebtMin < 120 ? qsTr("Low")
+                      : page.d.estimatedSleepDebtMin <= 300 ? qsTr("Moderate") : qsTr("High"))
+                      + ". " + qsTr("Your last two weeks against a sleep need of about %1, naps included, the "
+                                    + "latest nights counting most. Oura's arithmetic, but the need is the mean "
+                                    + "of your last 90 days without the oddly short or long ones, which is a "
+                                    + "guess at how Oura finds it.").arg(Format.duration(page.d.estimatedSleepNeedMin))
+            }
             SectionHeader {
                 visible: page.d.readinessContributors !== undefined && page.d.readinessContributors.length > 0
                 text: qsTr("Readiness, Oura's contributors")

@@ -372,3 +372,43 @@ The best is 12 % better than guessing the average, and a non-linear model on eve
 does no better. What matters most is the slots well under the usual heart rate, which is what recovery is
 at its simplest; the rest of what Oura bases it on, the slots' HRV, is not in the cloud for the day and the
 ring does not send it, so there is nothing to fit it to. It is not estimated.
+
+## Sleep debt (1.6.0)
+
+Oura's app shows sleep debt over the last two weeks (none, low under 2 h, moderate 2-5 h, high over 5 h;
+support.ouraring.com article 46233324892691). The library has `sleep_debt_calculate`, which open_oura
+ported (`crates/oura-analysis/src/ported/sleep_debt.rs`): the shortfall of each of the last 14 days (need
+minus the day's total sleep, naps included, a day with none skipped), weighted linearly from 1.0 for the
+newest to 0.25 for the oldest, summed, held between 0 and 10 hours and rounded to 45 minutes (so 585
+minutes at most), valid with five days; the newest day must have sleep. `src/analysis/sleep_debt.cpp` has
+that arithmetic and the library's own example as a test (needing 8 h, sleeping 7 for five nights: 3 h).
+
+The need is not in the library's input handling: Oura says it is "your typical sleep patterns over the past 90
+days" with "unusually short or long nights" filtered out. The app takes the mean of the 90 days before,
+leaving out days more than 1.5 interquartile ranges from the middle half, and needs 14 such days. That
+step is a guess, and the cloud holds no sleep debt to check it against (the API and the data export have
+no such field), so the figure is labelled an estimate.
+
+## Oura's data export (data.zip, 2026-10)
+
+The export (the account's "download my data" ZIP) holds the same history as the API, to the day the ring left
+the account (2026-10-16), plus things the API does not give. Checked against the cloud import:
+
+- `dailyresilience.csv` (860 days: level and the contributors daytime_recovery, sleep_recovery, stress),
+  which the API refused here; `sleeptime`, `dailycardiovascularage`, `cardioeffortbaselines`.
+- `daytimestress.csv`: 80,698 slots with a value 0-100, each in one of two columns. **The two columns are
+  swapped**: `recovery_value` is the stress intensity (a count of slots at 55 or more, each worth up to 600
+  s, correlates 0.88 with `stress_high`) and `stress_value` the recovery intensity. Neither reproduces the
+  daily figures exactly (the daily numbers come from a separate model), and recovery from the slots
+  correlates only 0.43 with `recovery_high`. A gradient-boosted slot classifier from heart rate reaches
+  an AUC of 0.73 for stressed slots; summed per day it gives 0.74 with `stress_high`, which is not better
+  than the 0.79 of the day-level estimate, so the stress estimate is unchanged.
+- `heartrate.csv` (the API's series with a `source` of awake, rest, workout or live), `temperature.csv`
+  (skin temperature, one a minute), `stepcount.csv` (steps a minute), `ringbatterylevel.csv`.
+- `motion.csv` (1.63 million rows): the ring's `motion_event` records, with the seconds of motion, the
+  counts of high and low intensity motion and the orientation. Over a night only about one epoch in six has
+  a row (the records are sparse while asleep), so the third restfulness input cannot be made from it: the
+  count the state machine makes from the rows is 0 or 1 where the official restfulness needs 25-85, and
+  no simple count of rows correlates with it above 0.16 (`tools/cloudcheck/motion_probe.py`). What the
+  probe does give is that input for each night, to within a width of 2 on the median (found by inverting
+  the contributor): its mean is 43 over 820 nights, against the 40 the app assumes.

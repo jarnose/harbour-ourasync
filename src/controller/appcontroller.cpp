@@ -3,6 +3,7 @@
 #include "analysis/cloudmerge.h"
 #include "analysis/oura_night_score.h"
 #include "analysis/readiness_estimate.h"
+#include "analysis/sleep_debt.h"
 #include "export/healthexport.h"
 #include "analysis/oura_sleep_score.h"
 #include "cloud/exportimport.h"
@@ -274,6 +275,10 @@ QVariantMap dayFull(const Day &d)
         m.insert(QStringLiteral("estimatedReadinessContributors"), contributorList(estimatedReadiness));
     }
     m.insert(QStringLiteral("stressHighMin"), d.stressHighMin ? QVariant(*d.stressHighMin) : QVariant());
+    m.insert(QStringLiteral("estimatedSleepDebtMin"),
+             d.estimatedSleepDebtMin ? QVariant(*d.estimatedSleepDebtMin) : QVariant());
+    m.insert(QStringLiteral("estimatedSleepNeedMin"),
+             d.estimatedSleepNeedMin ? QVariant(*d.estimatedSleepNeedMin) : QVariant());
     m.insert(QStringLiteral("estimatedStressMinutes"),
              d.estimatedStressMinutes ? QVariant(*d.estimatedStressMinutes) : QVariant());
     m.insert(QStringLiteral("recoveryHighMin"), d.recoveryHighMin ? QVariant(*d.recoveryHighMin) : QVariant());
@@ -1170,6 +1175,7 @@ void AppController::refreshSummary()
                                                           nowUnix() - 400LL * 86400);
         mergeCloud(*summary, cloud.docs, cloud.hr, options);
         estimateReadiness(*summary, options);
+        estimateSleepDebt(*summary);
         return std::shared_ptr<const Summary>(summary);
     }));
 }

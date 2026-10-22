@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.0
+
+- Sleep debt for each day with sleep, as Oura's app shows it: the last 14 days' shortfall against your sleep
+  need, newest days counting most (Oura's own arithmetic, read from its library), with the need estimated
+  from your last 90 days. Shown with a "~" on the day page, with Oura's none / low / moderate / high.
+
 ## 1.5.0
 
 - Estimated time in high stress for each day, from the day's heart rate while awake and still, your own
