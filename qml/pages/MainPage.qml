@@ -12,14 +12,11 @@ Page {
     property var overview: ({})
     readonly property var night: overview.night
     readonly property var today: overview.today
-    readonly property var oura: overview.oura
-    // Oura's scores are those of the last cloud import. Once the ring is read here they are
-    // old news: shown with their date, and left out when more than three days old.
-    readonly property string ouraDate: oura === undefined ? "" : (oura.sleepDate || oura.readinessDate || oura.activityDate || "")
-    readonly property bool ouraFresh: ouraDate.length === 10
-        && (new Date().getTime() - new Date(ouraDate + "T12:00:00").getTime()) < 4 * 86400000
-    // The score shown for last night: Oura's own when the cloud has it.
-    readonly property bool officialNight: night !== undefined && night.ouraScore !== null && night.ouraScore !== undefined
+    // The three scores of the gauges: sleep, readiness, activity, each with its value, whether it is
+    // Oura's own or this app's estimate, and the day it is for.
+    readonly property var scores: overview.scores !== undefined ? overview.scores : ({})
+    // The sleep score is Oura's own when the cloud has it.
+    readonly property bool officialNight: scores.sleep !== undefined && scores.sleep.official
 
     // Bumped to make what depends on the time of day look again.
     property int clock: 0
@@ -41,6 +38,15 @@ Page {
         target: AppController
         onSummaryChanged: page.reload()
         onRingChanged: page.reload()
+    }
+
+    // A score for a gauge: -1 when there is none.
+    function scoreValue(one) {
+        return one !== undefined ? one.value : -1
+    }
+    // Its caption; a "~" marks the app's own estimate where Oura's cloud has no score.
+    function scoreCaption(name, one) {
+        return one !== undefined && !one.official ? name + " ~" : name
     }
 
     function syncedText() {
@@ -189,64 +195,98 @@ Page {
                     text: night ? qsTr("Last night, %1").arg(Format.dayLabel(night.date)) : ""
                 }
 
+                Row {
+                    x: Theme.horizontalPageMargin
+                    width: parent.width - 2 * Theme.horizontalPageMargin
+                    spacing: Theme.paddingLarge
+                    readonly property real cell: (width - 2 * spacing) / 3
+
+                    BackgroundItem {
+                        width: parent.cell
+                        height: sleepGauge.height
+                        onClicked: pageStack.push(Qt.resolvedUrl("NightPage.qml"), { date: night.date })
+                        ScoreGauge {
+                            id: sleepGauge
+                            width: parent.width
+                            value: page.scoreValue(page.scores.sleep)
+                            caption: page.scoreCaption(qsTr("Sleep"), page.scores.sleep)
+                        }
+                    }
+                    BackgroundItem {
+                        width: parent.cell
+                        height: readinessGauge.height
+                        enabled: page.scores.readiness !== undefined
+                        onClicked: pageStack.push(Qt.resolvedUrl("DayPage.qml"), { date: page.scores.readiness.date })
+                        ScoreGauge {
+                            id: readinessGauge
+                            width: parent.width
+                            value: page.scoreValue(page.scores.readiness)
+                            caption: page.scoreCaption(qsTr("Readiness"), page.scores.readiness)
+                        }
+                    }
+                    BackgroundItem {
+                        width: parent.cell
+                        height: activityGauge.height
+                        enabled: page.scores.activity !== undefined
+                        onClicked: pageStack.push(Qt.resolvedUrl("DayPage.qml"), { date: page.scores.activity.date })
+                        ScoreGauge {
+                            id: activityGauge
+                            width: parent.width
+                            value: page.scoreValue(page.scores.activity)
+                            caption: page.scoreCaption(qsTr("Activity"), page.scores.activity)
+                        }
+                    }
+                }
+
                 BackgroundItem {
                     width: parent.width
-                    height: Math.max(gauge.height, nightStats.height) + Theme.paddingMedium * 2
+                    height: nightStats.height + Theme.paddingMedium * 2
                     onClicked: pageStack.push(Qt.resolvedUrl("NightPage.qml"), { date: night.date })
 
-                    ScoreGauge {
-                        id: gauge
-                        x: Theme.horizontalPageMargin
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: Theme.itemSizeHuge * 1.15
-                        value: page.officialNight ? night.ouraScore
-                               : (night && night.score !== null && night.score !== undefined ? night.score : -1)
-                        caption: page.officialNight ? qsTr("Oura") : qsTr("Estimate")
-                    }
                     Column {
                         id: nightStats
-                        anchors {
-                            left: gauge.right
-                            leftMargin: Theme.paddingLarge
-                            right: parent.right
-                            rightMargin: Theme.horizontalPageMargin
-                            verticalCenter: parent.verticalCenter
-                        }
+                        x: Theme.horizontalPageMargin
+                        width: parent.width - 2 * Theme.horizontalPageMargin
+                        anchors.verticalCenter: parent.verticalCenter
                         spacing: Theme.paddingSmall
                         Label {
                             width: parent.width
+                            horizontalAlignment: Text.AlignHCenter
                             font.pixelSize: Theme.fontSizeLarge
-                            text: night ? Format.duration(night.asleepMin) : ""
+                            text: night ? Format.duration(night.asleepMin) + " "
+                                          + (night.asleepEstimated ? qsTr("asleep (estimated)") : qsTr("asleep")) : ""
                             truncationMode: TruncationMode.Fade
                         }
                         Label {
                             width: parent.width
+                            horizontalAlignment: Text.AlignHCenter
                             color: Theme.secondaryColor
                             font.pixelSize: Theme.fontSizeSmall
-                            text: night ? (night.asleepEstimated ? qsTr("asleep (estimated)") : qsTr("asleep")) : ""
+                            text: {
+                                if (!night)
+                                    return ""
+                                var t = Format.hm(night.startMs) + " – " + Format.hm(night.endMs)
+                                if (night.efficiency !== null && night.efficiency !== undefined)
+                                    t += " · " + qsTr("Efficiency %1 %").arg(Format.number(night.efficiency))
+                                return t
+                            }
                         }
                         Label {
                             width: parent.width
-                            color: Theme.secondaryColor
-                            font.pixelSize: Theme.fontSizeSmall
-                            visible: night !== undefined && night.efficiency !== null && night.efficiency !== undefined
-                            text: night && night.efficiency !== null && night.efficiency !== undefined
-                                  ? qsTr("Efficiency %1 %").arg(Format.number(night.efficiency)) : ""
-                        }
-                        Label {
-                            width: parent.width
-                            color: Theme.secondaryColor
-                            font.pixelSize: Theme.fontSizeSmall
-                            visible: night !== undefined
-                            text: night ? Format.hm(night.startMs) + " – " + Format.hm(night.endMs) : ""
-                        }
-                        Label {
-                            width: parent.width
+                            horizontalAlignment: Text.AlignHCenter
                             color: Theme.secondaryColor
                             font.pixelSize: Theme.fontSizeExtraSmall
                             visible: page.officialNight && night.score !== null && night.score !== undefined
                             text: night && night.score !== null && night.score !== undefined
                                   ? qsTr("This app's estimate: %1").arg(night.score) : ""
+                        }
+                        Label {
+                            width: parent.width
+                            horizontalAlignment: Text.AlignHCenter
+                            color: Theme.secondaryColor
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            visible: page.scores.steps !== undefined
+                            text: page.scores.steps !== undefined ? qsTr("%1 steps").arg(page.scores.steps) : ""
                         }
                     }
                 }
@@ -297,44 +337,6 @@ Page {
                                  ? qsTr("Heart rate, %1 ago").arg(Format.ago(overview.latestHrMs))
                                  : qsTr("Heart rate")
                     }
-                }
-            }
-
-            // ---- Oura's own scores, from the cloud ----
-            Column {
-                width: parent.width
-                visible: oura !== undefined && page.ouraFresh
-                SectionHeader {
-                    text: qsTr("Oura's scores") + " · " + Qt.formatDate(new Date(page.ouraDate + "T12:00:00"), "d.M.")
-                }
-                Row {
-                    x: Theme.horizontalPageMargin
-                    width: parent.width - 2 * Theme.horizontalPageMargin
-                    spacing: Theme.paddingLarge
-                    ScoreGauge {
-                        width: (parent.width - 2 * Theme.paddingLarge) / 3
-                        value: oura && oura.sleep !== undefined ? oura.sleep : -1
-                        caption: qsTr("Sleep")
-                    }
-                    ScoreGauge {
-                        width: (parent.width - 2 * Theme.paddingLarge) / 3
-                        value: oura && oura.readiness !== undefined ? oura.readiness : -1
-                        caption: qsTr("Readiness")
-                    }
-                    ScoreGauge {
-                        width: (parent.width - 2 * Theme.paddingLarge) / 3
-                        value: oura && oura.activity !== undefined ? oura.activity : -1
-                        caption: qsTr("Activity")
-                    }
-                }
-                Label {
-                    visible: oura !== undefined && oura.steps !== undefined
-                    x: Theme.horizontalPageMargin
-                    width: parent.width - 2 * Theme.horizontalPageMargin
-                    horizontalAlignment: Text.AlignHCenter
-                    color: Theme.secondaryColor
-                    font.pixelSize: Theme.fontSizeSmall
-                    text: oura && oura.steps !== undefined ? qsTr("%1 steps").arg(oura.steps) : ""
                 }
             }
 

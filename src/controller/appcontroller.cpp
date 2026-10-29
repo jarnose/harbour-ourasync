@@ -31,6 +31,22 @@ using namespace Oura;
 
 namespace {
 
+// Everything the cover can show, in the order it lays them out.
+const char *const kCoverChoices[] = { "sleep", "readiness", "activity", "duration", "heartrate", "lowest", "hrv", "battery" };
+const char kDefaultCoverItems[] = "sleep,duration,heartrate";
+
+// The known keys of a comma separated list, once each, in the cover's own order.
+QStringList coverItemsFrom(const QString &list)
+{
+    const QStringList asked = list.split(QLatin1Char(','), QString::SkipEmptyParts);
+    QStringList out;
+    for (const char *key : kCoverChoices)
+        if (asked.contains(QLatin1String(key)))
+            out.append(QLatin1String(key));
+    return out;
+}
+
+
 QString secretName(const QString &address)
 {
     return QStringLiteral("ringkey-") + address.toLower();
@@ -353,6 +369,7 @@ AppController::AppController(QObject *parent)
     m_birthDate = QDate::fromString(m_store.setting(QStringLiteral("birthdate"), QString()), Qt::ISODate);
     m_calorieGoal = m_store.setting(QStringLiteral("calorie_goal"), QStringLiteral("550")).toInt();
     m_weightKg = m_store.setting(QStringLiteral("weight"), QStringLiteral("75")).toDouble();
+    m_coverItems = coverItemsFrom(m_store.setting(QStringLiteral("cover_items"), QString::fromLatin1(kDefaultCoverItems)));
 
     CloudStore::ensureSchema(m_store.path());
     reloadCloudStats();
@@ -1109,6 +1126,21 @@ bool AppController::stageRestore(const QString &path)
     return true;
 }
 
+void AppController::setCoverItem(const QString &key, bool shown)
+{
+    QStringList items = m_coverItems;
+    if (shown && !items.contains(key))
+        items.append(key);
+    else if (!shown)
+        items.removeAll(key);
+    const QStringList cleaned = coverItemsFrom(items.join(QLatin1Char(',')));
+    if (cleaned == m_coverItems)
+        return;
+    m_coverItems = cleaned;
+    m_store.setSetting(QStringLiteral("cover_items"), m_coverItems.join(QLatin1Char(',')));
+    emit coverItemsChanged();
+}
+
 void AppController::setCalorieGoal(int kcal)
 {
     m_calorieGoal = std::max(100, std::min(2000, kcal));
@@ -1214,6 +1246,51 @@ QVariantMap AppController::overview() const
     }
     m.insert(QStringLiteral("nightCount"), static_cast<int>(s.nights.size()));
     m.insert(QStringLiteral("unplacedEvents"), s.unplacedEvents);
+
+    // The three scores of the main page and the cover: last night's sleep, the readiness of the
+    // morning after it, and the activity of the newest day that has any (today's is only there once
+    // the day has enough movement in it). Oura's own where the cloud has them, else the app's estimate.
+    {
+        QVariantMap scores;
+        const auto put = [&scores](const char *key, int value, bool official, const std::string &date) {
+            QVariantMap one;
+            one.insert(QStringLiteral("value"), value);
+            one.insert(QStringLiteral("official"), official);
+            one.insert(QStringLiteral("date"), QString::fromStdString(date));
+            scores.insert(QLatin1String(key), one);
+        };
+        for (auto it = s.nights.rbegin(); it != s.nights.rend(); ++it) {
+            if (!it->main)
+                continue;
+            if (it->ouraScore)
+                put("sleep", *it->ouraScore, true, it->date);
+            else if (it->score.valid)
+                put("sleep", it->score.score, false, it->date);
+            for (const Day &d : s.days) {
+                if (d.date != it->date)
+                    continue;
+                if (d.readinessScore)
+                    put("readiness", *d.readinessScore, true, d.date);
+                else if (d.estimatedReadinessScore)
+                    put("readiness", *d.estimatedReadinessScore, false, d.date);
+            }
+            break;
+        }
+        const std::string cutoff = localDate(nowUnix() - 3 * 86400, localOffsetSeconds(nowUnix()));
+        for (auto it = s.days.rbegin(); it != s.days.rend() && it->date >= cutoff; ++it) {
+            if (it->ouraActivityScore) {
+                put("activity", *it->ouraActivityScore, true, it->date);
+                if (it->steps)
+                    scores.insert(QStringLiteral("steps"), *it->steps);
+                break;
+            }
+            if (it->estimatedActivityScore) {
+                put("activity", *it->estimatedActivityScore, false, it->date);
+                break;
+            }
+        }
+        m.insert(QStringLiteral("scores"), scores);
+    }
 
     // Oura's own scores for the newest day that has any.
     {

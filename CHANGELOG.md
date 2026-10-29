@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.7.0
+
+- The main page shows three gauges for last night and the day: sleep, readiness and activity,
+  Oura's own where the cloud has them and the app's estimate (marked "~") where not.
+- Settings has a Cover section: choose what the cover shows from the sleep, readiness and activity
+  scores, time asleep, the latest and the night's lowest heart rate, HRV and the ring's battery.
+
 ## 1.6.0
 
 - Sleep debt for each day with sleep, as Oura's app shows it: the last 14 days' shortfall against your sleep

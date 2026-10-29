@@ -45,6 +45,8 @@ class AppController : public QObject
     Q_PROPERTY(int calorieGoal READ calorieGoal NOTIFY profileChanged)
     Q_PROPERTY(QString birthDate READ birthDate NOTIFY profileChanged)
     Q_PROPERTY(double profileWeight READ profileWeight NOTIFY profileChanged)
+    // What the cover shows: keys from coverChoices(), in the order the cover lays them out.
+    Q_PROPERTY(QStringList coverItems READ coverItems NOTIFY coverItemsChanged)
     Q_PROPERTY(int syncedEvents READ syncedEvents NOTIFY statusChanged)
     Q_PROPERTY(bool keyStored READ keyStored NOTIFY ringChanged)
     Q_PROPERTY(bool cloudBusy READ cloudBusy NOTIFY cloudChanged)
@@ -84,6 +86,7 @@ public:
     int profileAge() const;
     // Daily goal for active calories, which the activity score is measured against.
     int calorieGoal() const { return m_calorieGoal; }
+    QStringList coverItems() const { return m_coverItems; }
     // YYYY-MM-DD, empty when not set.
     QString birthDate() const { return m_birthDate.isValid() ? m_birthDate.toString(Qt::ISODate) : QString(); }
     // The age on a given night (YYYY-MM-DD): the score's limits step on the birthday.
@@ -157,6 +160,8 @@ public:
     // The birth date replaces the age: pass an empty string to forget it.
     Q_INVOKABLE void setBirthDate(const QString &isoDate);
     Q_INVOKABLE void setCalorieGoal(int kcal);
+    // Turns one thing on the cover on or off; the choice is kept.
+    Q_INVOKABLE void setCoverItem(const QString &key, bool shown);
     Q_INVOKABLE void clearError();
 
 signals:
@@ -169,6 +174,7 @@ signals:
     void summaryChanged();
     void summaryBusyChanged();
     void profileChanged();
+    void coverItemsChanged();
     // Emitted when set-up or a sync is over, with the outcome.
     void operationFinished(bool ok);
     // The ring now has a key we generated: the UI should offer a backup.
@@ -233,6 +239,7 @@ private:
     int m_age = 40;
     QDate m_birthDate;
     int m_calorieGoal = 550;
+    QStringList m_coverItems;
     double m_weightKg = 75;
 
     OuraCloudClient m_cloud;

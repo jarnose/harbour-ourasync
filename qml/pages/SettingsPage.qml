@@ -97,6 +97,36 @@ Page {
                 onActiveFocusChanged: if (!activeFocus) page.saveProfile()
             }
 
+            SectionHeader { text: qsTr("Cover") }
+
+            Label {
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.Wrap
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeSmall
+                text: qsTr("What the cover shows when the app is in the background. A \"~\" on a score "
+                           + "marks this app's estimate.")
+            }
+            Repeater {
+                model: [
+                    { key: "sleep", label: qsTr("Sleep score") },
+                    { key: "readiness", label: qsTr("Readiness score") },
+                    { key: "activity", label: qsTr("Activity score") },
+                    { key: "duration", label: qsTr("Time asleep") },
+                    { key: "heartrate", label: qsTr("Latest heart rate") },
+                    { key: "lowest", label: qsTr("Lowest heart rate of the night") },
+                    { key: "hrv", label: qsTr("HRV of the night") },
+                    { key: "battery", label: qsTr("Ring battery") }
+                ]
+                TextSwitch {
+                    text: modelData.label
+                    checked: AppController.coverItems.indexOf(modelData.key) >= 0
+                    automaticCheck: false
+                    onClicked: AppController.setCoverItem(modelData.key, !checked)
+                }
+            }
+
             Item { width: 1; height: Theme.paddingLarge }
             Button {
                 anchors.horizontalCenter: parent.horizontalCenter
