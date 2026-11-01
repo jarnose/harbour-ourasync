@@ -8,10 +8,13 @@ Item {
     property string value: "–"
     property string unit: ""
     property string caption: ""
+    // A line under the caption, for a second fact about the number.
+    property string note: ""
     property color valueColor: Theme.primaryColor
 
     width: Theme.itemSizeHuge
     height: valueRow.height + captionLabel.height + Theme.paddingSmall + Theme.paddingMedium
+            + (note.length > 0 ? noteLabel.height : 0)
 
     Row {
         id: valueRow
@@ -41,6 +44,20 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         text: tile.caption
         color: Theme.secondaryColor
+        font.pixelSize: Theme.fontSizeExtraSmall
+        truncationMode: TruncationMode.Fade
+    }
+    Label {
+        id: noteLabel
+        visible: tile.note.length > 0
+        anchors {
+            top: captionLabel.bottom
+            horizontalCenter: parent.horizontalCenter
+        }
+        width: parent.width
+        horizontalAlignment: Text.AlignHCenter
+        text: tile.note
+        color: Theme.highlightColor
         font.pixelSize: Theme.fontSizeExtraSmall
         truncationMode: TruncationMode.Fade
     }

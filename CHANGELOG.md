@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.8.1
+
+- The day page shows the day's activity goal under the active calories (Oura's own where the cloud has it,
+  else the basic goal stepped by the day's readiness, marked "~").
+
 ## 1.8.0
 
 - The activity estimate measures each day against Oura's own kind of goal: the basic goal from Settings

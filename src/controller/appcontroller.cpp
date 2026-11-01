@@ -249,6 +249,8 @@ QVariantMap dayCompact(const Day &d)
     m.insert(QStringLiteral("estimatedActivityScore"),
              d.estimatedActivityScore ? QVariant(*d.estimatedActivityScore) : QVariant());
     m.insert(QStringLiteral("temperatureDeviation"), opt(d.temperatureDeviation));
+    m.insert(QStringLiteral("goalKcal"), d.goalKcal ? QVariant(*d.goalKcal) : QVariant());
+    m.insert(QStringLiteral("goalEstimated"), d.goalEstimated);
     m.insert(QStringLiteral("date"), QString::fromStdString(d.date));
     m.insert(QStringLiteral("activeKcal"), d.activeKcal);
     m.insert(QStringLiteral("lightMin"), d.lightMin);

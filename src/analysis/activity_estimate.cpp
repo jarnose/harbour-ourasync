@@ -58,6 +58,8 @@ void estimateActivity(Summary &summary, const AnalysisOptions &options)
     };
 
     for (Day &day : summary.days) {
+        day.goalKcal = goalOf(day);
+        day.goalEstimated = !day.targetKcal.has_value();
         day.estimatedActivityScore.reset();
         day.estimatedActivityContributors.clear();
         if (!day.activityBasis || day.coveredMin < 720)

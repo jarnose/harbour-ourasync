@@ -358,6 +358,8 @@ FI.update({
 "Activity, estimated contributors": "Aktiivisuus, arvioidut osatekijät",
 "Worked out from the ring's movement over this and the six days before, against your goal in Settings. Recovery time is taken as full. It is close to Oura's score but not the same.": "Laskettu sormuksen liikkeestä tämän ja kuuden edellisen päivän ajalta asetuksiin laittamaasi tavoitetta vasten. Palautumisaika oletetaan täydeksi. Se on lähellä Ouran pisteitä mutta ei sama.",
 "The goal you have chosen in Oura. Oura raises it by up to 200 kcal when your readiness is high and lowers it by up to 300 when it is low, for instance when you are ill, and the activity estimate does the same.": "Ourassa valitsemasi tavoite. Oura nostaa sitä enintään 200 kcal, kun valmiutesi on korkea, ja laskee enintään 300 kcal, kun se on matala, esimerkiksi sairaana, ja aktiivisuusarvio tekee samoin.",
+"Goal ~%1 kcal": "Tavoite ~%1 kcal",
+"Goal %1 kcal": "Tavoite %1 kcal",
 "Basic daily activity goal, kcal": "Päivän aktiivisuustavoite, kcal",
 "Estimated from heart rate, HRV and movement: this ring does not stage sleep itself. Awake and asleep are reliable; deep sleep and REM are rough.": "Arvioitu sykkeestä, HRV:stä ja liikkeestä: tämä sormus ei vaiheista unta itse. Hereillä ja unessa -jaot ovat luotettavia, syvä uni ja REM karkeita.",
 "The ring has been reset. Set it up again from the main page's menu, or on another phone.": "Sormus on nollattu. Aseta se uudelleen pääsivun valikosta tai toisessa puhelimessa.",

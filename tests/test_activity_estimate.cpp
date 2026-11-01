@@ -62,6 +62,15 @@ int main()
         CHECK(*calm.days.back().estimatedActivityScore > *pushed.days.back().estimatedActivityScore);
     }
 
+    // The goal each day was measured against is kept with the day.
+    CHECK(calm.days.back().goalKcal.has_value());
+    CHECK(pushed.days.back().goalKcal.has_value());
+    if (calm.days.back().goalKcal && pushed.days.back().goalKcal) {
+        CHECK_EQ(*calm.days.back().goalKcal, 450);
+        CHECK_EQ(*pushed.days.back().goalKcal, 600);
+        CHECK(calm.days.back().goalEstimated);
+    }
+
     // The estimate of readiness stands in where Oura's is missing; Oura's goal from the cloud beats both.
     Summary estimated = week(90, false);
     estimateActivity(estimated, options);
@@ -71,6 +80,10 @@ int main()
     estimateActivity(cloud, options);
     if (cloud.days.back().estimatedActivityScore)
         CHECK_EQ(cloud.days.back().estimatedActivityContributors[0], 100);
+    CHECK(cloud.days.back().goalKcal.has_value());
+    if (cloud.days.back().goalKcal)
+        CHECK_EQ(*cloud.days.back().goalKcal, 400);
+    CHECK(!cloud.days.back().goalEstimated);
 
     // No readiness at all: the basic goal.
     Summary none = week(0, true);

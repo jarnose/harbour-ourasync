@@ -76,6 +76,9 @@ Page {
                     value: Format.number(page.d.activeKcal)
                     unit: "kcal"
                     caption: qsTr("Active, estimated")
+                    note: page.d.goalKcal !== null && page.d.goalKcal !== undefined
+                          ? (page.d.goalEstimated ? qsTr("Goal ~%1 kcal") : qsTr("Goal %1 kcal")).arg(page.d.goalKcal)
+                          : ""
                 }
                 StatTile {
                     width: facts.cell

@@ -122,6 +122,10 @@ struct Day
     std::optional<ActivityDay> activityBasis;
     // Oura's goal for the day in active calories, from the cloud. It follows the readiness score.
     std::optional<int> targetKcal;
+    // The goal the day was measured against: Oura's where the cloud has it, else the basic goal stepped by
+    // the day's readiness (activity_estimate.h).
+    std::optional<int> goalKcal;
+    bool goalEstimated = false;
     // An activity score worked out from the ring's MET series (an estimate: see activity_score.h).
     // Needs the day and the six before it, each with a day's worth of data.
     std::optional<int> estimatedActivityScore;
