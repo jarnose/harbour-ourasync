@@ -238,7 +238,7 @@ private:
 
     int m_age = 40;
     QDate m_birthDate;
-    int m_calorieGoal = 550;
+    int m_calorieGoal = 450;
     QStringList m_coverItems;
     double m_weightKg = 75;
 

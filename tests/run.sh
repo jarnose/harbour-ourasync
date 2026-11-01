@@ -38,6 +38,7 @@ run stager $CORE $ANALYSIS
 run breathing $CORE ../src/analysis/breathing.cpp
 run stress_estimate ../src/analysis/stress_estimate.cpp
 run sleep_debt $CORE $ANALYSIS ../src/analysis/sleep_debt.cpp
+run activity_estimate $CORE $ANALYSIS ../src/analysis/activity_estimate.cpp
 run oura_night_score $CORE $ANALYSIS ../src/analysis/oura_night_score.cpp ../src/analysis/oura_sleep_score.cpp
 run cloudparse ../src/cloud/json.cpp ../src/cloud/csv.cpp ../src/cloud/zip.cpp -lz
 run cloudmerge $CORE $ANALYSIS ../src/analysis/cloudmerge.cpp ../src/cloud/json.cpp ../src/cloud/csv.cpp \

@@ -1,5 +1,6 @@
 #include "appcontroller.h"
 
+#include "analysis/activity_estimate.h"
 #include "analysis/cloudmerge.h"
 #include "analysis/oura_night_score.h"
 #include "analysis/readiness_estimate.h"
@@ -367,7 +368,7 @@ AppController::AppController(QObject *parent)
     }
     m_age = m_store.setting(QStringLiteral("age"), QStringLiteral("40")).toInt();
     m_birthDate = QDate::fromString(m_store.setting(QStringLiteral("birthdate"), QString()), Qt::ISODate);
-    m_calorieGoal = m_store.setting(QStringLiteral("calorie_goal"), QStringLiteral("550")).toInt();
+    m_calorieGoal = m_store.setting(QStringLiteral("calorie_goal"), QStringLiteral("450")).toInt();
     m_weightKg = m_store.setting(QStringLiteral("weight"), QStringLiteral("75")).toDouble();
     m_coverItems = coverItemsFrom(m_store.setting(QStringLiteral("cover_items"), QString::fromLatin1(kDefaultCoverItems)));
 
@@ -1207,6 +1208,7 @@ void AppController::refreshSummary()
                                                           nowUnix() - 400LL * 86400);
         mergeCloud(*summary, cloud.docs, cloud.hr, options);
         estimateReadiness(*summary, options);
+        estimateActivity(*summary, options);
         estimateSleepDebt(*summary);
         return std::shared_ptr<const Summary>(summary);
     }));

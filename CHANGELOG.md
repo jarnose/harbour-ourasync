@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.8.0
+
+- The activity estimate measures each day against Oura's own kind of goal: the basic goal from Settings
+  raised or lowered by the day's readiness (up to +200 kcal at a readiness of 94, down to -300 under 40),
+  which is how Oura sets it. On 872 real days the rule gave Oura's goal on 93 % of them, and the
+  "meet daily targets" part of the activity score came out as Oura's on 96 % of days, against 51 % with
+  one fixed goal. Days from the cloud keep Oura's own goal.
+- The basic goal in Settings now starts at 450 kcal.
+
 ## 1.7.0
 
 - The main page shows three gauges for last night and the day: sleep, readiness and activity,

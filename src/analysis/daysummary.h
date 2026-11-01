@@ -36,8 +36,9 @@ struct AnalysisOptions
     std::function<int(int64_t)> utcOffset = [](int64_t) { return 0; };
     double ageYears = 40;
     double weightKg = 75;
-    // The person's daily goal for active calories; Oura adapts it, the app takes it from Settings.
-    double activeKcalGoal = 550;
+    // The person's basic daily goal for active calories, from Settings. Oura raises and lowers it
+    // with the day's readiness (activity_estimate.h).
+    double activeKcalGoal = 450;
 };
 
 enum StageCode : uint8_t { StageUnknown = 0, StageDeep = 1, StageLight = 2, StageRem = 3, StageAwake = 4 };
@@ -116,6 +117,11 @@ struct Day
     int coveredMin = 0;                // minutes the ring has any MET for
     std::optional<double> avgMet;
 
+    // The day's inputs to the activity score except its goal, from the ring's MET series; the score is
+    // worked out once the day's goal is known (activity_estimate.h).
+    std::optional<ActivityDay> activityBasis;
+    // Oura's goal for the day in active calories, from the cloud. It follows the readiness score.
+    std::optional<int> targetKcal;
     // An activity score worked out from the ring's MET series (an estimate: see activity_score.h).
     // Needs the day and the six before it, each with a day's worth of data.
     std::optional<int> estimatedActivityScore;

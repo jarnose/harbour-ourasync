@@ -412,3 +412,25 @@ the account (2026-10-16), plus things the API does not give. Checked against the
   no simple count of rows correlates with it above 0.16 (`tools/cloudcheck/motion_probe.py`). What the
   probe does give is that input for each night, to within a width of 2 on the median (found by inverting
   the contributor): its mean is 43 over 820 nights, against the 40 the app assumes.
+
+## Activity goal follows readiness (1.8.0)
+
+Oura does not hold the daily goal still: `daily_activity.target_calories` of 872 real days is one of 150, 200,
+250, 300, 450, 550, 600 and 650 and nothing else, with a basic goal of 450, and sorted by the day's readiness
+score it climbs in bands (`tools/cloudcheck/target_fit.py`):
+
+| readiness | 94+ | 88-93 | 85-87 | 70-84 | 62-69 | 48-61 | 40-47 | under 40 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| goal minus the basic one (kcal) | +200 | +150 | +100 | 0 | -150 | -200 | -250 | -300 |
+
+The bands match Oura's goal on 808 of 872 days (92.7 %). The misses are a step the wrong way: 37 days of high
+readiness that stayed at 450 (not explained by the previous day's activity, goal or score, or by the readiness
+contributors; the readings at 88 are split 28 to 25 between 600 and 550). The edges in the table are mid-way
+between the nearest readings on either side where none was seen (40, 48, 62). Only a basic goal of 450 was seen,
+so the steps are taken as additions to whatever the person chose.
+
+It matters for the activity score: the "meet daily targets" contributor counts the days of the last seven that
+reached their goal. With the bands' goals it equals the one made from Oura's own goals on 96.0 % of days; with one
+fixed goal on every day, on 50.6 %. `src/analysis/activity_estimate.cpp` takes each day's goal from the cloud
+where there is one, else from the bands with the day's readiness (Oura's or the app's estimate), else the basic
+goal. The readiness estimate does not use the activity score, so there is no circle.

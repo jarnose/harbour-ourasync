@@ -833,33 +833,13 @@ Summary summarize(const std::vector<StoredEvent> &events, const AnalysisOptions 
                 day.avgMet = metTotals[entry.first] / metMinutes[entry.first];
             day.activeKcal = std::round(day.activeKcal);
         }
-        // An activity score for every day that has the six before it.
+        // What the activity score will be made of; the score itself waits for each day's goal.
         {
-            const auto dateBack = [](const std::string &date, int back) {
-                const int y = std::atoi(date.substr(0, 4).c_str());
-                const unsigned m = static_cast<unsigned>(std::atoi(date.substr(5, 2).c_str()));
-                const unsigned d = static_cast<unsigned>(std::atoi(date.substr(8, 2).c_str()));
-                return localDate((daysFromCivil(y, m, d) - back) * 86400, 0);
-            };
-            std::map<std::string, Day>::iterator it = days.begin();
-            for (; it != days.end(); ++it) {
-                Day &day = it->second;
+            for (auto &entry : days) {
+                Day &day = entry.second;
                 const auto mm = minuteMet.find(day.date);
-                if (day.coveredMin < 720 || mm == minuteMet.end())
-                    continue;
-                std::vector<ActivityDay> week;
-                for (int back = 6; back >= 0; --back) {
-                    const std::string date = dateBack(day.date, back);
-                    const auto dm = days.find(date);
-                    const auto mv = minuteMet.find(date);
-                    if (dm == days.end() || mv == minuteMet.end() || dm->second.coveredMin < 300)
-                        break;
-                    week.push_back(activityDayFromMinutes(mv->second, dm->second.activeKcal, options.activeKcalGoal));
-                }
-                if (const auto score = activityScore(week)) {
-                    day.estimatedActivityScore = score->score;
-                    day.estimatedActivityContributors.assign(score->contributors.begin(), score->contributors.end());
-                }
+                if (day.coveredMin >= 300 && mm != minuteMet.end())
+                    day.activityBasis = activityDayFromMinutes(mm->second, day.activeKcal, 0);
             }
         }
         // Stress: the five-minute slots of each day (from 04:00 local, as Oura's activity day), awake

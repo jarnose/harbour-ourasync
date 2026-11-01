@@ -79,12 +79,22 @@ Page {
             TextField {
                 id: goalField
                 width: parent.width
-                label: qsTr("Daily activity goal, kcal")
+                label: qsTr("Basic daily activity goal, kcal")
                 text: AppController.calorieGoal
                 inputMethodHints: Qt.ImhDigitsOnly
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
                 EnterKey.onClicked: weightField.focus = true
                 onActiveFocusChanged: if (!activeFocus) page.saveGoal()
+            }
+            Label {
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                wrapMode: Text.Wrap
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeExtraSmall
+                text: qsTr("The goal you have chosen in Oura. Oura raises it by up to 200 kcal when your readiness "
+                           + "is high and lowers it by up to 300 when it is low, for instance when you are ill, "
+                           + "and the activity estimate does the same.")
             }
             TextField {
                 id: weightField

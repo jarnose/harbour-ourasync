@@ -254,6 +254,8 @@ void mergeCloud(Summary &summary, const std::vector<CloudDoc> &docs, const std::
         d.steps = intOf(j, "steps");
         d.totalKcal = intOf(j, "total_calories");
         d.ouraActivityScore = intOf(j, "score");
+        if (const auto target = j.optNum("target_calories"))
+            d.targetKcal = static_cast<int>(*target);
         d.activityContributors = contributorsOf(j.get("contributors"));
         if (!existed) {
             d.activeKcal = j.optNum("active_calories").value_or(0);
