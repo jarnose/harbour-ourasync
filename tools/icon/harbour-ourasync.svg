@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="172" height="172" viewBox="0 0 172 172">
-  <!-- Sailfish OS app icon: one of the base shapes (a square with two large and two small rounded
-       corners, the large ones across from each other), a gradient, and a flat metaphor inside:
+  <!-- Sailfish OS app icon: one of the base shapes (a square whose corners are either quarter circles of
+       half the side or nearly sharp, here two of each, the round ones across from each other), a gradient, and a flat metaphor inside:
        the ring, with a gauge arc and a pulse. 0.6 units of gap on each side, as the icon story asks. -->
   <defs>
     <linearGradient id="base" x1="0.08" y1="0.02" x2="0.92" y2="1">
@@ -24,7 +24,7 @@
       <feGaussianBlur stdDeviation="2.2"/>
     </filter>
     <clipPath id="shape">
-      <path id="outline" d="M 22.6 0.6 H 103.4 A 68 68 0 0 1 171.4 68.6 V 148.8 A 22.6 22.6 0 0 1 148.8 171.4 H 68.6 A 68 68 0 0 1 0.6 103.4 V 22.6 A 22.6 22.6 0 0 1 22.6 0.6 Z"/>
+      <path id="outline" d="M 5.6 0.6 H 86 A 85.4 85.4 0 0 1 171.4 86 V 166.4 A 5 5 0 0 1 166.4 171.4 H 86 A 85.4 85.4 0 0 1 0.6 86 V 5.6 A 5 5 0 0 1 5.6 0.6 Z"/>
     </clipPath>
   </defs>
 

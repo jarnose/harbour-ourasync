@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.8.3
+
+- The launcher icon's corners follow Sailfish OS's base shapes: each is either a quarter circle of half the
+  side or nearly sharp, instead of rounded at two different radii.
+
 ## 1.8.2
 
 - A new launcher icon in the style of Sailfish OS's own: one of its base shapes with a gradient and a flat
