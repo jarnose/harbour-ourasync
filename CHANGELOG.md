@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.8.2
+
+- A new launcher icon in the style of Sailfish OS's own: one of its base shapes with a gradient and a flat
+  ring, gauge arc and pulse inside (source and renderer in `tools/icon/`).
+
 ## 1.8.1
 
 - The day page shows the day's activity goal under the active calories (Oura's own where the cloud has it,
